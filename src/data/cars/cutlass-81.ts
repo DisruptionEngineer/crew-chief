@@ -1,0 +1,45 @@
+import type { Car, SetupSheet } from '@/lib/types'
+
+export const cutlass81: Car = {
+  id: 'cutlass-81',
+  name: '1981 Cutlass Supreme',
+  year: 1981,
+  make: 'Oldsmobile',
+  model: 'Cutlass Supreme',
+  class: 'ironman-f8',
+  eligibleDivisions: ['ironman-f8', 'street-stock'],
+  engineFamilyId: 'gm-sbc-350',
+  weight: 3300,
+  wheelbase: 108.1,
+  trackWidthFront: 58.5,
+  trackWidthRear: 57.0,
+  frontSuspension: 'sla-coil',
+  rearSuspension: 'solid-axle-coil',
+  engine: {
+    displacement: 350,
+    block: 'GM 350',
+    heads: 'Cast iron',
+    cam: 'Hydraulic',
+    carb: 'Holley 4412 500 CFM',
+    compression: '9.5:1',
+  },
+  notes: 'GM G-body platform (1978-1988). Lighter than A-body Monte Carlo. Narrower track width — can be less stable but responds well to setup changes. Very popular in figure 8 and stock car racing.',
+}
+
+export const cutlass81Baseline: SetupSheet = {
+  id: 'cutlass81-baseline',
+  carId: 'cutlass-81',
+  name: 'Figure 8 Baseline',
+  date: '2026-03-01',
+  springLF: 900, springRF: 900, springLR: 200, springRR: 200,
+  rideHeightLF: 5.5, rideHeightRF: 5.5, rideHeightLR: 6.0, rideHeightRR: 6.0,
+  camberLF: -2.0, camberRF: -2.0, casterLF: 3.5, casterRF: 3.5,
+  toeFront: -0.0625, toeRear: 0,
+  pressureLF: 14, pressureRF: 14, pressureLR: 13, pressureRR: 13,
+  totalWeight: 3300, crossWeightPct: 50.0, leftPct: 50.0, rearPct: 50.0,
+  cornerWeightLF: 825, cornerWeightRF: 825, cornerWeightLR: 825, cornerWeightRR: 825,
+  swayBarFront: 'removed', shockLF: 'Economy non-adjustable', shockRF: 'Economy non-adjustable',
+  shockLR: 'Economy non-adjustable', shockRR: 'Economy non-adjustable',
+  gearRatio: '3.73:1', tireModel: 'Hoosier G60',
+  notes: 'G-body is lighter than A-body. Narrower track needs attention to weight balance.',
+}

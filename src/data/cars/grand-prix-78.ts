@@ -1,0 +1,45 @@
+import type { Car, SetupSheet } from '@/lib/types'
+
+export const grandPrix78: Car = {
+  id: 'grand-prix-78',
+  name: '1978 Grand Prix',
+  year: 1978,
+  make: 'Pontiac',
+  model: 'Grand Prix',
+  class: 'ironman-f8',
+  eligibleDivisions: ['ironman-f8', 'street-stock'],
+  engineFamilyId: 'gm-sbc-350',
+  weight: 3350,
+  wheelbase: 108.1,
+  trackWidthFront: 59.0,
+  trackWidthRear: 57.5,
+  frontSuspension: 'sla-coil',
+  rearSuspension: 'solid-axle-coil',
+  engine: {
+    displacement: 350,
+    block: 'GM 350',
+    heads: 'Cast iron',
+    cam: 'Hydraulic',
+    carb: 'Holley 4412 500 CFM',
+    compression: '9.5:1',
+  },
+  notes: 'GM G-body/A-body platform. Nearly identical to Cutlass in chassis dimensions. Popular because they were everywhere. Slightly heavier front end than Cutlass.',
+}
+
+export const grandPrix78Baseline: SetupSheet = {
+  id: 'gp78-baseline',
+  carId: 'grand-prix-78',
+  name: 'Figure 8 Baseline',
+  date: '2026-03-01',
+  springLF: 900, springRF: 900, springLR: 200, springRR: 200,
+  rideHeightLF: 5.5, rideHeightRF: 5.5, rideHeightLR: 6.0, rideHeightRR: 6.0,
+  camberLF: -2.0, camberRF: -2.0, casterLF: 3.5, casterRF: 3.5,
+  toeFront: -0.0625, toeRear: 0,
+  pressureLF: 14, pressureRF: 14, pressureLR: 13, pressureRR: 13,
+  totalWeight: 3350, crossWeightPct: 50.0, leftPct: 50.0, rearPct: 49.0,
+  cornerWeightLF: 855, cornerWeightRF: 855, cornerWeightLR: 820, cornerWeightRR: 820,
+  swayBarFront: 'removed', shockLF: 'Economy non-adjustable', shockRF: 'Economy non-adjustable',
+  shockLR: 'Economy non-adjustable', shockRR: 'Economy non-adjustable',
+  gearRatio: '3.73:1', tireModel: 'Hoosier G60',
+  notes: 'Very similar to Cutlass. Good all-around platform.',
+}

@@ -1,26 +1,412 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-heading: "Barlow Condensed", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  /* Racing status colors */
+  --color-status-green: #00E676;
+  --color-status-yellow: #FFD600;
+  --color-status-red: #FF1744;
+  --color-status-blue: #448AFF;
+  --color-status-orange: #FF9100;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Crew Chief Racing Theme — always dark */
+:root {
+  --radius: 0.5rem;
+  --background: #0D0D0D;
+  --foreground: #F5F5F5;
+  --card: #1A1A1A;
+  --card-foreground: #F5F5F5;
+  --popover: #252525;
+  --popover-foreground: #F5F5F5;
+  --primary: #FFD600;
+  --primary-foreground: #0D0D0D;
+  --secondary: #252525;
+  --secondary-foreground: #F5F5F5;
+  --muted: #333333;
+  --muted-foreground: #888888;
+  --accent: #FFD600;
+  --accent-foreground: #0D0D0D;
+  --destructive: #FF1744;
+  --border: #333333;
+  --input: #333333;
+  --ring: #FFD600;
+  --chart-1: #FFD600;
+  --chart-2: #00E676;
+  --chart-3: #448AFF;
+  --chart-4: #FF1744;
+  --chart-5: #B0B0B0;
+  --sidebar: #1A1A1A;
+  --sidebar-foreground: #F5F5F5;
+  --sidebar-primary: #FFD600;
+  --sidebar-primary-foreground: #0D0D0D;
+  --sidebar-accent: #252525;
+  --sidebar-accent-foreground: #F5F5F5;
+  --sidebar-border: #333333;
+  --sidebar-ring: #FFD600;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── DATA TYPOGRAPHY ─── */
+
+.font-data {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+}
+
+.font-display {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 3rem;
+  letter-spacing: -0.02em;
+}
+
+/* ─── STATUS COLORS ─── */
+
+.status-green { color: var(--color-status-green); }
+.status-yellow { color: var(--color-status-yellow); }
+.status-red { color: var(--color-status-red); }
+.status-blue { color: var(--color-status-blue); }
+
+.bg-status-green { background-color: var(--color-status-green); }
+.bg-status-yellow { background-color: var(--color-status-yellow); }
+.bg-status-red { background-color: var(--color-status-red); }
+
+/* Left border accent on cards */
+.card-accent-green { border-left: 3px solid var(--color-status-green); }
+.card-accent-yellow { border-left: 3px solid var(--color-status-yellow); }
+.card-accent-red { border-left: 3px solid var(--color-status-red); }
+
+/* ─── CARD SYSTEM ─── */
+
+/* Lift-on-hover for interactive cards */
+.card-hover {
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: #555;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Subtle glow for selected/active states */
+.glow-yellow {
+  box-shadow: 0 0 0 1px rgba(255, 214, 0, 0.3), 0 0 20px rgba(255, 214, 0, 0.08);
+}
+.glow-green {
+  box-shadow: 0 0 0 1px rgba(0, 230, 118, 0.3), 0 0 20px rgba(0, 230, 118, 0.08);
+}
+.glow-red {
+  box-shadow: 0 0 0 1px rgba(255, 23, 68, 0.3), 0 0 20px rgba(255, 23, 68, 0.08);
+}
+.glow-blue {
+  box-shadow: 0 0 0 1px rgba(68, 138, 255, 0.3), 0 0 20px rgba(68, 138, 255, 0.08);
+}
+
+/* ─── ENTRANCE ANIMATIONS ─── */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes number-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.animate-fade-up {
+  animation: fade-up 400ms ease-out both;
+}
+.animate-fade-in {
+  animation: fade-in 300ms ease-out both;
+}
+.animate-slide-in-right {
+  animation: slide-in-right 400ms ease-out both;
+}
+.animate-scale-in {
+  animation: scale-in 300ms ease-out both;
+}
+.animate-number-pop {
+  animation: number-pop 300ms ease-out;
+}
+
+/* Stagger delays for sequential children */
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+.stagger-6 { animation-delay: 300ms; }
+
+/* ─── INTERACTIVE ELEMENTS ─── */
+
+/* Pill button (division/category selectors) */
+.pill-btn {
+  @apply px-3 py-2.5 rounded-md text-xs font-semibold transition-all min-h-[44px] whitespace-nowrap;
+  @apply bg-[#252525] text-[#888] border border-[#333];
+}
+.pill-btn:hover {
+  @apply border-[#555] text-[#F5F5F5];
+}
+.pill-btn[data-active="true"],
+.pill-btn.active {
+  @apply bg-[#FFD600] text-[#0D0D0D] border-[#FFD600];
+}
+
+/* Value stepper buttons (+ / -) */
+.stepper-btn {
+  @apply w-10 h-10 rounded-md text-sm font-mono flex items-center justify-center transition-all;
+  @apply bg-[#333] hover:bg-[#444] active:scale-95;
+}
+
+/* Selector card (head, cam, engine family) */
+.selector-card {
+  @apply text-left p-3 rounded-lg border transition-all min-h-[48px];
+  @apply bg-[#252525] border-[#333];
+}
+.selector-card:hover {
+  @apply border-[#555];
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+.selector-card[data-selected="true"],
+.selector-card.selected {
+  @apply bg-[#FFD600]/10 border-[#FFD600];
+  box-shadow: 0 0 0 1px rgba(255, 214, 0, 0.3), 0 0 20px rgba(255, 214, 0, 0.06);
+}
+
+/* ─── INPUT POLISH ─── */
+
+/* All text/number inputs get a subtle inner shadow */
+input[type="text"],
+input[type="number"] {
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: #FFD600 !important;
+  box-shadow: 0 0 0 1px rgba(255, 214, 0, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* ─── SECTION ACCORDION POLISH ─── */
+
+.section-header {
+  @apply w-full flex items-center justify-between p-4 min-h-[56px] transition-colors;
+}
+.section-header:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* ─── CHECKERED ELEMENTS ─── */
+
+.checkered-divider {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #FFD600 0px,
+    #FFD600 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  height: 2px;
+  opacity: 0.25;
+  border-radius: 1px;
+}
+
+/* Richer version — double-line checkered with offset */
+.checkered-divider-rich {
+  position: relative;
+  height: 6px;
+}
+.checkered-divider-rich::before,
+.checkered-divider-rich::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 1px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    #FFD600 0px,
+    #FFD600 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+.checkered-divider-rich::before {
+  top: 0;
+  opacity: 0.3;
+}
+.checkered-divider-rich::after {
+  bottom: 0;
+  opacity: 0.15;
+  background-position: 8px 0;
+}
+
+/* ─── BADGE SYSTEM ─── */
+
+.badge {
+  @apply text-[9px] font-bold uppercase px-1.5 py-0.5 rounded tracking-wide;
+}
+.badge-blue {
+  @apply bg-[#448AFF]/20 text-[#448AFF];
+}
+.badge-orange {
+  @apply bg-[#FF9100]/20 text-[#FF9100];
+}
+.badge-green {
+  @apply bg-[#00E676]/20 text-[#00E676];
+}
+.badge-red {
+  @apply bg-[#FF1744]/20 text-[#FF1744];
+}
+.badge-yellow {
+  @apply bg-[#FFD600]/20 text-[#FFD600];
+}
+.badge-muted {
+  @apply bg-[#333] text-[#888];
+}
+
+/* ─── PROGRESS BAR ─── */
+
+.progress-track {
+  @apply h-1.5 bg-[#333] rounded-full overflow-hidden;
+}
+.progress-fill {
+  @apply h-full rounded-full transition-all duration-500 ease-out;
+}
+
+/* ─── SCROLLBAR STYLING ─── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ─── SELECTION ─── */
+
+::selection {
+  background: rgba(255, 214, 0, 0.25);
+  color: #F5F5F5;
+}
+
+/* ─── BOTTOM NAV SAFE AREA ─── */
+
+.pb-nav {
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ─── FOCUS VISIBLE ─── */
+
+:focus-visible {
+  outline: 2px solid rgba(255, 214, 0, 0.5);
+  outline-offset: 2px;
 }

@@ -1,0 +1,45 @@
+import type { Car, SetupSheet } from '@/lib/types'
+
+export const camaro78: Car = {
+  id: 'camaro-78',
+  name: '1978 Camaro',
+  year: 1978,
+  make: 'Chevrolet',
+  model: 'Camaro',
+  class: 'ironman-f8',
+  eligibleDivisions: ['ironman-f8', 'street-stock'],
+  engineFamilyId: 'gm-sbc-350',
+  weight: 3350,
+  wheelbase: 108,
+  trackWidthFront: 61.0,
+  trackWidthRear: 60.0,
+  frontSuspension: 'sla-coil',
+  rearSuspension: 'solid-axle-coil',
+  engine: {
+    displacement: 350,
+    block: 'GM 350',
+    heads: 'Cast iron',
+    cam: 'Hydraulic',
+    carb: 'Holley 4412 500 CFM',
+    compression: '9.5:1',
+  },
+  notes: 'GM F-body platform (1970-1981). Shares front sub-frame with Nova. Shorter wheelbase than A-body — more nimble in figure 8 but can be twitchy. Popular choice for lighter builds.',
+}
+
+export const camaro78Baseline: SetupSheet = {
+  id: 'camaro78-baseline',
+  carId: 'camaro-78',
+  name: 'Figure 8 Baseline',
+  date: '2026-03-01',
+  springLF: 950, springRF: 950, springLR: 200, springRR: 200,
+  rideHeightLF: 5.0, rideHeightRF: 5.0, rideHeightLR: 5.5, rideHeightRR: 5.5,
+  camberLF: -2.0, camberRF: -2.0, casterLF: 4.0, casterRF: 4.0,
+  toeFront: -0.0625, toeRear: 0,
+  pressureLF: 14, pressureRF: 14, pressureLR: 13, pressureRR: 13,
+  totalWeight: 3350, crossWeightPct: 50.0, leftPct: 50.0, rearPct: 48.0,
+  cornerWeightLF: 870, cornerWeightRF: 870, cornerWeightLR: 805, cornerWeightRR: 805,
+  swayBarFront: 'removed', shockLF: 'Economy non-adjustable', shockRF: 'Economy non-adjustable',
+  shockLR: 'Economy non-adjustable', shockRR: 'Economy non-adjustable',
+  gearRatio: '3.73:1', tireModel: 'Hoosier G60',
+  notes: 'Shorter wheelbase needs stiffer front springs. Lighter rear bias typical of F-body.',
+}

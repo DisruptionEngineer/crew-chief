@@ -1,0 +1,269 @@
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useCar } from '@/hooks/useCar'
+import type { TrackCondition, EventType, HandlingFeel } from '@/lib/types'
+
+const conditions: TrackCondition[] = ['heavy', 'tacky', 'moderate', 'dry', 'slick']
+const eventTypes: EventType[] = ['practice', 'qualifying', 'heat', 'feature']
+
+export default function NewSessionPage() {
+  const router = useRouter()
+  const { currentCar } = useCar()
+  const [eventType, setEventType] = useState<EventType>('practice')
+  const [condition, setCondition] = useState<TrackCondition>('moderate')
+  const [temp, setTemp] = useState('72')
+  const [humidity, setHumidity] = useState('45')
+  const [handlingEntry, setHandlingEntry] = useState<HandlingFeel>('neutral')
+  const [handlingMid, setHandlingMid] = useState<HandlingFeel>('neutral')
+  const [handlingExit, setHandlingExit] = useState<HandlingFeel>('neutral')
+  const [lapTimes, setLapTimes] = useState<string[]>(['', '', '', '', ''])
+  const [notes, setNotes] = useState('')
+  const [changes, setChanges] = useState('')
+  const [startPos, setStartPos] = useState('')
+  const [finishPos, setFinishPos] = useState('')
+
+  const validLaps = lapTimes.filter(t => t && !isNaN(parseFloat(t))).map(t => parseFloat(t))
+  const bestLap = validLaps.length > 0 ? Math.min(...validLaps) : 0
+  const avgLap = validLaps.length > 0 ? validLaps.reduce((a, b) => a + b, 0) / validLaps.length : 0
+
+  function handleSave() {
+    // For now, just redirect back. Full DB persistence coming in Phase 2.
+    alert('Session saved! (Database persistence coming soon)')
+    router.push('/sessions')
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <button onClick={() => router.back()} className="text-[#888] hover:text-[#F5F5F5] min-h-[48px] flex items-center">
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="15 18 9 12 15 6" /></svg>
+          </button>
+          <h1 className="text-2xl font-bold tracking-tight uppercase">New Session</h1>
+        </div>
+      </div>
+
+      {/* Car & Date */}
+      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
+        <p className="text-xs text-[#666]">{currentCar.year} {currentCar.model}</p>
+        <p className="text-sm text-[#888] mt-1">
+          {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+        </p>
+      </div>
+
+      {/* Event Type */}
+      <div>
+        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Event Type</label>
+        <div className="flex gap-2">
+          {eventTypes.map(t => (
+            <button
+              key={t}
+              onClick={() => setEventType(t)}
+              className={`flex-1 py-3 rounded-md text-sm font-semibold capitalize transition-colors min-h-[48px] ${
+                eventType === t
+                  ? 'bg-[#FFD600] text-[#0D0D0D]'
+                  : 'bg-[#252525] text-[#888] border border-[#333]'
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Conditions */}
+      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4 space-y-4">
+        <h2 className="text-xs font-semibold text-[#888] uppercase tracking-wider">Conditions</h2>
+
+        <div>
+          <label className="text-xs text-[#666] block mb-2">Track</label>
+          <div className="flex gap-2">
+            {conditions.map(c => (
+              <button
+                key={c}
+                onClick={() => setCondition(c)}
+                className={`flex-1 py-2.5 rounded-md text-xs font-semibold capitalize transition-colors min-h-[44px] ${
+                  condition === c
+                    ? 'bg-[#FFD600] text-[#0D0D0D]'
+                    : 'bg-[#252525] text-[#888] border border-[#333]'
+                }`}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="text-xs text-[#666] block mb-1">Temp (°F)</label>
+            <input
+              type="number"
+              value={temp}
+              onChange={e => setTemp(e.target.value)}
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+            />
+          </div>
+          <div>
+            <label className="text-xs text-[#666] block mb-1">Humidity (%)</label>
+            <input
+              type="number"
+              value={humidity}
+              onChange={e => setHumidity(e.target.value)}
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Handling */}
+      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
+        <h2 className="text-xs font-semibold text-[#888] uppercase tracking-wider mb-4">Handling</h2>
+        <div className="space-y-3">
+          <HandlingRow label="Entry" value={handlingEntry} onChange={setHandlingEntry} />
+          <HandlingRow label="Mid" value={handlingMid} onChange={setHandlingMid} />
+          <HandlingRow label="Exit" value={handlingExit} onChange={setHandlingExit} />
+        </div>
+        <div className="mt-4">
+          <label className="text-xs text-[#666] block mb-1">Notes</label>
+          <textarea
+            value={notes}
+            onChange={e => setNotes(e.target.value)}
+            placeholder="Tight on entry, comes free on exit..."
+            className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[80px] resize-none"
+          />
+        </div>
+      </div>
+
+      {/* Lap Times */}
+      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
+        <h2 className="text-xs font-semibold text-[#888] uppercase tracking-wider mb-4">Lap Times</h2>
+        <div className="grid grid-cols-2 gap-3">
+          {lapTimes.map((t, i) => (
+            <div key={i}>
+              <label className="text-[10px] text-[#666]">#{i + 1}</label>
+              <input
+                type="number"
+                step="0.01"
+                value={t}
+                onChange={e => {
+                  const newTimes = [...lapTimes]
+                  newTimes[i] = e.target.value
+                  setLapTimes(newTimes)
+                }}
+                placeholder="0.00"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+              />
+            </div>
+          ))}
+          <button
+            onClick={() => setLapTimes([...lapTimes, ''])}
+            className="flex items-center justify-center bg-[#252525] border border-[#333] rounded-md text-[#666] hover:text-[#F5F5F5] transition-colors min-h-[44px] mt-4"
+          >
+            + Add
+          </button>
+        </div>
+        {validLaps.length > 0 && (
+          <div className="flex gap-6 mt-4 pt-3 border-t border-[#333]">
+            <div>
+              <span className="text-[10px] text-[#666] uppercase">Best</span>
+              <p className="font-mono font-semibold text-[#00E676]">{bestLap.toFixed(2)}s</p>
+            </div>
+            <div>
+              <span className="text-[10px] text-[#666] uppercase">Average</span>
+              <p className="font-mono font-semibold">{avgLap.toFixed(2)}s</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Changes Made */}
+      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
+        <h2 className="text-xs font-semibold text-[#888] uppercase tracking-wider mb-3">Changes Made</h2>
+        <textarea
+          value={changes}
+          onChange={e => setChanges(e.target.value)}
+          placeholder="• Lowered RR pressure 1 psi&#10;• Added 1/2 turn RF wedge"
+          className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[80px] resize-none"
+        />
+      </div>
+
+      {/* Result (for races) */}
+      {(eventType === 'heat' || eventType === 'feature') && (
+        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
+          <h2 className="text-xs font-semibold text-[#888] uppercase tracking-wider mb-3">Result</h2>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-[#666] block mb-1">Started</label>
+              <input
+                type="number"
+                value={startPos}
+                onChange={e => setStartPos(e.target.value)}
+                placeholder="#"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-[#666] block mb-1">Finished</label>
+              <input
+                type="number"
+                value={finishPos}
+                onChange={e => setFinishPos(e.target.value)}
+                placeholder="#"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Save */}
+      <button
+        onClick={handleSave}
+        className="w-full bg-[#FFD600] text-[#0D0D0D] py-4 rounded-md text-sm font-bold hover:bg-[#FFEA00] transition-colors min-h-[56px]"
+      >
+        Save Session
+      </button>
+    </div>
+  )
+}
+
+function HandlingRow({ label, value, onChange }: {
+  label: string; value: HandlingFeel; onChange: (v: HandlingFeel) => void
+}) {
+  const options: HandlingFeel[] = ['tight', 'neutral', 'loose']
+  const colors: Record<HandlingFeel, string> = {
+    tight: 'bg-[#FF1744] text-white',
+    neutral: 'bg-[#00E676] text-[#0D0D0D]',
+    loose: 'bg-[#448AFF] text-white',
+  }
+  const inactiveColors: Record<HandlingFeel, string> = {
+    tight: 'text-[#FF1744] border-[#FF1744]/30',
+    neutral: 'text-[#00E676] border-[#00E676]/30',
+    loose: 'text-[#448AFF] border-[#448AFF]/30',
+  }
+
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-xs text-[#666] w-10">{label}</span>
+      <div className="flex gap-2 flex-1">
+        {options.map(opt => (
+          <button
+            key={opt}
+            onClick={() => onChange(opt)}
+            className={`flex-1 py-2 rounded-md text-xs font-semibold capitalize transition-colors min-h-[44px] ${
+              value === opt
+                ? colors[opt]
+                : `bg-transparent border ${inactiveColors[opt]}`
+            }`}
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
