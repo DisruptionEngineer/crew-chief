@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useCar } from '@/hooks/useCar'
 import { useAuth } from '@/hooks/useAuth'
 import { useSupabase } from '@/components/shared/SupabaseProvider'
+import { ProGate } from '@/components/subscription/ProGate'
 import { db } from '@/data/db'
 import type { Session, TrackCondition, EventType, HandlingFeel } from '@/lib/types'
 
@@ -98,6 +99,7 @@ export default function NewSessionPage() {
   }
 
   return (
+    <ProGate variant="full-page" feature="Session Logging">
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -292,6 +294,7 @@ export default function NewSessionPage() {
         {saving ? 'Saving...' : 'Save Session'}
       </button>
     </div>
+    </ProGate>
   )
 }
 

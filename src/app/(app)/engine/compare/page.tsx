@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import { ProGate } from '@/components/subscription/ProGate'
 import { BuildCompareTable } from '@/components/engine/BuildCompareTable'
 import { db } from '@/data/db'
 import type { SavedEngineBuild } from '@/lib/types'
@@ -113,13 +114,15 @@ function CompareContent() {
 
 export default function ComparePage() {
   return (
-    <Suspense fallback={
-      <div className="space-y-4">
-        <div className="h-8 bg-[#252525] rounded animate-pulse" />
-        <div className="h-64 bg-[#1A1A1A] border border-[#333] rounded-lg animate-pulse" />
-      </div>
-    }>
-      <CompareContent />
-    </Suspense>
+    <ProGate variant="blur-overlay" feature="Engine Comparison">
+      <Suspense fallback={
+        <div className="space-y-4">
+          <div className="h-8 bg-[#252525] rounded animate-pulse" />
+          <div className="h-64 bg-[#1A1A1A] border border-[#333] rounded-lg animate-pulse" />
+        </div>
+      }>
+        <CompareContent />
+      </Suspense>
+    </ProGate>
   )
 }

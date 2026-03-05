@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/useAuth'
 import { useSupabase } from '@/components/shared/SupabaseProvider'
+import { ProGate } from '@/components/subscription/ProGate'
 import { db } from '@/data/db'
 import type { Session, HandlingFeel } from '@/lib/types'
 
@@ -78,6 +79,7 @@ export default function SessionsPage() {
   }, [user, supabase])
 
   return (
+    <ProGate variant="blur-overlay" feature="Session Logging">
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
@@ -127,6 +129,7 @@ export default function SessionsPage() {
         </div>
       )}
     </div>
+    </ProGate>
   )
 }
 

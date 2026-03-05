@@ -3,6 +3,7 @@
 import { Navigation } from '@/components/shared/Navigation'
 import { CarProvider } from '@/hooks/useCar'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { SubscriptionProvider } from '@/components/subscription/SubscriptionProvider'
 import { useOnboardingGuard } from '@/hooks/useOnboardingGuard'
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -24,6 +25,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <TooltipProvider>
+      <SubscriptionProvider>
       <CarProvider>
         <div className="flex flex-col md:flex-row min-h-screen">
           <Navigation />
@@ -34,6 +36,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </main>
         </div>
       </CarProvider>
+      </SubscriptionProvider>
     </TooltipProvider>
   )
 }

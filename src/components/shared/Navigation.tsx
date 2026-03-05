@@ -4,20 +4,22 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCar } from '@/hooks/useCar'
 import { useAuth } from '@/hooks/useAuth'
+import { useSubscriptionContext } from '@/components/subscription/SubscriptionProvider'
 
 const navItems = [
-  { href: '/dashboard', label: 'Home', icon: HomeIcon },
-  { href: '/setup', label: 'Setup', icon: WrenchIcon },
-  { href: '/engine', label: 'Engine', icon: EngineIcon },
-  { href: '/calculators', label: 'Calc', icon: CalculatorIcon },
-  { href: '/troubleshoot', label: 'Diag', icon: SearchIcon },
-  { href: '/sessions', label: 'Log', icon: ClipboardIcon },
-  { href: '/rules', label: 'Rules', icon: BookIcon },
+  { href: '/dashboard', label: 'Home', icon: HomeIcon, isPro: false },
+  { href: '/setup', label: 'Setup', icon: WrenchIcon, isPro: false },
+  { href: '/engine', label: 'Engine', icon: EngineIcon, isPro: true },
+  { href: '/calculators', label: 'Calc', icon: CalculatorIcon, isPro: false },
+  { href: '/troubleshoot', label: 'Diag', icon: SearchIcon, isPro: false },
+  { href: '/sessions', label: 'Log', icon: ClipboardIcon, isPro: true },
+  { href: '/rules', label: 'Rules', icon: BookIcon, isPro: false },
 ]
 
 export function Navigation() {
   const pathname = usePathname()
   const { cars, currentCar, setCurrentCarId } = useCar()
+  const { isPro } = useSubscriptionContext()
 
   return (
     <>
@@ -34,7 +36,12 @@ export function Navigation() {
                   isActive ? 'text-[#FFD600]' : 'text-[#555] active:scale-95'
                 }`}
               >
-                <item.icon className="w-5 h-5" />
+                <div className="relative">
+                  <item.icon className="w-5 h-5" />
+                  {item.isPro && !isPro && (
+                    <LockBadge className="absolute -top-1 -right-2" />
+                  )}
+                </div>
                 <span className={`text-[10px] transition-colors ${isActive ? 'font-semibold' : 'font-medium'}`}>{item.label}</span>
                 {/* Active indicator dot */}
                 <div className={`absolute -top-0.5 w-1 h-1 rounded-full bg-[#FFD600] transition-all duration-200 ${
@@ -79,10 +86,18 @@ export function Navigation() {
                 <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-[3px] rounded-r-full bg-[#FFD600] transition-all duration-200 ${
                   isActive ? 'h-6 opacity-100' : 'h-0 opacity-0'
                 }`} />
-                <item.icon className={`w-5 h-5 flex-shrink-0 transition-transform duration-200 ${
-                  isActive ? '' : 'group-hover:scale-110'
-                }`} />
+                <div className="relative flex-shrink-0">
+                  <item.icon className={`w-5 h-5 transition-transform duration-200 ${
+                    isActive ? '' : 'group-hover:scale-110'
+                  }`} />
+                  {item.isPro && !isPro && (
+                    <LockBadge className="absolute -top-1 -right-2" />
+                  )}
+                </div>
                 <span className={`hidden lg:block text-sm ${isActive ? 'font-semibold' : 'font-medium'}`}>{item.label}</span>
+                {item.isPro && !isPro && (
+                  <span className="hidden lg:inline-block ml-auto text-[9px] px-1.5 py-0.5 rounded bg-[#FFD600]/10 text-[#FFD600] font-bold uppercase">Pro</span>
+                )}
               </Link>
             )
           })}
@@ -117,6 +132,7 @@ export function Navigation() {
 
 function UserSection() {
   const { user, signOut } = useAuth()
+  const { isPro } = useSubscriptionContext()
 
   if (!user) {
     return (
@@ -131,12 +147,33 @@ function UserSection() {
 
   return (
     <div className="px-3 py-3 border-t border-[#333]">
-      <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-[#FFD600] flex items-center justify-center text-[10px] font-bold text-[#0D0D0D] flex-shrink-0">
+      {/* Upgrade CTA for free users */}
+      {!isPro && (
+        <Link
+          href="/account"
+          className="hidden lg:flex items-center gap-2 w-full px-3 py-2 mb-2 rounded-md bg-[#FFD600]/10 border border-[#FFD600]/20 hover:bg-[#FFD600]/20 transition-colors"
+        >
+          <svg className="w-3.5 h-3.5 text-[#FFD600]" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+          </svg>
+          <span className="text-[11px] font-bold text-[#FFD600]">Upgrade to Pro</span>
+        </Link>
+      )}
+      <Link href="/account" className="flex items-center gap-3 group">
+        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${
+          isPro ? 'bg-[#FFD600] text-[#0D0D0D] ring-2 ring-[#FFD600]/30' : 'bg-[#FFD600] text-[#0D0D0D]'
+        }`}>
           {initial}
         </div>
-        <span className="hidden lg:block text-xs text-[#888] truncate flex-1">{user.email}</span>
-      </div>
+        <div className="hidden lg:block flex-1 min-w-0">
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs text-[#888] truncate">{user.email}</span>
+            {isPro && (
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#FFD600]/10 text-[#FFD600] font-bold uppercase flex-shrink-0">Pro</span>
+            )}
+          </div>
+        </div>
+      </Link>
       <button
         onClick={signOut}
         className="hidden lg:block w-full mt-2 text-xs text-[#666] hover:text-[#F5F5F5] text-left transition-colors"
@@ -144,6 +181,14 @@ function UserSection() {
         Sign Out
       </button>
     </div>
+  )
+}
+
+function LockBadge({ className }: { className?: string }) {
+  return (
+    <svg className={`w-3 h-3 text-[#FFD600] ${className || ''}`} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C9.24 2 7 4.24 7 7v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V7c0-2.76-2.24-5-5-5zm3 8H9V7c0-1.66 1.34-3 3-3s3 1.34 3 3v3z" />
+    </svg>
   )
 }
 

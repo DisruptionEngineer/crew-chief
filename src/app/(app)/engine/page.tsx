@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
+import { ProGate } from '@/components/subscription/ProGate'
 import { EngineFamilySelector } from '@/components/engine/EngineFamilySelector'
 import { DivisionSelector } from '@/components/engine/DivisionSelector'
 import { HeadSelector } from '@/components/engine/HeadSelector'
@@ -151,6 +152,7 @@ export default function EngineBuildPage() {
   }
 
   return (
+    <ProGate variant="full-page" feature="Engine Build Simulator">
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-start justify-between gap-4 animate-fade-up">
@@ -334,6 +336,7 @@ export default function EngineBuildPage() {
         onClose={() => setDrawerOpen(false)}
       />
     </div>
+    </ProGate>
   )
 }
 
