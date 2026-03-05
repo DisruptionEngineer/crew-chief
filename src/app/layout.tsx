@@ -31,11 +31,13 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <Script
-          defer
-          data-domain="crew-chief.vercel.app"
-          src="https://plausible.io/js/script.js"
+          async
+          src="https://plausible.io/js/pa-PhL4tUkbEPSt9ciXQrlDq.js"
           strategy="afterInteractive"
         />
+        <Script id="plausible-init" strategy="afterInteractive">
+          {`window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`}
+        </Script>
       </head>
       <body className="antialiased min-h-screen">
         <SupabaseProvider>
