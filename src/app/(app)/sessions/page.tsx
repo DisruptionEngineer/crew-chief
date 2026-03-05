@@ -1,14 +1,81 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useAuth } from '@/hooks/useAuth'
+import { useSupabase } from '@/components/shared/SupabaseProvider'
+import { db } from '@/data/db'
 import type { Session, HandlingFeel } from '@/lib/types'
 
-// Demo sessions for initial state
-const demoSessions: Session[] = []
-
 export default function SessionsPage() {
-  const [sessions] = useState<Session[]>(demoSessions)
+  const [sessions, setSessions] = useState<Session[]>([])
+  const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
+  const { supabase } = useSupabase()
+
+  useEffect(() => {
+    async function loadSessions() {
+      const allSessions: Session[] = []
+      const seenIds = new Set<string>()
+
+      // Load from Supabase first (cloud source of truth)
+      if (user) {
+        try {
+          const { data } = await supabase
+            .from('sessions')
+            .select('*')
+            .eq('user_id', user.id)
+            .order('session_date', { ascending: false })
+
+          if (data) {
+            for (const row of data) {
+              seenIds.add(row.id)
+              allSessions.push({
+                id: row.id,
+                carId: row.car_id,
+                trackId: '',
+                setupId: '',
+                date: row.session_date,
+                eventType: row.event_type,
+                weather: row.weather ?? { temp: 72, humidity: 45, wind: '' },
+                trackCondition: row.track_condition,
+                handlingEntry: row.handling?.entry ?? 'neutral',
+                handlingMid: row.handling?.mid ?? 'neutral',
+                handlingExit: row.handling?.exit ?? 'neutral',
+                lapTimes: row.lap_times ?? [],
+                bestLap: row.best_lap ?? 0,
+                startPosition: row.start_position,
+                finishPosition: row.finish_position,
+                changesMade: row.changes_made ?? [],
+                notes: row.notes ?? '',
+              })
+            }
+          }
+        } catch {
+          // Supabase unavailable — fall through to local
+        }
+      }
+
+      // Also load from IndexedDB for any local-only sessions
+      try {
+        const local = await db.sessions.orderBy('date').reverse().toArray()
+        for (const s of local) {
+          if (!seenIds.has(s.id)) {
+            allSessions.push(s)
+          }
+        }
+      } catch {
+        // IndexedDB unavailable
+      }
+
+      // Sort by date descending
+      allSessions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      setSessions(allSessions)
+      setLoading(false)
+    }
+
+    loadSessions()
+  }, [user, supabase])
 
   return (
     <div className="space-y-6">
@@ -29,7 +96,11 @@ export default function SessionsPage() {
         </Link>
       </div>
 
-      {sessions.length === 0 ? (
+      {loading ? (
+        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-8 text-center">
+          <p className="text-sm text-[#888]">Loading sessions...</p>
+        </div>
+      ) : sessions.length === 0 ? (
         <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-8 text-center">
           <svg className="w-12 h-12 mx-auto text-[#333] mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
             <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2" />

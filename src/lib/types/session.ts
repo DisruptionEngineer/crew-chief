@@ -52,7 +52,7 @@ export interface Track {
 
 export interface UserProfile {
   id: string
-  clerkUserId: string
+  userId: string
   displayName: string
   experienceLevel: import('./common').ExperienceLevel
   carId: string

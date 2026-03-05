@@ -2,20 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import dynamic from 'next/dynamic'
 import { useCar } from '@/hooks/useCar'
-
-const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || ''
-const isClerkReady =
-  (clerkKey.startsWith('pk_test_') || clerkKey.startsWith('pk_live_')) &&
-  !clerkKey.includes('PLACEHOLDER')
-
-// Only load Clerk's UserButton when Clerk is actually configured — avoids
-// pulling in the @clerk/nextjs client bundle (and its useSession hook) when
-// there is no ClerkProvider in the tree.
-const ClerkUserButton = isClerkReady
-  ? dynamic(() => import('@clerk/nextjs').then(mod => ({ default: mod.UserButton })), { ssr: false })
-  : null
+import { useAuth } from '@/hooks/useAuth'
 
 const navItems = [
   { href: '/dashboard', label: 'Home', icon: HomeIcon },
@@ -120,16 +108,17 @@ export function Navigation() {
           </div>
         </div>
 
-        {/* User — only render Clerk UserButton when configured */}
-        <ClerkUserSection />
+        {/* User Account */}
+        <UserSection />
       </aside>
     </>
   )
 }
 
-// Safely render Clerk UserButton — only when Clerk is configured and loaded
-function ClerkUserSection() {
-  if (!ClerkUserButton) {
+function UserSection() {
+  const { user, signOut } = useAuth()
+
+  if (!user) {
     return (
       <div className="px-3 py-3 border-t border-[#333] flex items-center gap-3">
         <div className="w-8 h-8 rounded-full bg-[#252525] border border-[#333] flex items-center justify-center text-[10px] text-[#666]">?</div>
@@ -138,16 +127,22 @@ function ClerkUserSection() {
     )
   }
 
+  const initial = (user.email?.[0] ?? '?').toUpperCase()
+
   return (
-    <div className="px-3 py-3 border-t border-[#333] flex items-center gap-3">
-      <ClerkUserButton
-        appearance={{
-          elements: {
-            avatarBox: 'w-8 h-8',
-          },
-        }}
-      />
-      <span className="hidden lg:block text-xs text-[#888]">Account</span>
+    <div className="px-3 py-3 border-t border-[#333]">
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 rounded-full bg-[#FFD600] flex items-center justify-center text-[10px] font-bold text-[#0D0D0D] flex-shrink-0">
+          {initial}
+        </div>
+        <span className="hidden lg:block text-xs text-[#888] truncate flex-1">{user.email}</span>
+      </div>
+      <button
+        onClick={signOut}
+        className="hidden lg:block w-full mt-2 text-xs text-[#666] hover:text-[#F5F5F5] text-left transition-colors"
+      >
+        Sign Out
+      </button>
     </div>
   )
 }

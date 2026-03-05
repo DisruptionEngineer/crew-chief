@@ -3,7 +3,10 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useCar } from '@/hooks/useCar'
-import type { TrackCondition, EventType, HandlingFeel } from '@/lib/types'
+import { useAuth } from '@/hooks/useAuth'
+import { useSupabase } from '@/components/shared/SupabaseProvider'
+import { db } from '@/data/db'
+import type { Session, TrackCondition, EventType, HandlingFeel } from '@/lib/types'
 
 const conditions: TrackCondition[] = ['heavy', 'tacky', 'moderate', 'dry', 'slick']
 const eventTypes: EventType[] = ['practice', 'qualifying', 'heat', 'feature']
@@ -11,6 +14,8 @@ const eventTypes: EventType[] = ['practice', 'qualifying', 'heat', 'feature']
 export default function NewSessionPage() {
   const router = useRouter()
   const { currentCar } = useCar()
+  const { user } = useAuth()
+  const { supabase } = useSupabase()
   const [eventType, setEventType] = useState<EventType>('practice')
   const [condition, setCondition] = useState<TrackCondition>('moderate')
   const [temp, setTemp] = useState('72')
@@ -28,9 +33,67 @@ export default function NewSessionPage() {
   const bestLap = validLaps.length > 0 ? Math.min(...validLaps) : 0
   const avgLap = validLaps.length > 0 ? validLaps.reduce((a, b) => a + b, 0) / validLaps.length : 0
 
-  function handleSave() {
-    // For now, just redirect back. Full DB persistence coming in Phase 2.
-    alert('Session saved! (Database persistence coming soon)')
+  const [saving, setSaving] = useState(false)
+
+  async function handleSave() {
+    setSaving(true)
+
+    const session: Session = {
+      id: crypto.randomUUID(),
+      carId: currentCar.id,
+      trackId: '',
+      setupId: '',
+      date: new Date().toISOString(),
+      eventType,
+      weather: { temp: parseFloat(temp) || 72, humidity: parseFloat(humidity) || 45, wind: '' },
+      trackCondition: condition,
+      handlingEntry,
+      handlingMid,
+      handlingExit,
+      lapTimes: validLaps,
+      bestLap,
+      startPosition: startPos ? parseInt(startPos) : undefined,
+      finishPosition: finishPos ? parseInt(finishPos) : undefined,
+      changesMade: changes ? [{ parameter: 'changes', from: '', to: changes, notes: '' }] : [],
+      notes,
+    }
+
+    // Save to local IndexedDB
+    try {
+      await db.sessions.put(session)
+    } catch {
+      // IndexedDB may not be available — continue anyway
+    }
+
+    // Save to Supabase if authenticated
+    if (user) {
+      try {
+        await supabase.from('sessions').insert({
+          id: session.id,
+          user_id: user.id,
+          car_id: session.carId,
+          event_type: session.eventType,
+          track_condition: session.trackCondition,
+          weather: session.weather,
+          handling: {
+            entry: session.handlingEntry,
+            mid: session.handlingMid,
+            exit: session.handlingExit,
+          },
+          lap_times: session.lapTimes,
+          best_lap: session.bestLap,
+          start_position: session.startPosition ?? null,
+          finish_position: session.finishPosition ?? null,
+          changes_made: session.changesMade,
+          notes: session.notes,
+          session_date: session.date,
+        })
+      } catch {
+        // Supabase save failed — local copy still exists
+      }
+    }
+
+    setSaving(false)
     router.push('/sessions')
   }
 
@@ -223,9 +286,10 @@ export default function NewSessionPage() {
       {/* Save */}
       <button
         onClick={handleSave}
-        className="w-full bg-[#FFD600] text-[#0D0D0D] py-4 rounded-md text-sm font-bold hover:bg-[#FFEA00] transition-colors min-h-[56px]"
+        disabled={saving}
+        className="w-full bg-[#FFD600] text-[#0D0D0D] py-4 rounded-md text-sm font-bold hover:bg-[#FFEA00] transition-colors min-h-[56px] disabled:opacity-50"
       >
-        Save Session
+        {saving ? 'Saving...' : 'Save Session'}
       </button>
     </div>
   )

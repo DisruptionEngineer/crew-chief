@@ -36,6 +36,15 @@ export class CrewChiefDB extends Dexie {
       userProfiles: 'id, clerkUserId',
       engineBuilds: 'id, createdAt',
     })
+    this.version(4).stores({
+      cars: 'id, class',
+      setups: 'id, carId, date',
+      sessions: 'id, carId, trackId, date',
+      tracks: 'id',
+      techChecks: 'id, carId',
+      userProfiles: 'id, userId',
+      engineBuilds: 'id, createdAt',
+    })
   }
 }
 

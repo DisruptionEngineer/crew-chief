@@ -1,38 +1,91 @@
 'use client'
 
-import dynamic from 'next/dynamic'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-
-const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || ''
-const isClerkConfigured =
-  (clerkKey.startsWith('pk_test_') || clerkKey.startsWith('pk_live_')) &&
-  !clerkKey.includes('PLACEHOLDER')
-
-// Only load Clerk's SignIn component when Clerk is actually configured
-const ClerkSignIn = isClerkConfigured
-  ? dynamic(() => import('@clerk/nextjs').then(mod => ({ default: mod.SignIn })), {
-      ssr: false,
-      loading: () => <div className="h-96 flex items-center justify-center"><div className="w-8 h-8 rounded-lg bg-[#FFD600] animate-pulse" /></div>,
-    })
-  : null
+import { useSupabase } from '@/components/shared/SupabaseProvider'
 
 export default function SignInPage() {
-  if (!ClerkSignIn) {
-    return (
-      <div className="text-center py-16 space-y-4">
-        <div className="w-12 h-12 rounded-lg bg-[#FFD600] flex items-center justify-center mx-auto">
-          <span className="text-[#0D0D0D] font-bold text-lg">CC</span>
-        </div>
-        <h1 className="text-xl font-bold">Authentication Not Configured</h1>
-        <p className="text-sm text-[#888] max-w-sm mx-auto">
-          Sign-in requires Clerk to be set up. For now, you can use the app without an account.
-        </p>
-        <Link href="/dashboard" className="inline-block mt-4 px-6 py-3 bg-[#FFD600] text-[#0D0D0D] font-semibold rounded-md hover:bg-[#FFEA00] transition-colors">
-          Go to Dashboard →
-        </Link>
-      </div>
-    )
+  const router = useRouter()
+  const { supabase } = useSupabase()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+
+    const { error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (authError) {
+      setError(authError.message)
+      setLoading(false)
+      return
+    }
+
+    router.push('/dashboard')
+    router.refresh()
   }
 
-  return <ClerkSignIn />
+  return (
+    <div className="w-full max-w-sm space-y-6">
+      <div className="text-center">
+        <h1 className="text-xl font-bold text-[#F5F5F5]">Sign In</h1>
+        <p className="text-sm text-[#888] mt-1">Welcome back to Crew Chief</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="driver@example.com"
+            required
+            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FFD600]"
+          />
+        </div>
+
+        <div>
+          <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+            required
+            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FFD600]"
+          />
+        </div>
+
+        {error && (
+          <div className="bg-[#FF1744]/10 border border-[#FF1744]/30 rounded-md p-3">
+            <p className="text-xs text-[#FF1744]">{error}</p>
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full py-3 rounded-md font-semibold text-sm bg-[#FFD600] text-[#0D0D0D] hover:bg-[#FFEA00] transition-colors disabled:opacity-50"
+        >
+          {loading ? 'Signing in...' : 'Sign In'}
+        </button>
+      </form>
+
+      <p className="text-center text-sm text-[#888]">
+        Don&apos;t have an account?{' '}
+        <Link href="/sign-up" className="text-[#FFD600] hover:text-[#FFEA00] font-semibold">
+          Sign Up
+        </Link>
+      </p>
+    </div>
+  )
 }

@@ -112,7 +112,7 @@ export default function OnboardingPage() {
       // Create user profile
       const profile: UserProfile = {
         id: profileId,
-        clerkUserId: '', // Will be set when Clerk is configured
+        userId: '', // Will be set from Supabase auth
         displayName: data.displayName,
         experienceLevel: data.experienceLevel as ExperienceLevel,
         carId,

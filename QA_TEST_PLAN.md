@@ -204,4 +204,19 @@
 
 | Bug ID | Test Case | Description | Severity | Status |
 |--------|-----------|-------------|----------|--------|
-| (filled during testing) | | | | |
+| BUG-001 | TC-8.12 | Engine compare page shows "undefined" for Ford/Mopar cam lift and duration values. Root cause: BuildCompareTable imported head/cam lookup functions from GM-only modules instead of multi-family registry. | High | Fixed — registry imports updated, null-safe template literals added. Verified on production. |
+| BUG-002 | TC-9.5 | Session save uses `alert()` which blocks browser extensions and provides poor UX. | Low | Known stub — Phase 2 persistence not yet implemented. |
+| BUG-003 | TC-10.5 | Transmission Advisor returns empty results for Ford+Manual and Mopar+Manual. No manual transmissions existed in data catalog for those makes. | Medium | Fixed — Added Ford Top Loader, T5 World Class (Ford), A833 4-Speed (Mopar). Added empty-state UI handling. Verified on production. |
+
+---
+
+## Test Execution Summary
+
+- **Date**: 2026-03-04
+- **Environment**: Production (https://crew-chief.vercel.app) + localhost:3000
+- **Browser**: Chrome (via Claude in Chrome extension)
+- **Total Test Cases**: 70+
+- **Pass**: 67+ | **Fail (Fixed)**: 2 | **Known Stub**: 1
+- **Bugs Found**: 3 (BUG-001 High, BUG-002 Low, BUG-003 Medium)
+- **Bugs Fixed & Verified**: 2 (BUG-001, BUG-003)
+- **Deployment**: All fixes deployed to Vercel production and re-tested
