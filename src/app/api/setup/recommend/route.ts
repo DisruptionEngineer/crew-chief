@@ -43,6 +43,8 @@ interface SetupRequest {
   condition: string
   raceType: string
   currentSetup?: Record<string, unknown>
+  tireCompound?: string
+  lockedValues?: Record<string, number>
 }
 
 export async function POST(request: NextRequest) {
@@ -116,8 +118,13 @@ export async function POST(request: NextRequest) {
 
 **Conditions:** ${body.condition}
 **Race Type:** ${body.raceType}
+${body.tireCompound ? `**Tire Compound:** ${body.tireCompound}` : ''}
 
 ${body.currentSetup ? `**Current Setup (for reference):** ${JSON.stringify(body.currentSetup)}` : ''}
+${body.lockedValues && Object.keys(body.lockedValues).length > 0 ? `
+**LOCKED VALUES (you MUST use these exact values, do not change them):**
+${Object.entries(body.lockedValues).map(([k, v]) => `- ${k}: ${v}`).join('\n')}
+The user has locked these parameters. Use the exact values shown above and optimize all other parameters around them.` : ''}
 
 Respond with JSON in this exact format:
 {

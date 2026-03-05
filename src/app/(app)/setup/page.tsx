@@ -7,6 +7,8 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSupabase } from '@/components/shared/SupabaseProvider'
 import { useSubscriptionContext } from '@/components/subscription/SubscriptionProvider'
 import { getSetupRecommendations } from '@/data/setup/recommendations'
+import { getTiresByBrand, getTireCompound, getDefaultTireForSurface } from '@/data/setup/tires'
+import type { TireCompound } from '@/data/setup/tires'
 import type { TrackCondition, RaceType } from '@/lib/types'
 
 const conditions: { value: TrackCondition; label: string }[] = [
@@ -31,6 +33,8 @@ interface AiResponse {
   summary: string
 }
 
+const tireBrands = getTiresByBrand()
+
 export default function SetupCalculator() {
   const { currentCar, currentSetup } = useCar()
   const { saveSetup } = useGarage()
@@ -45,10 +49,16 @@ export default function SetupCalculator() {
   const [aiLoading, setAiLoading] = useState(false)
   const [aiData, setAiData] = useState<AiResponse | null>(null)
 
-  const recs = getSetupRecommendations(currentCar, condition, raceType)
+  // Tire compound selection — default based on what's saved or surface
+  const defaultTire = getTireCompound(currentSetup.tireModel) || getDefaultTireForSurface('dirt')
+  const [selectedTire, setSelectedTire] = useState<TireCompound>(defaultTire)
 
-  // Lifted stepper state — keyed by parameter name
+  const recs = getSetupRecommendations(currentCar, condition, raceType, selectedTire)
+
+  // All adjustable values keyed by parameter name
   const [adjustments, setAdjustments] = useState<Record<string, number>>({})
+  // Locked parameters — AI won't overwrite these
+  const [locked, setLocked] = useState<Set<string>>(new Set())
 
   const getAdjusted = (param: string, baseValue: number) => {
     return adjustments[param] ?? baseValue
@@ -57,6 +67,15 @@ export default function SetupCalculator() {
   const setAdjusted = (param: string, value: number) => {
     setAdjustments(prev => ({ ...prev, [param]: value }))
     setSaved(false)
+  }
+
+  const toggleLock = (param: string) => {
+    setLocked(prev => {
+      const next = new Set(prev)
+      if (next.has(param)) next.delete(param)
+      else next.add(param)
+      return next
+    })
   }
 
   const handleSave = useCallback(async () => {
@@ -73,11 +92,22 @@ export default function SetupCalculator() {
     const pressureLR = getAdjusted('pressureLR', recs.tirePressures[2].value as number)
     const pressureRR = getAdjusted('pressureRR', recs.tirePressures[3].value as number)
 
-    // Get alignment values
-    const camberLF = recs.alignment.find(r => r.parameter === 'camberLF')?.value as number ?? -2
-    const camberRF = recs.alignment.find(r => r.parameter === 'camberRF')?.value as number ?? -2
-    const casterLF = recs.alignment.find(r => r.parameter === 'casterLF')?.value as number ?? 3.5
-    const casterRF = recs.alignment.find(r => r.parameter === 'casterRF')?.value as number ?? 3.5
+    // Get alignment values — use adjustments if user modified, otherwise recommendation
+    const camberLF = getAdjusted('camberLF', recs.alignment.find(r => r.parameter === 'camberLF')?.value as number ?? -2)
+    const camberRF = getAdjusted('camberRF', recs.alignment.find(r => r.parameter === 'camberRF')?.value as number ?? -2)
+    const casterLF = getAdjusted('casterLF', recs.alignment.find(r => r.parameter === 'casterLF')?.value as number ?? 3.5)
+    const casterRF = getAdjusted('casterRF', recs.alignment.find(r => r.parameter === 'casterRF')?.value as number ?? 3.5)
+    const toeFront = getAdjusted('toeFront', recs.alignment.find(r => r.parameter === 'toeFront')?.value as number ?? -0.0625)
+
+    // Weight values
+    const totalWeight = getAdjusted('totalWeight', currentSetup.totalWeight)
+    const crossWeightPct = getAdjusted('crossWeight', currentSetup.crossWeightPct) ?? currentSetup.crossWeightPct
+    const leftPct = getAdjusted('leftPct', currentSetup.leftPct) ?? currentSetup.leftPct
+    const rearPct = getAdjusted('rearPct', currentSetup.rearPct) ?? currentSetup.rearPct
+    const cornerWeightLF = getAdjusted('cornerWeightLF', currentSetup.cornerWeightLF)
+    const cornerWeightRF = getAdjusted('cornerWeightRF', currentSetup.cornerWeightRF)
+    const cornerWeightLR = getAdjusted('cornerWeightLR', currentSetup.cornerWeightLR)
+    const cornerWeightRR = getAdjusted('cornerWeightRR', currentSetup.cornerWeightRR)
 
     await saveSetup({
       carId: currentCar.id,
@@ -91,20 +121,14 @@ export default function SetupCalculator() {
       rideHeightLR: currentSetup.rideHeightLR,
       rideHeightRR: currentSetup.rideHeightRR,
       camberLF, camberRF, casterLF, casterRF,
-      toeFront: currentSetup.toeFront,
+      toeFront,
       toeRear: currentSetup.toeRear,
       pressureLF, pressureRF, pressureLR, pressureRR,
-      totalWeight: currentSetup.totalWeight,
-      crossWeightPct: currentSetup.crossWeightPct,
-      leftPct: currentSetup.leftPct,
-      rearPct: currentSetup.rearPct,
-      cornerWeightLF: currentSetup.cornerWeightLF,
-      cornerWeightRF: currentSetup.cornerWeightRF,
-      cornerWeightLR: currentSetup.cornerWeightLR,
-      cornerWeightRR: currentSetup.cornerWeightRR,
+      totalWeight, crossWeightPct, leftPct, rearPct,
+      cornerWeightLF, cornerWeightRF, cornerWeightLR, cornerWeightRR,
       swayBarFront: currentSetup.swayBarFront,
       gearRatio: currentSetup.gearRatio,
-      tireModel: currentSetup.tireModel,
+      tireModel: selectedTire.id,
       shockLF: currentSetup.shockLF,
       shockRF: currentSetup.shockRF,
       shockLR: currentSetup.shockLR,
@@ -117,7 +141,7 @@ export default function SetupCalculator() {
     setSaved(true)
     setTimeout(() => setSaved(false), 3000)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, isPro, currentCar, currentSetup, recs, condition, raceType, adjustments, saveSetup, aiData])
+  }, [user, isPro, currentCar, currentSetup, recs, condition, raceType, adjustments, saveSetup, aiData, selectedTire])
 
   const handleAiOptimize = useCallback(async () => {
     if (!user || !isPro) return
@@ -149,6 +173,12 @@ export default function SetupCalculator() {
           },
           condition,
           raceType,
+          tireCompound: selectedTire.label,
+          // Send locked values as constraints the AI must respect
+          lockedValues: Object.fromEntries(
+            Array.from(locked).map(param => [param, adjustments[param]])
+              .filter(([, v]) => v !== undefined)
+          ),
         }),
       })
 
@@ -156,16 +186,12 @@ export default function SetupCalculator() {
         const data: AiResponse = await res.json()
         setAiData(data)
 
-        // Apply AI values to adjustments
+        // Apply AI values to adjustments — skip locked parameters
         const newAdj: Record<string, number> = {}
-        if (data.springs) {
-          for (const [key, rec] of Object.entries(data.springs)) {
-            if (typeof rec.value === 'number') newAdj[key] = rec.value
-          }
-        }
-        if (data.tirePressures) {
-          for (const [key, rec] of Object.entries(data.tirePressures)) {
-            if (typeof rec.value === 'number') newAdj[key] = rec.value
+        for (const section of [data.springs, data.alignment, data.tirePressures, data.weight] as Record<string, AiRecommendation>[]) {
+          if (!section) continue
+          for (const [key, rec] of Object.entries(section)) {
+            if (typeof rec.value === 'number' && !locked.has(key)) newAdj[key] = rec.value
           }
         }
         setAdjustments(prev => ({ ...prev, ...newAdj }))
@@ -175,14 +201,14 @@ export default function SetupCalculator() {
     } finally {
       setAiLoading(false)
     }
-  }, [user, isPro, currentCar, condition, raceType, supabase])
+  }, [user, isPro, currentCar, condition, raceType, supabase, selectedTire, locked, adjustments])
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight uppercase">Setup Calculator</h1>
+          <h1 className="text-2xl font-bold tracking-tight uppercase">Setup Builder</h1>
           <p className="text-sm text-[#888] mt-1">{currentCar.year} {currentCar.model}</p>
         </div>
         {/* AI + Save Buttons */}
@@ -201,10 +227,10 @@ export default function SetupCalculator() {
               {aiLoading ? 'Analyzing...' : 'AI Crew Chief'}
             </button>
           )}
-          {isPro && user && (
+          {user && (
             <button
               onClick={handleSave}
-              disabled={saving}
+              disabled={saving || (!isPro && !user)}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all min-h-[40px] ${
                 saved
                   ? 'bg-[#00E676] text-[#0D0D0D]'
@@ -298,10 +324,45 @@ export default function SetupCalculator() {
         </div>
       </div>
 
+      {/* Tire Compound Selector */}
+      <div>
+        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Tire Compound</label>
+        <select
+          value={selectedTire.id}
+          onChange={(e) => {
+            const tire = getTireCompound(e.target.value)
+            if (tire) {
+              setSelectedTire(tire)
+              // Clear pressure adjustments so they recalculate for new tire
+              setAdjustments(prev => {
+                const next = { ...prev }
+                delete next.pressureLF
+                delete next.pressureRF
+                delete next.pressureLR
+                delete next.pressureRR
+                return next
+              })
+            }
+          }}
+          className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-sm font-semibold text-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[48px] appearance-none"
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+        >
+          {tireBrands.map(group => (
+            <optgroup key={group.brand} label={group.brand}>
+              {group.compounds.map(t => (
+                <option key={t.id} value={t.id}>
+                  {t.label} — {t.pressureRange.front[0]}-{t.pressureRange.front[1]} psi ({t.surface})
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+      </div>
+
       {/* Checkered Divider */}
       <div className="checkered-divider" />
 
-      {/* Springs */}
+      {/* Springs — fully adjustable */}
       <SetupSection
         title="Springs"
         unit="lbs/in"
@@ -318,9 +379,12 @@ export default function SetupCalculator() {
               unit={rec.unit}
               rangeLow={rec.rangeLow!}
               rangeHigh={rec.rangeHigh!}
+              step={25}
               explanation={aiData?.springs?.[rec.parameter]?.explanation || rec.explanation}
               expanded={expandedSection === 'springs'}
               onAdjust={(v) => setAdjusted(rec.parameter, v)}
+              isLocked={locked.has(rec.parameter)}
+              onToggleLock={() => toggleLock(rec.parameter)}
             />
           ))}
         </div>
@@ -332,7 +396,7 @@ export default function SetupCalculator() {
         )}
       </SetupSection>
 
-      {/* Alignment */}
+      {/* Alignment — fully adjustable */}
       <SetupSection
         title="Alignment"
         unit="degrees"
@@ -341,33 +405,60 @@ export default function SetupCalculator() {
         aiExplanation={aiData?.alignment ? Object.values(aiData.alignment).map(r => r.explanation).join(' ') : undefined}
       >
         <div className="grid grid-cols-2 gap-3">
-          {recs.alignment.filter(r => r.parameter !== 'toeFront').map(rec => (
-            <div key={rec.parameter} className="bg-[#252525] rounded-md p-3">
-              <p className="text-[10px] text-[#666] uppercase">{rec.label}</p>
-              <p className="font-mono text-lg font-medium mt-1">
-                {typeof rec.value === 'number' ? `${rec.value > 0 ? '+' : ''}${rec.value}°` : rec.value}
-              </p>
+          {recs.alignment.filter(r => r.parameter !== 'toeFront').map(rec => {
+            const recValue = rec.value as number
+            return (
+              <SetupValueCard
+                key={rec.parameter}
+                label={rec.label.replace('Camber - ', '').replace('Caster - ', '')}
+                value={getAdjusted(rec.parameter, recValue)}
+                unit="deg"
+                rangeLow={rec.rangeLow!}
+                rangeHigh={rec.rangeHigh!}
+                step={0.5}
+                formatValue={(v) => `${v > 0 ? '+' : ''}${v.toFixed(1)}`}
+                explanation={aiData?.alignment?.[rec.parameter]?.explanation || rec.explanation}
+                expanded={expandedSection === 'alignment'}
+                onAdjust={(v) => setAdjusted(rec.parameter, v)}
+                isLocked={locked.has(rec.parameter)}
+                onToggleLock={() => toggleLock(rec.parameter)}
+              />
+            )
+          })}
+        </div>
+        {/* Toe — stepper in 1/16" increments */}
+        {recs.alignment.filter(r => r.parameter === 'toeFront').map(rec => {
+          const toeValue = getAdjusted('toeFront', -0.0625 * (raceType === 'oval' ? 3 : 1))
+          const toeDisplay = `${Math.abs(toeValue * 16).toFixed(0)}/16" ${toeValue < 0 ? 'toe-out' : toeValue > 0 ? 'toe-in' : 'zero'}`
+          return (
+            <div key={rec.parameter} className="bg-[#252525] rounded-md p-3 mt-3">
+              <div className="flex justify-between items-center">
+                <p className="text-[10px] text-[#666] uppercase">{rec.label}</p>
+                <p className="font-mono text-lg font-medium">{toeDisplay}</p>
+              </div>
+              <div className="flex gap-2 mt-2">
+                <button
+                  onClick={() => setAdjusted('toeFront', +(toeValue - 0.0625).toFixed(4))}
+                  className="flex-1 py-1.5 bg-[#333] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[36px]"
+                >
+                  - 1/16&quot;
+                </button>
+                <button
+                  onClick={() => setAdjusted('toeFront', +(toeValue + 0.0625).toFixed(4))}
+                  className="flex-1 py-1.5 bg-[#333] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[36px]"
+                >
+                  + 1/16&quot;
+                </button>
+              </div>
               {expandedSection === 'alignment' && (
-                <p className="text-xs text-[#888] mt-2">{aiData?.alignment?.[rec.parameter]?.explanation || rec.explanation}</p>
+                <p className="text-xs text-[#888] mt-2">{aiData?.alignment?.toeFront?.explanation || rec.explanation}</p>
               )}
             </div>
-          ))}
-        </div>
-        {/* Toe */}
-        {recs.alignment.filter(r => r.parameter === 'toeFront').map(rec => (
-          <div key={rec.parameter} className="bg-[#252525] rounded-md p-3 mt-3">
-            <div className="flex justify-between items-center">
-              <p className="text-[10px] text-[#666] uppercase">{rec.label}</p>
-              <p className="font-mono text-lg font-medium">{rec.value}</p>
-            </div>
-            {expandedSection === 'alignment' && (
-              <p className="text-xs text-[#888] mt-2">{aiData?.alignment?.toeFront?.explanation || rec.explanation}</p>
-            )}
-          </div>
-        ))}
+          )
+        })}
       </SetupSection>
 
-      {/* Tire Pressures */}
+      {/* Tire Pressures — adjustable with tire-specific ranges */}
       <SetupSection
         title="Tire Pressure"
         unit="psi"
@@ -384,16 +475,21 @@ export default function SetupCalculator() {
               unit={rec.unit}
               rangeLow={rec.rangeLow!}
               rangeHigh={rec.rangeHigh!}
+              step={1}
               explanation={aiData?.tirePressures?.[rec.parameter]?.explanation || rec.explanation}
               expanded={expandedSection === 'tires'}
-              showStepper
               onAdjust={(v) => setAdjusted(rec.parameter, v)}
+              isLocked={locked.has(rec.parameter)}
+              onToggleLock={() => toggleLock(rec.parameter)}
             />
           ))}
         </div>
+        <p className="text-[10px] text-[#555] mt-2">
+          Ranges based on {selectedTire.label} ({selectedTire.surface}) compound
+        </p>
       </SetupSection>
 
-      {/* Weight Distribution */}
+      {/* Weight Distribution — adjustable */}
       <SetupSection
         title="Weight"
         unit=""
@@ -401,40 +497,56 @@ export default function SetupCalculator() {
         onToggle={() => setExpandedSection(expandedSection === 'weight' ? null : 'weight')}
         aiExplanation={aiData?.weight ? Object.values(aiData.weight).map(r => r.explanation).join(' ') : undefined}
       >
-        {/* Car diagram */}
+        {/* Corner weights — adjustable */}
         <div className="bg-[#252525] rounded-md p-4">
+          <p className="text-[10px] text-[#666] uppercase mb-3 text-center">Corner Weights (lbs)</p>
           <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto">
-            <CornerWeight label="LF" value={currentSetup.cornerWeightLF} />
-            <CornerWeight label="RF" value={currentSetup.cornerWeightRF} />
-            <CornerWeight label="LR" value={currentSetup.cornerWeightLR} />
-            <CornerWeight label="RR" value={currentSetup.cornerWeightRR} />
+            <CornerWeightStepper label="LF" value={getAdjusted('cornerWeightLF', currentSetup.cornerWeightLF)} onAdjust={(v) => setAdjusted('cornerWeightLF', v)} />
+            <CornerWeightStepper label="RF" value={getAdjusted('cornerWeightRF', currentSetup.cornerWeightRF)} onAdjust={(v) => setAdjusted('cornerWeightRF', v)} />
+            <CornerWeightStepper label="LR" value={getAdjusted('cornerWeightLR', currentSetup.cornerWeightLR)} onAdjust={(v) => setAdjusted('cornerWeightLR', v)} />
+            <CornerWeightStepper label="RR" value={getAdjusted('cornerWeightRR', currentSetup.cornerWeightRR)} onAdjust={(v) => setAdjusted('cornerWeightRR', v)} />
           </div>
-          <div className="grid grid-cols-2 gap-4 mt-4 text-center text-sm font-mono">
-            <div>
-              <span className="text-[#666]">Total</span>
-              <p className="font-semibold">{currentSetup.totalWeight.toLocaleString()}</p>
-            </div>
-            <div>
-              <span className="text-[#666]">Cross-Wt</span>
-              <p className="font-semibold text-[#FF8A00]">{currentSetup.crossWeightPct}%</p>
-            </div>
-            <div>
-              <span className="text-[#666]">Left %</span>
-              <StatusValue value={currentSetup.leftPct} target={raceType === 'figure-8' ? 50 : 55} tolerance={2} unit="%" />
-            </div>
-            <div>
-              <span className="text-[#666]">Rear %</span>
-              <StatusValue value={currentSetup.rearPct} target={raceType === 'figure-8' ? 50 : 49} tolerance={2} unit="%" />
-            </div>
-          </div>
-          {/* Rules compliance */}
-          <div className="flex gap-3 mt-4 justify-center text-xs">
-            <RuleCheck passed={currentSetup.totalWeight >= 3300} label="Min 3,300 lbs" />
-            {raceType === 'oval' && <RuleCheck passed={currentSetup.leftPct >= 54} label="55% Left" />}
-            {raceType === 'oval' && <RuleCheck passed={currentSetup.rearPct >= 48} label="49% Rear" />}
-          </div>
+          {/* Computed totals */}
+          {(() => {
+            const lf = getAdjusted('cornerWeightLF', currentSetup.cornerWeightLF)
+            const rf = getAdjusted('cornerWeightRF', currentSetup.cornerWeightRF)
+            const lr = getAdjusted('cornerWeightLR', currentSetup.cornerWeightLR)
+            const rr = getAdjusted('cornerWeightRR', currentSetup.cornerWeightRR)
+            const total = lf + rf + lr + rr
+            const cross = total > 0 ? ((rf + lr) / total * 100) : 0
+            const left = total > 0 ? ((lf + lr) / total * 100) : 0
+            const rear = total > 0 ? ((lr + rr) / total * 100) : 0
+            return (
+              <>
+                <div className="grid grid-cols-2 gap-4 mt-4 text-center text-sm font-mono">
+                  <div>
+                    <span className="text-[#666]">Total</span>
+                    <p className="font-semibold">{total.toLocaleString()}</p>
+                  </div>
+                  <div>
+                    <span className="text-[#666]">Cross-Wt</span>
+                    <p className="font-semibold text-[#FF8A00]">{cross.toFixed(1)}%</p>
+                  </div>
+                  <div>
+                    <span className="text-[#666]">Left %</span>
+                    <StatusValue value={+left.toFixed(1)} target={raceType === 'figure-8' ? 50 : 55} tolerance={2} unit="%" />
+                  </div>
+                  <div>
+                    <span className="text-[#666]">Rear %</span>
+                    <StatusValue value={+rear.toFixed(1)} target={raceType === 'figure-8' ? 50 : 49} tolerance={2} unit="%" />
+                  </div>
+                </div>
+                {/* Rules compliance */}
+                <div className="flex gap-3 mt-4 justify-center text-xs">
+                  <RuleCheck passed={total >= 3300} label="Min 3,300 lbs" />
+                  {raceType === 'oval' && <RuleCheck passed={left >= 54} label="55% Left" />}
+                  {raceType === 'oval' && <RuleCheck passed={rear >= 48} label="49% Rear" />}
+                </div>
+              </>
+            )
+          })()}
         </div>
-        {/* Weight targets */}
+        {/* Weight targets — informational */}
         {recs.weight.map(rec => (
           <div key={rec.parameter} className="bg-[#252525] rounded-md p-3 mt-3">
             <div className="flex justify-between items-center">
@@ -502,16 +614,31 @@ function SetupSection({ title, unit, expanded, onToggle, children, aiExplanation
   )
 }
 
-function SetupValueCard({ label, value, unit, rangeLow, rangeHigh, explanation, expanded, showStepper, onAdjust }: {
-  label: string; value: number; unit: string; rangeLow: number; rangeHigh: number; explanation: string; expanded: boolean; showStepper?: boolean; onAdjust: (v: number) => void
+function SetupValueCard({ label, value, unit, rangeLow, rangeHigh, step = 1, formatValue, explanation, expanded, onAdjust, isLocked, onToggleLock }: {
+  label: string; value: number; unit: string; rangeLow: number; rangeHigh: number; step?: number; formatValue?: (v: number) => string; explanation: string; expanded: boolean; onAdjust: (v: number) => void; isLocked?: boolean; onToggleLock?: () => void
 }) {
   const pct = Math.max(0, Math.min(100, ((value - rangeLow) / (rangeHigh - rangeLow)) * 100))
+  const display = formatValue ? formatValue(value) : String(value)
 
   return (
-    <div className="bg-[#252525] rounded-md p-3">
-      <p className="text-[10px] text-[#666] uppercase">{label}</p>
+    <div className={`bg-[#252525] rounded-md p-3 ${isLocked ? 'ring-1 ring-[#FF8A00]/40' : ''}`}>
+      <div className="flex items-center justify-between">
+        <p className="text-[10px] text-[#666] uppercase">{label}</p>
+        {onToggleLock && (
+          <button
+            onClick={onToggleLock}
+            className={`p-1 rounded transition-colors ${isLocked ? 'text-[#FF8A00]' : 'text-[#444] hover:text-[#666]'}`}
+            title={isLocked ? 'Locked — AI will keep this value' : 'Unlocked — AI can change this'}
+          >
+            {isLocked ? (
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/></svg>
+            ) : (
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h2c0-1.66 1.34-3 3-3s3 1.34 3 3v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2z"/></svg>
+            )}
+          </button>
+        )}</div>
       <div className="flex items-baseline gap-1 mt-1">
-        <span className="font-mono text-xl font-medium">{value}</span>
+        <span className="font-mono text-xl font-medium">{display}</span>
         <span className="text-xs text-[#666]">{unit}</span>
       </div>
       {/* Range bar */}
@@ -523,32 +650,44 @@ function SetupValueCard({ label, value, unit, rangeLow, rangeHigh, explanation, 
         <span>{rangeHigh}</span>
       </div>
       {/* Stepper buttons */}
-      {showStepper && (
-        <div className="flex gap-2 mt-2">
-          <button
-            onClick={() => onAdjust(Math.max(rangeLow - 2, value - 1))}
-            className="flex-1 py-1.5 bg-[#333] rounded text-sm font-mono hover:bg-[#444] transition-colors min-h-[36px]"
-          >
-            -
-          </button>
-          <button
-            onClick={() => onAdjust(Math.min(rangeHigh + 2, value + 1))}
-            className="flex-1 py-1.5 bg-[#333] rounded text-sm font-mono hover:bg-[#444] transition-colors min-h-[36px]"
-          >
-            +
-          </button>
-        </div>
-      )}
+      <div className="flex gap-2 mt-2">
+        <button
+          onClick={() => onAdjust(+(Math.max(rangeLow - step * 2, value - step)).toFixed(4))}
+          className="flex-1 py-1.5 bg-[#333] rounded text-sm font-mono hover:bg-[#444] transition-colors min-h-[36px]"
+        >
+          -
+        </button>
+        <button
+          onClick={() => onAdjust(+(Math.min(rangeHigh + step * 2, value + step)).toFixed(4))}
+          className="flex-1 py-1.5 bg-[#333] rounded text-sm font-mono hover:bg-[#444] transition-colors min-h-[36px]"
+        >
+          +
+        </button>
+      </div>
       {expanded && <p className="text-xs text-[#888] mt-2">{explanation}</p>}
     </div>
   )
 }
 
-function CornerWeight({ label, value }: { label: string; value: number }) {
+function CornerWeightStepper({ label, value, onAdjust }: { label: string; value: number; onAdjust: (v: number) => void }) {
   return (
     <div className="bg-[#333] rounded-md p-3 text-center">
       <p className="font-mono text-lg font-semibold">{value}</p>
       <p className="text-[10px] text-[#666] uppercase">{label}</p>
+      <div className="flex gap-1 mt-2">
+        <button
+          onClick={() => onAdjust(Math.max(0, value - 5))}
+          className="flex-1 py-1 bg-[#252525] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[32px]"
+        >
+          -5
+        </button>
+        <button
+          onClick={() => onAdjust(value + 5)}
+          className="flex-1 py-1 bg-[#252525] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[32px]"
+        >
+          +5
+        </button>
+      </div>
     </div>
   )
 }

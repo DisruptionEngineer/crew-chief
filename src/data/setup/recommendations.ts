@@ -1,4 +1,5 @@
 import type { Car, TrackCondition, RaceType, SetupRecommendations } from '@/lib/types'
+import type { TireCompound } from './tires'
 
 // Condition multipliers for spring rates
 const conditionSpringMultiplier: Record<TrackCondition, number> = {
@@ -86,11 +87,15 @@ export function getSetupRecommendations(
   car: Car,
   condition: TrackCondition,
   raceType: RaceType,
+  tireCompound?: TireCompound,
 ): SetupRecommendations {
   const base = baseSpringRates[car.id] || baseSpringRates['monte-carlo-75']
   const mult = conditionSpringMultiplier[condition]
   const align = raceType === 'figure-8' ? figure8Alignment : ovalAlignment
-  const pressures = tirePressureRanges[condition]
+  // Use tire compound pressure range if provided, otherwise fall back to condition-based
+  const pressures = tireCompound
+    ? tireCompound.pressureRange
+    : tirePressureRanges[condition]
   const isF8 = raceType === 'figure-8'
 
   // Spring calculations
