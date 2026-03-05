@@ -1,6 +1,6 @@
 export const STRIPE_CONFIG = {
   priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID!,
-  productId: 'prod_U5caf6k0le6syu',
+  productId: 'prod_U5qKr4hvVOLSID',
   price: 999, // cents
   currency: 'usd',
   interval: 'month' as const,
