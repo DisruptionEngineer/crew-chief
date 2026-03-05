@@ -19,6 +19,8 @@ function mapDbTrack(row: Record<string, unknown>): Track {
     banking: Number(row.banking) || 0,
     shape: (row.shape as string) || 'oval',
     elevation: Number(row.elevation) || 0,
+    latitude: row.latitude != null ? Number(row.latitude) : null,
+    longitude: row.longitude != null ? Number(row.longitude) : null,
     notes: (row.notes as string) || '',
   }
 }

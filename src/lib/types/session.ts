@@ -47,6 +47,8 @@ export interface Track {
   banking: number
   shape: string
   elevation: number
+  latitude: number | null
+  longitude: number | null
   notes: string
 }
 

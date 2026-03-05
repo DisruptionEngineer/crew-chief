@@ -112,6 +112,8 @@ export default function OnboardingPage() {
         banking: parseInt(data.trackBanking) || 0,
         shape: 'oval',
         elevation: 0,
+        latitude: null,
+        longitude: null,
         notes: '',
       }
 

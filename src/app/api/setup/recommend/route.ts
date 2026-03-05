@@ -15,6 +15,7 @@ You understand:
 - Weight distribution and cross-weight percentage
 - How track conditions (heavy/tacky/moderate/dry/slick) affect setup choices
 - The difference between figure-8 (symmetric) and oval (asymmetric) setups
+- How weather affects setup: temperature affects tire pressures (~1 psi per 10°F), humidity/dew point affects track grip, barometric pressure affects engine performance
 
 Always respond with valid JSON matching the exact schema requested. Be specific with numbers, not ranges. Every recommendation should have a concise explanation (1-2 sentences max).`
 
@@ -45,6 +46,15 @@ interface SetupRequest {
   currentSetup?: Record<string, unknown>
   tireCompound?: string
   lockedValues?: Record<string, number>
+  weather?: {
+    temp: number
+    humidity: number
+    dewPoint: number
+    pressure: number
+    windSpeed: number
+    windDirection: number
+    condition: string
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -119,6 +129,14 @@ export async function POST(request: NextRequest) {
 **Conditions:** ${body.condition}
 **Race Type:** ${body.raceType}
 ${body.tireCompound ? `**Tire Compound:** ${body.tireCompound}` : ''}
+${body.weather ? `**Current Weather at Track:**
+- Temperature: ${body.weather.temp}°F
+- Humidity: ${body.weather.humidity}%
+- Dew Point: ${body.weather.dewPoint}°F (spread: ${body.weather.temp - body.weather.dewPoint}°)
+- Barometric Pressure: ${body.weather.pressure} inHg
+- Wind: ${body.weather.windSpeed} mph from ${body.weather.windDirection}°
+- Conditions: ${body.weather.condition}
+Use this real-time weather data to fine-tune tire pressures and overall setup. High humidity/tight dew point spread means a slicker track surface. High barometric pressure generally means more engine power. Adjust accordingly.` : ''}
 
 ${body.currentSetup ? `**Current Setup (for reference):** ${JSON.stringify(body.currentSetup)}` : ''}
 ${body.lockedValues && Object.keys(body.lockedValues).length > 0 ? `

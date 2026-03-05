@@ -18,6 +18,8 @@ export const mansfieldSpeedway: Track = {
   banking: 16,
   shape: 'Semi-banked oval',
   elevation: 1240,
+  latitude: 40.7989,
+  longitude: -82.5393,
   notes: 'One of Ohio\'s premier dirt ovals. Reopening in 2026 with major facility upgrades. High banking (16°) rewards cars that can get through the middle and carry speed off the corners. Track elevation ~1,240 ft — slightly thinner air than lake-level Painesville.',
 }
 

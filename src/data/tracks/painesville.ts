@@ -10,6 +10,8 @@ export const painesvilleSpeedway: Track = {
   banking: 5,
   shape: 'Oval with Figure 8 crossover',
   elevation: 631,
+  latitude: 41.7244,
+  longitude: -81.2457,
   notes: 'Smallest track associated with NASCAR. Only weekly Figure 8 venue in Ohio. Concrete corners have less grip than asphalt straights — car may push entering corners. 2026 under new management (Scott Skufca). Radio frequency: 469.5000 (receive only).',
 }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useCar } from '@/hooks/useCar'
 import { useGarage } from '@/hooks/useGarage'
 import { useMyTracks } from '@/hooks/useMyTracks'
@@ -11,6 +11,7 @@ import { getSetupRecommendations } from '@/data/setup/recommendations'
 import { getTiresByBrand, getTireCompound, getDefaultTireForSurface, getEffectivePressureRange } from '@/data/setup/tires'
 import type { TireCompound } from '@/data/setup/tires'
 import type { TrackCondition, RaceType, Track } from '@/lib/types'
+import type { WeatherData } from '@/app/api/weather/route'
 
 const conditions: { value: TrackCondition; label: string }[] = [
   { value: 'heavy', label: 'Heavy' },
@@ -68,6 +69,25 @@ export default function SetupCalculator() {
 
   // Get effective pressure range for the selected tire + track surface
   const effectivePressureRange = getEffectivePressureRange(selectedTire, trackSurface)
+
+  // Weather for the selected track
+  const [weather, setWeather] = useState<WeatherData | null>(null)
+  const [weatherLoading, setWeatherLoading] = useState(false)
+
+  useEffect(() => {
+    if (!selectedTrack?.latitude || !selectedTrack?.longitude) {
+      setWeather(null)
+      return
+    }
+    let cancelled = false
+    setWeatherLoading(true)
+    fetch(`/api/weather?lat=${selectedTrack.latitude}&lng=${selectedTrack.longitude}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (!cancelled) setWeather(data) })
+      .catch(() => { if (!cancelled) setWeather(null) })
+      .finally(() => { if (!cancelled) setWeatherLoading(false) })
+    return () => { cancelled = true }
+  }, [selectedTrack?.latitude, selectedTrack?.longitude])
 
   const recs = getSetupRecommendations(currentCar, condition, raceType, selectedTire, trackSurface)
 
@@ -192,6 +212,15 @@ export default function SetupCalculator() {
             length: selectedTrack.length,
             surface: selectedTrack.surface,
             banking: selectedTrack.banking,
+          } : undefined,
+          weather: weather ? {
+            temp: weather.current.temp,
+            humidity: weather.current.humidity,
+            dewPoint: weather.current.dewPoint,
+            pressure: weather.current.pressure,
+            windSpeed: weather.current.windSpeed,
+            windDirection: weather.current.windDirection,
+            condition: weather.current.condition,
           } : undefined,
           condition,
           raceType,
@@ -332,11 +361,48 @@ export default function SetupCalculator() {
               </option>
             ))}
           </select>
-          {selectedTrack && (
+          {selectedTrack && !weather && (
             <p className="text-[10px] text-[#555] mt-1.5">
               {selectedTrack.location} &bull; {selectedTrack.surface} &bull; {selectedTrack.banking}° banking
             </p>
           )}
+        </div>
+      )}
+
+      {/* Weather at Track */}
+      {selectedTrack && (weatherLoading || weather) && (
+        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-[#4FC3F7]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+              </svg>
+              <span className="text-xs font-bold text-[#4FC3F7] uppercase tracking-wider">Weather at Track</span>
+            </div>
+            <span className="text-[10px] text-[#555]">{selectedTrack.name}</span>
+          </div>
+          {weatherLoading ? (
+            <div className="flex items-center gap-2 text-xs text-[#666]">
+              <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" opacity="0.25" /><path d="M4 12a8 8 0 018-8" /></svg>
+              Loading conditions...
+            </div>
+          ) : weather ? (
+            <>
+              <div className="grid grid-cols-4 gap-3">
+                <WeatherStat label="Temp" value={`${weather.current.temp}°`} sub={`Feels ${weather.current.feelsLike}°`} />
+                <WeatherStat label="Humidity" value={`${weather.current.humidity}%`} sub={`DP ${weather.current.dewPoint}°`} />
+                <WeatherStat label="Wind" value={`${weather.current.windSpeed}`} sub={`G${weather.current.windGusts} ${windDir(weather.current.windDirection)}`} unit="mph" />
+                <WeatherStat label="Baro" value={`${weather.current.pressure}`} sub={weather.current.condition} unit="inHg" />
+              </div>
+              {/* Dew point warning */}
+              {weather.current.temp - weather.current.dewPoint <= 5 && (
+                <p className="text-[10px] text-[#FF8A00] mt-2 flex items-center gap-1">
+                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+                  Dew point spread is tight ({weather.current.temp - weather.current.dewPoint}°) — track may be slippery
+                </p>
+              )}
+            </>
+          ) : null}
         </div>
       )}
 
@@ -626,12 +692,14 @@ export default function SetupCalculator() {
                     <StatusValue value={+rear.toFixed(1)} target={raceType === 'figure-8' ? 50 : 49} tolerance={2} unit="%" />
                   </div>
                 </div>
-                {/* Rules compliance */}
-                <div className="flex gap-3 mt-4 justify-center text-xs">
-                  <RuleCheck passed={total >= 3300} label="Min 3,300 lbs" />
-                  {raceType === 'oval' && <RuleCheck passed={left >= 54} label="55% Left" />}
-                  {raceType === 'oval' && <RuleCheck passed={rear >= 48} label="49% Rear" />}
-                </div>
+                {/* Rules compliance — shown when expanded */}
+                {expandedSection === 'weight' && (
+                  <div className="flex gap-3 mt-4 justify-center text-[10px] text-[#555]">
+                    <RuleCheck passed={total >= 3300} label="Min 3,300 lbs" />
+                    {raceType === 'oval' && <RuleCheck passed={left >= 54} label="55% Left" />}
+                    {raceType === 'oval' && <RuleCheck passed={rear >= 48} label="49% Rear" />}
+                  </div>
+                )}
               </>
             )
           })()}
@@ -794,4 +862,22 @@ function RuleCheck({ passed, label }: { passed: boolean; label: string }) {
       {passed ? '✓' : '✗'} {label}
     </span>
   )
+}
+
+function WeatherStat({ label, value, sub, unit }: { label: string; value: string; sub: string; unit?: string }) {
+  return (
+    <div className="text-center">
+      <p className="text-[10px] text-[#666] uppercase">{label}</p>
+      <p className="font-mono text-lg font-medium mt-0.5">
+        {value}
+        {unit && <span className="text-[10px] text-[#666] ml-0.5">{unit}</span>}
+      </p>
+      <p className="text-[10px] text-[#555] mt-0.5">{sub}</p>
+    </div>
+  )
+}
+
+function windDir(degrees: number): string {
+  const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW']
+  return dirs[Math.round(degrees / 22.5) % 16]
 }
