@@ -55,6 +55,17 @@ interface SetupRequest {
     windDirection: number
     condition: string
   }
+  raceTimeWeather?: {
+    temp: number
+    humidity: number
+    dewPoint: number
+    pressure: number
+    windSpeed: number
+    windDirection: number
+    precipProbability: number
+    condition: string
+    raceTime: string
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -137,6 +148,15 @@ ${body.weather ? `**Current Weather at Track:**
 - Wind: ${body.weather.windSpeed} mph from ${body.weather.windDirection}°
 - Conditions: ${body.weather.condition}
 Use this real-time weather data to fine-tune tire pressures and overall setup. High humidity/tight dew point spread means a slicker track surface. High barometric pressure generally means more engine power. Adjust accordingly.` : ''}
+${body.raceTimeWeather ? `**Forecast at Race Time (${new Date(body.raceTimeWeather.raceTime).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}):**
+- Temperature: ${body.raceTimeWeather.temp}°F
+- Humidity: ${body.raceTimeWeather.humidity}%
+- Dew Point: ${body.raceTimeWeather.dewPoint}°F (spread: ${body.raceTimeWeather.temp - body.raceTimeWeather.dewPoint}°)
+- Barometric Pressure: ${body.raceTimeWeather.pressure} inHg
+- Wind: ${body.raceTimeWeather.windSpeed} mph from ${body.raceTimeWeather.windDirection}°
+- Precipitation Probability: ${body.raceTimeWeather.precipProbability}%
+- Conditions: ${body.raceTimeWeather.condition}
+IMPORTANT: Optimize the setup for these RACE-TIME conditions, not current conditions. The car needs to be fast when the green flag drops. Set tire pressures for the expected race-time temperature, not current temp.` : ''}
 
 ${body.currentSetup ? `**Current Setup (for reference):** ${JSON.stringify(body.currentSetup)}` : ''}
 ${body.lockedValues && Object.keys(body.lockedValues).length > 0 ? `

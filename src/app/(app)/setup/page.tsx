@@ -12,6 +12,7 @@ import { getTiresByBrand, getTireCompound, getDefaultTireForSurface, getEffectiv
 import type { TireCompound } from '@/data/setup/tires'
 import type { TrackCondition, RaceType, Track } from '@/lib/types'
 import type { WeatherData } from '@/app/api/weather/route'
+import { getNextRaceEvent } from '@/data/tracks/schedules'
 
 const conditions: { value: TrackCondition; label: string }[] = [
   { value: 'heavy', label: 'Heavy' },
@@ -89,12 +90,33 @@ export default function SetupCalculator() {
     return () => { cancelled = true }
   }, [selectedTrack?.latitude, selectedTrack?.longitude])
 
-  const recs = getSetupRecommendations(currentCar, condition, raceType, selectedTire, trackSurface)
+  // Race-time forecast — find the next event and match to hourly forecast
+  const nextRace = selectedTrack ? getNextRaceEvent(selectedTrack.id) : null
+  const raceTimeForecast = (() => {
+    if (!nextRace || !weather?.hourly?.length) return null
+    const raceMs = nextRace.raceTime.getTime()
+    // Find the hourly forecast entry closest to race time
+    let closest = weather.hourly[0]
+    let closestDiff = Math.abs(new Date(closest.time).getTime() - raceMs)
+    for (const entry of weather.hourly) {
+      const diff = Math.abs(new Date(entry.time).getTime() - raceMs)
+      if (diff < closestDiff) {
+        closest = entry
+        closestDiff = diff
+      }
+    }
+    // Only show if within 4 hours of a forecast point (i.e. the forecast covers race time)
+    if (closestDiff > 4 * 60 * 60 * 1000) return null
+    return closest
+  })()
 
   // All adjustable values keyed by parameter name
   const [adjustments, setAdjustments] = useState<Record<string, number>>({})
   // Locked parameters — AI won't overwrite these
   const [locked, setLocked] = useState<Set<string>>(new Set())
+
+  // Recommendations — recalculates when adjustments change (cross-parameter physics)
+  const recs = getSetupRecommendations(currentCar, condition, raceType, selectedTire, trackSurface, adjustments)
 
   const getAdjusted = (param: string, baseValue: number) => {
     return adjustments[param] ?? baseValue
@@ -221,6 +243,17 @@ export default function SetupCalculator() {
             windSpeed: weather.current.windSpeed,
             windDirection: weather.current.windDirection,
             condition: weather.current.condition,
+          } : undefined,
+          raceTimeWeather: raceTimeForecast ? {
+            temp: raceTimeForecast.temp,
+            humidity: raceTimeForecast.humidity,
+            dewPoint: raceTimeForecast.dewPoint,
+            pressure: raceTimeForecast.pressure,
+            windSpeed: raceTimeForecast.windSpeed,
+            windDirection: raceTimeForecast.windDirection,
+            precipProbability: raceTimeForecast.precipProbability,
+            condition: raceTimeForecast.condition,
+            raceTime: nextRace!.raceTime.toISOString(),
           } : undefined,
           condition,
           raceType,
@@ -388,6 +421,8 @@ export default function SetupCalculator() {
             </div>
           ) : weather ? (
             <>
+              {/* Current Conditions */}
+              <p className="text-[10px] text-[#555] uppercase tracking-wider mb-2">Right Now</p>
               <div className="grid grid-cols-4 gap-3">
                 <WeatherStat label="Temp" value={`${weather.current.temp}°`} sub={`Feels ${weather.current.feelsLike}°`} />
                 <WeatherStat label="Humidity" value={`${weather.current.humidity}%`} sub={`DP ${weather.current.dewPoint}°`} />
@@ -400,6 +435,49 @@ export default function SetupCalculator() {
                   <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
                   Dew point spread is tight ({weather.current.temp - weather.current.dewPoint}°) — track may be slippery
                 </p>
+              )}
+
+              {/* Race-Time Forecast */}
+              {nextRace && raceTimeForecast && (
+                <>
+                  <div className="border-t border-[#333] mt-3 pt-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-1.5">
+                        <svg className="w-3.5 h-3.5 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                          <path d="M3 3v18h18" /><path d="M18 9l-5 5-2-2-4 4" />
+                        </svg>
+                        <span className="text-[10px] text-[#FF8A00] uppercase tracking-wider font-bold">At Race Time</span>
+                      </div>
+                      <span className="text-[10px] text-[#555]">
+                        {new Date(nextRace.raceTime).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                        {' '}
+                        {new Date(nextRace.raceTime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-4 gap-3">
+                      <WeatherStat label="Temp" value={`${raceTimeForecast.temp}°`} sub={`DP ${raceTimeForecast.dewPoint}°`} />
+                      <WeatherStat label="Humidity" value={`${raceTimeForecast.humidity}%`} sub={raceTimeForecast.condition} />
+                      <WeatherStat label="Wind" value={`${raceTimeForecast.windSpeed}`} sub={windDir(raceTimeForecast.windDirection)} unit="mph" />
+                      <WeatherStat label="Rain" value={`${raceTimeForecast.precipProbability}`} sub={raceTimeForecast.precipProbability > 40 ? 'Pack up early?' : 'Looking good'} unit="%" />
+                    </div>
+                    {/* Race-time dew point warning */}
+                    {raceTimeForecast.temp - raceTimeForecast.dewPoint <= 5 && (
+                      <p className="text-[10px] text-[#FF8A00] mt-2 flex items-center gap-1">
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+                        Dew point will be tight at race time — expect a slippery track
+                      </p>
+                    )}
+                    {raceTimeForecast.precipProbability > 60 && (
+                      <p className="text-[10px] text-[#FF1744] mt-1 flex items-center gap-1">
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+                        High rain probability — check for cancellation
+                      </p>
+                    )}
+                    <p className="text-[10px] text-[#444] mt-1.5">
+                      {nextRace.event.event} &bull; {nextRace.event.classes.join(', ')}
+                    </p>
+                  </div>
+                </>
               )}
             </>
           ) : null}
@@ -811,13 +889,23 @@ function SetupValueCard({ label, value, unit, rangeLow, rangeHigh, step = 1, for
       <div className="flex gap-2 mt-2">
         <button
           onClick={() => onAdjust(+(Math.max(rangeLow - step * 2, value - step)).toFixed(4))}
-          className="flex-1 py-1.5 bg-[#333] rounded text-sm font-mono hover:bg-[#444] transition-colors min-h-[36px]"
+          disabled={isLocked}
+          className={`flex-1 py-1.5 rounded text-sm font-mono transition-colors min-h-[36px] ${
+            isLocked
+              ? 'bg-[#2A2A2A] text-[#444] cursor-not-allowed'
+              : 'bg-[#333] hover:bg-[#444]'
+          }`}
         >
           -
         </button>
         <button
           onClick={() => onAdjust(+(Math.min(rangeHigh + step * 2, value + step)).toFixed(4))}
-          className="flex-1 py-1.5 bg-[#333] rounded text-sm font-mono hover:bg-[#444] transition-colors min-h-[36px]"
+          disabled={isLocked}
+          className={`flex-1 py-1.5 rounded text-sm font-mono transition-colors min-h-[36px] ${
+            isLocked
+              ? 'bg-[#2A2A2A] text-[#444] cursor-not-allowed'
+              : 'bg-[#333] hover:bg-[#444]'
+          }`}
         >
           +
         </button>

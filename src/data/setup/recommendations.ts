@@ -90,6 +90,7 @@ export function getSetupRecommendations(
   raceType: RaceType,
   tireCompound?: TireCompound,
   trackSurface?: string,
+  adjustments?: Record<string, number>,
 ): SetupRecommendations {
   const base = baseSpringRates[car.id] || baseSpringRates['monte-carlo-75']
   const mult = conditionSpringMultiplier[condition]
@@ -100,20 +101,55 @@ export function getSetupRecommendations(
     : tirePressureRanges[condition]
   const isF8 = raceType === 'figure-8'
 
+  // Pressure calculations - figure 8 = equal, oval = biased
+  const pFrontMid = (pressures.front[0] + pressures.front[1]) / 2
+  const pRearMid = (pressures.rear[0] + pressures.rear[1]) / 2
+
+  // ── Cross-parameter: tire pressure → spring rate correction ──
+  // Tire acts as a spring in series with the coil spring.
+  // Higher tire pressure = stiffer effective suspension = can soften the coil spring.
+  // Rule of thumb: ±2 psi from baseline → ∓25 lbs/in spring correction.
+  const baselinePLF = isF8 ? Math.round(pFrontMid) : Math.round(pFrontMid - 1)
+  const baselinePRF = Math.round(pFrontMid)
+  const baselinePLR = isF8 ? Math.round(pRearMid) : Math.round(pRearMid - 1)
+  const baselinePRR = Math.round(pRearMid)
+
+  const pressureDeltaLF = (adjustments?.pressureLF != null) ? adjustments.pressureLF - baselinePLF : 0
+  const pressureDeltaRF = (adjustments?.pressureRF != null) ? adjustments.pressureRF - baselinePRF : 0
+  const pressureDeltaLR = (adjustments?.pressureLR != null) ? adjustments.pressureLR - baselinePLR : 0
+  const pressureDeltaRR = (adjustments?.pressureRR != null) ? adjustments.pressureRR - baselinePRR : 0
+
+  // Spring correction: -25 lbs/in per +2 psi (soften spring when tire is stiffer)
+  const springCorrectionLF = Math.round((-pressureDeltaLF / 2) * 25 / 25) * 25
+  const springCorrectionRF = Math.round((-pressureDeltaRF / 2) * 25 / 25) * 25
+  const springCorrectionLR = Math.round((-pressureDeltaLR / 2) * 25 / 25) * 25
+  const springCorrectionRR = Math.round((-pressureDeltaRR / 2) * 25 / 25) * 25
+
   // Spring calculations
   const frontSpring = Math.round(base.front * mult / 25) * 25 // Round to nearest 25
   const rearSpring = Math.round(base.rear * mult / 25) * 25
 
   // For oval, bias springs L/R
   const ovalFrontBias = 50 // LF is 50 lbs stiffer than RF on oval
-  const springLF = isF8 ? frontSpring : frontSpring + ovalFrontBias
-  const springRF = isF8 ? frontSpring : frontSpring - ovalFrontBias
-  const springLR = rearSpring
-  const springRR = isF8 ? rearSpring : rearSpring + 25
+  const springLF = (isF8 ? frontSpring : frontSpring + ovalFrontBias) + springCorrectionLF
+  const springRF = (isF8 ? frontSpring : frontSpring - ovalFrontBias) + springCorrectionRF
+  const springLR = rearSpring + springCorrectionLR
+  const springRR = (isF8 ? rearSpring : rearSpring + 25) + springCorrectionRR
 
-  // Pressure calculations - figure 8 = equal, oval = biased
-  const pFrontMid = (pressures.front[0] + pressures.front[1]) / 2
-  const pRearMid = (pressures.rear[0] + pressures.rear[1]) / 2
+  // ── Cross-parameter: spring rate → camber correction ──
+  // Stiffer springs = less body roll = less dynamic camber gain = need more static camber.
+  // Rule of thumb: ±100 lbs/in from baseline → ±0.25° static camber.
+  const baseSpringLF = isF8 ? frontSpring : frontSpring + ovalFrontBias
+  const baseSpringRF = isF8 ? frontSpring : frontSpring - ovalFrontBias
+  const springDeltaLF = (adjustments?.springLF != null) ? adjustments.springLF - baseSpringLF : 0
+  const springDeltaRF = (adjustments?.springRF != null) ? adjustments.springRF - baseSpringRF : 0
+
+  // More negative camber for stiffer springs (less body roll = less dynamic gain)
+  const camberCorrectionLF = -Math.round((springDeltaLF / 100) * 0.25 * 2) / 2 // Round to 0.5°
+  const camberCorrectionRF = -Math.round((springDeltaRF / 100) * 0.25 * 2) / 2
+
+  const adjustedCamberLF = align.camberLF + camberCorrectionLF
+  const adjustedCamberRF = align.camberRF + camberCorrectionRF
 
   return {
     springs: [
@@ -124,9 +160,10 @@ export function getSetupRecommendations(
         unit: 'lbs/in',
         rangeLow: Math.round(base.front * 0.85 / 25) * 25,
         rangeHigh: Math.round(base.front * 1.15 / 25) * 25,
-        explanation: isF8
+        explanation: (isF8
           ? 'Equal to RF for balanced figure 8 handling in both turn directions.'
-          : 'Stiffer than RF to resist body roll entering left turns on the oval.',
+          : 'Stiffer than RF to resist body roll entering left turns on the oval.')
+          + (springCorrectionLF ? ` Adjusted ${springCorrectionLF > 0 ? '+' : ''}${springCorrectionLF} for tire pressure change.` : ''),
       },
       {
         parameter: 'springRF',
@@ -135,9 +172,10 @@ export function getSetupRecommendations(
         unit: 'lbs/in',
         rangeLow: Math.round(base.front * 0.80 / 25) * 25,
         rangeHigh: Math.round(base.front * 1.10 / 25) * 25,
-        explanation: isF8
+        explanation: (isF8
           ? 'Equal to LF for balanced figure 8 handling.'
-          : 'Softer than LF to allow weight transfer to the outside (right) on left turns.',
+          : 'Softer than LF to allow weight transfer to the outside (right) on left turns.')
+          + (springCorrectionRF ? ` Adjusted ${springCorrectionRF > 0 ? '+' : ''}${springCorrectionRF} for tire pressure change.` : ''),
       },
       {
         parameter: 'springLR',
@@ -146,7 +184,8 @@ export function getSetupRecommendations(
         unit: 'lbs/in',
         rangeLow: Math.round(base.rear * 0.80 / 25) * 25,
         rangeHigh: Math.round(base.rear * 1.20 / 25) * 25,
-        explanation: 'Softer rear springs allow more axle compliance over bumps and improve traction.',
+        explanation: 'Softer rear springs allow more axle compliance over bumps and improve traction.'
+          + (springCorrectionLR ? ` Adjusted ${springCorrectionLR > 0 ? '+' : ''}${springCorrectionLR} for tire pressure change.` : ''),
       },
       {
         parameter: 'springRR',
@@ -155,33 +194,36 @@ export function getSetupRecommendations(
         unit: 'lbs/in',
         rangeLow: Math.round(base.rear * 0.80 / 25) * 25,
         rangeHigh: Math.round(base.rear * 1.25 / 25) * 25,
-        explanation: isF8
+        explanation: (isF8
           ? 'Equal to LR for balanced figure 8 handling.'
-          : 'Slightly stiffer than LR to plant the RR on corner exit.',
+          : 'Slightly stiffer than LR to plant the RR on corner exit.')
+          + (springCorrectionRR ? ` Adjusted ${springCorrectionRR > 0 ? '+' : ''}${springCorrectionRR} for tire pressure change.` : ''),
       },
     ],
     alignment: [
       {
         parameter: 'camberLF',
         label: 'Camber - Left Front',
-        value: align.camberLF,
+        value: adjustedCamberLF,
         unit: 'degrees',
         rangeLow: isF8 ? -3.0 : 1.0,
         rangeHigh: isF8 ? -1.0 : 5.0,
-        explanation: isF8
+        explanation: (isF8
           ? 'Negative camber keeps the tire flat during cornering. Equal on both sides for figure 8.'
-          : 'Positive camber on LF brings the top of the tire outward — during a left turn, the body rolls right, which loads the LF and brings the tire perpendicular to the track.',
+          : 'Positive camber on LF brings the top of the tire outward — during a left turn, the body rolls right, which loads the LF and brings the tire perpendicular to the track.')
+          + (camberCorrectionLF ? ` Adjusted ${camberCorrectionLF > 0 ? '+' : ''}${camberCorrectionLF}° to compensate for spring rate change.` : ''),
       },
       {
         parameter: 'camberRF',
         label: 'Camber - Right Front',
-        value: align.camberRF,
+        value: adjustedCamberRF,
         unit: 'degrees',
         rangeLow: isF8 ? -3.0 : -5.0,
         rangeHigh: isF8 ? -1.0 : -2.0,
-        explanation: isF8
+        explanation: (isF8
           ? 'Matches LF for symmetric figure 8 handling.'
-          : 'Negative camber on the heavily loaded RF maximizes contact patch during left turns.',
+          : 'Negative camber on the heavily loaded RF maximizes contact patch during left turns.')
+          + (camberCorrectionRF ? ` Adjusted ${camberCorrectionRF > 0 ? '+' : ''}${camberCorrectionRF}° to compensate for spring rate change.` : ''),
       },
       {
         parameter: 'casterLF',
