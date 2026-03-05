@@ -9,6 +9,7 @@ import { useSubscriptionContext } from '@/components/subscription/SubscriptionPr
 const navItems = [
   { href: '/dashboard', label: 'Home', icon: HomeIcon, isPro: false },
   { href: '/garage', label: 'Garage', icon: GarageIcon, isPro: false },
+  { href: '/tracks', label: 'Tracks', icon: TrackIcon, isPro: false },
   { href: '/setup', label: 'Setup', icon: WrenchIcon, isPro: false },
   { href: '/engine', label: 'Engine', icon: EngineIcon, isPro: true },
   { href: '/calculators', label: 'Calc', icon: CalculatorIcon, isPro: false },
@@ -251,6 +252,17 @@ function CalculatorIcon({ className }: { className?: string }) {
       <line x1="16" y1="14" x2="16" y2="14.01" />
       <line x1="8" y1="18" x2="8" y2="18.01" />
       <line x1="12" y1="18" x2="16" y2="18" />
+    </svg>
+  )
+}
+
+function TrackIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 6l3-3h12l3 3" />
+      <path d="M3 6v14a2 2 0 002 2h14a2 2 0 002-2V6" />
+      <ellipse cx="12" cy="13" rx="7" ry="5" />
+      <ellipse cx="12" cy="13" rx="3" ry="2" />
     </svg>
   )
 }

@@ -154,6 +154,15 @@ export default function OnboardingPage() {
               is_primary: true,
             }, { onConflict: 'user_id,car_id' })
           }
+
+          // Add selected track to user's tracks
+          if (data.selectedTrackId) {
+            await supabase.from('user_tracks').upsert({
+              user_id: user.id,
+              track_id: data.selectedTrackId,
+              is_primary: true,
+            }, { onConflict: 'user_id,track_id' })
+          }
         } catch {
           // Supabase save failed — local copy exists as fallback
         }
