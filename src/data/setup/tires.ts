@@ -138,8 +138,8 @@ export function getTireCompound(id: string): TireCompound | undefined {
 
 /** Default tire for a given surface */
 export function getDefaultTireForSurface(surface: 'dirt' | 'asphalt' | 'mixed' | 'concrete'): TireCompound {
-  if (surface === 'asphalt' || surface === 'concrete') {
-    return tireCompounds.find(t => t.id === 'hoosier-f45')!
+  if (surface === 'asphalt' || surface === 'concrete' || surface === 'mixed') {
+    return tireCompounds.find(t => t.id === 'hoosier-g60')! // G60 works on all hard surfaces
   }
   return tireCompounds.find(t => t.id === 'hoosier-g60')!
 }
@@ -152,8 +152,10 @@ export function getEffectivePressureRange(
   trackSurface?: string,
 ): PressureRange {
   if (tire.pressureByTrackSurface && trackSurface) {
-    const surface = trackSurface === 'concrete' ? 'asphalt'
-      : (trackSurface === 'dirt' || trackSurface === 'asphalt') ? trackSurface
+    // Map track surfaces: concrete & mixed (asphalt/concrete combos) → asphalt pressures
+    const surface = (trackSurface === 'asphalt' || trackSurface === 'concrete' || trackSurface === 'mixed')
+      ? 'asphalt'
+      : trackSurface === 'dirt' ? 'dirt'
       : undefined
     if (surface && tire.pressureByTrackSurface[surface]) {
       return tire.pressureByTrackSurface[surface]

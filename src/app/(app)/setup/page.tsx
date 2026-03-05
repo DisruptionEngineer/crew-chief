@@ -288,10 +288,11 @@ export default function SetupCalculator() {
               // Auto-select tire compound for new track surface
               if (track) {
                 const surface = track.surface
-                if (surface === 'asphalt' || surface === 'concrete') {
+                const isHardSurface = surface === 'asphalt' || surface === 'concrete' || surface === 'mixed'
+                if (isHardSurface) {
                   if (selectedTire.surface === 'dirt') {
-                    const asphaltTire = getDefaultTireForSurface('asphalt')
-                    setSelectedTire(asphaltTire)
+                    const hardTire = getDefaultTireForSurface(surface)
+                    setSelectedTire(hardTire)
                     setAdjustments(prev => {
                       const next = { ...prev }
                       delete next.pressureLF; delete next.pressureRF
