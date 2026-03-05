@@ -1,18 +1,17 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useSupabase } from '@/components/shared/SupabaseProvider'
 
 export default function SignUpPage() {
-  const router = useRouter()
   const { supabase } = useSupabase()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [confirmationSent, setConfirmationSent] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,6 +32,9 @@ export default function SignUpPage() {
     const { error: authError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback?next=/onboarding`,
+      },
     })
 
     if (authError) {
@@ -41,8 +43,46 @@ export default function SignUpPage() {
       return
     }
 
-    router.push('/onboarding')
-    router.refresh()
+    setConfirmationSent(true)
+    setLoading(false)
+  }
+
+  if (confirmationSent) {
+    return (
+      <div className="w-full max-w-sm space-y-6 text-center">
+        <div className="w-16 h-16 mx-auto rounded-full bg-[#FFD600]/10 border border-[#FFD600]/30 flex items-center justify-center">
+          <svg className="w-8 h-8 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+        </div>
+        <div>
+          <h1 className="text-xl font-bold text-[#F5F5F5]">Check Your Email</h1>
+          <p className="text-sm text-[#888] mt-2">
+            We sent a confirmation link to{' '}
+            <span className="text-[#FFD600] font-medium">{email}</span>.
+            Click it to activate your account.
+          </p>
+        </div>
+        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
+          <p className="text-xs text-[#666]">
+            Don&apos;t see it? Check your spam folder, or{' '}
+            <button
+              onClick={() => setConfirmationSent(false)}
+              className="text-[#FFD600] hover:text-[#FFEA00] font-semibold"
+            >
+              try again
+            </button>.
+          </p>
+        </div>
+        <p className="text-sm text-[#888]">
+          Already confirmed?{' '}
+          <Link href="/sign-in" className="text-[#FFD600] hover:text-[#FFEA00] font-semibold">
+            Sign In
+          </Link>
+        </p>
+      </div>
+    )
   }
 
   return (
@@ -94,6 +134,13 @@ export default function SignUpPage() {
             <p className="text-xs text-[#FF1744]">{error}</p>
           </div>
         )}
+
+        <p className="text-[11px] text-[#666]">
+          By creating an account, you agree to our{' '}
+          <Link href="/terms" className="text-[#888] hover:text-[#F5F5F5] underline">Terms of Service</Link>
+          {' '}and{' '}
+          <Link href="/privacy" className="text-[#888] hover:text-[#F5F5F5] underline">Privacy Policy</Link>.
+        </p>
 
         <button
           type="submit"

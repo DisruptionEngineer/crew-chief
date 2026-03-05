@@ -139,6 +139,78 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ===== PRICING ===== */}
+      <section id="pricing" className="py-16 md:py-24 border-t border-[#333]/30">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
+          <div className="text-center mb-12">
+            <p className="text-[10px] font-semibold text-[#FFD600] uppercase tracking-widest mb-2">Simple Pricing</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">Free to Start. Pro When You&apos;re Ready.</h2>
+            <p className="text-[#888] max-w-md mx-auto">
+              Everything you need to get faster is free. Upgrade to Pro for advanced tools.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+            {/* Free Plan */}
+            <div className="bg-[#1A1A1A] border border-[#333] rounded-xl p-6">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-[#F5F5F5]">Free</h3>
+                <div className="mt-2">
+                  <span className="text-3xl font-bold text-[#F5F5F5]">$0</span>
+                  <span className="text-sm text-[#666]">/forever</span>
+                </div>
+              </div>
+              <ul className="space-y-2.5 mb-6">
+                {['Setup Calculator', 'Diagnostic Troubleshooter', 'Gear & Offset Calculators', 'Rulebook & Tech Checklist', 'Single Car Profile'].map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-sm text-[#AAA]">
+                    <svg className="w-4 h-4 text-[#00E676] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/sign-up"
+                className="block w-full py-3 px-4 text-center border border-[#333] text-[#F5F5F5] font-semibold text-sm rounded-lg hover:bg-[#252525] transition-colors"
+              >
+                Get Started Free
+              </Link>
+            </div>
+
+            {/* Pro Plan */}
+            <div className="bg-[#1A1A1A] border-2 border-[#FFD600]/40 rounded-xl p-6 relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="bg-[#FFD600] text-[#0D0D0D] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">Most Popular</span>
+              </div>
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-[#FFD600]">Pro</h3>
+                <div className="mt-2">
+                  <span className="text-3xl font-bold text-[#F5F5F5]">$9.99</span>
+                  <span className="text-sm text-[#666]">/month</span>
+                </div>
+              </div>
+              <ul className="space-y-2.5 mb-6">
+                {['Everything in Free', 'Engine Build Simulator', 'Engine Comparison Tool', 'Session Logging & Analytics', 'Multi-Car Profiles', 'Priority Support'].map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-sm text-[#AAA]">
+                    <svg className="w-4 h-4 text-[#FFD600] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/sign-up"
+                className="block w-full py-3 px-4 text-center bg-[#FFD600] text-[#0D0D0D] font-bold text-sm rounded-lg hover:bg-[#FFEA00] transition-colors"
+              >
+                Start Free, Upgrade Anytime
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===== BUILT BY RACERS ===== */}
       <section className="py-16 md:py-24 border-t border-[#333]/30">
         <div className="max-w-4xl mx-auto px-4 md:px-8 text-center">
@@ -174,10 +246,12 @@ export default function LandingPage() {
               </div>
               <span className="text-sm text-[#666]">Crew Chief — Your pit crew in your pocket</span>
             </div>
-            <div className="flex items-center gap-6 text-sm text-[#666]">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-[#666]">
               <Link href="/sign-in" className="hover:text-[#F5F5F5] transition-colors">Sign In</Link>
               <Link href="/sign-up" className="hover:text-[#F5F5F5] transition-colors">Sign Up</Link>
               <a href="https://www.youtube.com/@flyinfinnracing" target="_blank" rel="noopener noreferrer" className="hover:text-[#F5F5F5] transition-colors">YouTube</a>
+              <Link href="/terms" className="hover:text-[#F5F5F5] transition-colors">Terms</Link>
+              <Link href="/privacy" className="hover:text-[#F5F5F5] transition-colors">Privacy</Link>
             </div>
           </div>
         </div>

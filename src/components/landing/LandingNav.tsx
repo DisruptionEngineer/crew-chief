@@ -38,6 +38,12 @@ export function LandingNav() {
             >
               Features
             </a>
+            <a
+              href="#pricing"
+              className="hidden sm:block text-sm text-[#888] hover:text-[#F5F5F5] transition-colors"
+            >
+              Pricing
+            </a>
             <Link
               href="/sign-in"
               className="text-sm text-[#888] hover:text-[#F5F5F5] transition-colors px-3 py-2"

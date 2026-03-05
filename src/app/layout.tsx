@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import Script from 'next/script'
 import { SupabaseProvider } from '@/components/shared/SupabaseProvider'
 import './globals.css'
 
@@ -28,6 +29,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          defer
+          data-domain="crew-chief.vercel.app"
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className="antialiased min-h-screen">
         <SupabaseProvider>
           {children}
