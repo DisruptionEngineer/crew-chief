@@ -35,7 +35,7 @@ export function useSubscription(): UseSubscriptionReturn {
         .in('status', ['active', 'trialing'])
         .order('created_at', { ascending: false })
         .limit(1)
-        .single()
+        .maybeSingle()
 
       setSubscription(data as Subscription | null)
     } catch {

@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       .select('stripe_customer_id')
       .eq('user_id', user.id)
       .limit(1)
-      .single()
+      .maybeSingle()
 
     const sessionParams: Stripe.Checkout.SessionCreateParams = {
       mode: 'subscription',
