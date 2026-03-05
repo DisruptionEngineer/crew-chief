@@ -1,10 +1,20 @@
+export interface PressureRange {
+  front: [number, number]
+  rear: [number, number]
+}
+
 export interface TireCompound {
   id: string
   brand: string
   model: string
   label: string
   surface: 'dirt' | 'asphalt' | 'both'
-  pressureRange: { front: [number, number]; rear: [number, number] }
+  pressureRange: PressureRange
+  /** Surface-specific ranges for 'both' tires (e.g. G60 runs 12-16 on dirt, 22-28 on asphalt) */
+  pressureByTrackSurface?: {
+    dirt: PressureRange
+    asphalt: PressureRange
+  }
 }
 
 export const tireCompounds: TireCompound[] = [
@@ -15,7 +25,11 @@ export const tireCompounds: TireCompound[] = [
     model: 'G60',
     label: 'Hoosier G60',
     surface: 'both',
-    pressureRange: { front: [12, 16], rear: [11, 15] },
+    pressureRange: { front: [12, 16], rear: [11, 15] }, // default (dirt)
+    pressureByTrackSurface: {
+      dirt: { front: [12, 16], rear: [11, 15] },
+      asphalt: { front: [22, 28], rear: [20, 26] },
+    },
   },
   {
     id: 'hoosier-d55',
@@ -98,7 +112,11 @@ export const tireCompounds: TireCompound[] = [
     model: 'Street Tire',
     label: 'DOT Street',
     surface: 'both',
-    pressureRange: { front: [28, 35], rear: [26, 33] },
+    pressureRange: { front: [28, 35], rear: [26, 33] }, // default
+    pressureByTrackSurface: {
+      dirt: { front: [26, 32], rear: [24, 30] },
+      asphalt: { front: [30, 36], rear: [28, 34] },
+    },
   },
 ]
 
@@ -124,4 +142,22 @@ export function getDefaultTireForSurface(surface: 'dirt' | 'asphalt' | 'mixed' |
     return tireCompounds.find(t => t.id === 'hoosier-f45')!
   }
   return tireCompounds.find(t => t.id === 'hoosier-g60')!
+}
+
+/** Get effective pressure range for a tire on a specific track surface.
+ *  For 'both' tires (like G60), returns surface-specific range.
+ *  For surface-specific tires, returns their standard range. */
+export function getEffectivePressureRange(
+  tire: TireCompound,
+  trackSurface?: string,
+): PressureRange {
+  if (tire.pressureByTrackSurface && trackSurface) {
+    const surface = trackSurface === 'concrete' ? 'asphalt'
+      : (trackSurface === 'dirt' || trackSurface === 'asphalt') ? trackSurface
+      : undefined
+    if (surface && tire.pressureByTrackSurface[surface]) {
+      return tire.pressureByTrackSurface[surface]
+    }
+  }
+  return tire.pressureRange
 }

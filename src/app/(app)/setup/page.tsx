@@ -3,13 +3,14 @@
 import { useState, useCallback } from 'react'
 import { useCar } from '@/hooks/useCar'
 import { useGarage } from '@/hooks/useGarage'
+import { useMyTracks } from '@/hooks/useMyTracks'
 import { useAuth } from '@/hooks/useAuth'
 import { useSupabase } from '@/components/shared/SupabaseProvider'
 import { useSubscriptionContext } from '@/components/subscription/SubscriptionProvider'
 import { getSetupRecommendations } from '@/data/setup/recommendations'
-import { getTiresByBrand, getTireCompound, getDefaultTireForSurface } from '@/data/setup/tires'
+import { getTiresByBrand, getTireCompound, getDefaultTireForSurface, getEffectivePressureRange } from '@/data/setup/tires'
 import type { TireCompound } from '@/data/setup/tires'
-import type { TrackCondition, RaceType } from '@/lib/types'
+import type { TrackCondition, RaceType, Track } from '@/lib/types'
 
 const conditions: { value: TrackCondition; label: string }[] = [
   { value: 'heavy', label: 'Heavy' },
@@ -38,6 +39,7 @@ const tireBrands = getTiresByBrand()
 export default function SetupCalculator() {
   const { currentCar, currentSetup } = useCar()
   const { saveSetup } = useGarage()
+  const { myTracks } = useMyTracks()
   const { user } = useAuth()
   const { supabase } = useSupabase()
   const { isPro } = useSubscriptionContext()
@@ -49,11 +51,25 @@ export default function SetupCalculator() {
   const [aiLoading, setAiLoading] = useState(false)
   const [aiData, setAiData] = useState<AiResponse | null>(null)
 
-  // Tire compound selection — default based on what's saved or surface
-  const defaultTire = getTireCompound(currentSetup.tireModel) || getDefaultTireForSurface('dirt')
+  // Track selection — default to primary track
+  const [selectedTrack, setSelectedTrack] = useState<Track | null>(null)
+
+  // Initialize selected track when myTracks loads
+  const primaryTrack = myTracks.find(t => t.isPrimary)?.track ?? myTracks[0]?.track ?? null
+  if (!selectedTrack && primaryTrack) {
+    setSelectedTrack(primaryTrack)
+  }
+
+  // Tire compound selection — default based on saved value or track surface
+  const trackSurface = selectedTrack?.surface
+  const defaultTire = getTireCompound(currentSetup.tireModel)
+    || getDefaultTireForSurface(trackSurface === 'asphalt' || trackSurface === 'concrete' ? trackSurface : 'dirt')
   const [selectedTire, setSelectedTire] = useState<TireCompound>(defaultTire)
 
-  const recs = getSetupRecommendations(currentCar, condition, raceType, selectedTire)
+  // Get effective pressure range for the selected tire + track surface
+  const effectivePressureRange = getEffectivePressureRange(selectedTire, trackSurface)
+
+  const recs = getSetupRecommendations(currentCar, condition, raceType, selectedTire, trackSurface)
 
   // All adjustable values keyed by parameter name
   const [adjustments, setAdjustments] = useState<Record<string, number>>({})
@@ -111,8 +127,8 @@ export default function SetupCalculator() {
 
     await saveSetup({
       carId: currentCar.id,
-      trackId: null,
-      name: `${condition} ${raceType} setup`,
+      trackId: selectedTrack?.id ?? null,
+      name: `${selectedTrack ? selectedTrack.name + ' ' : ''}${condition} ${raceType} setup`,
       raceType,
       trackCondition: condition,
       springLF, springRF, springLR, springRR,
@@ -141,7 +157,7 @@ export default function SetupCalculator() {
     setSaved(true)
     setTimeout(() => setSaved(false), 3000)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, isPro, currentCar, currentSetup, recs, condition, raceType, adjustments, saveSetup, aiData, selectedTire])
+  }, [user, isPro, currentCar, currentSetup, recs, condition, raceType, adjustments, saveSetup, aiData, selectedTire, selectedTrack])
 
   const handleAiOptimize = useCallback(async () => {
     if (!user || !isPro) return
@@ -171,6 +187,12 @@ export default function SetupCalculator() {
             rearSuspension: currentCar.rearSuspension,
             engine: currentCar.engine,
           },
+          track: selectedTrack ? {
+            name: selectedTrack.name,
+            length: selectedTrack.length,
+            surface: selectedTrack.surface,
+            banking: selectedTrack.banking,
+          } : undefined,
           condition,
           raceType,
           tireCompound: selectedTire.label,
@@ -201,7 +223,7 @@ export default function SetupCalculator() {
     } finally {
       setAiLoading(false)
     }
-  }, [user, isPro, currentCar, condition, raceType, supabase, selectedTire, locked, adjustments])
+  }, [user, isPro, currentCar, condition, raceType, supabase, selectedTire, selectedTrack, locked, adjustments])
 
   return (
     <div className="space-y-6">
@@ -252,6 +274,70 @@ export default function SetupCalculator() {
           )}
         </div>
       </div>
+
+      {/* Track Selector */}
+      {myTracks.length > 0 && (
+        <div>
+          <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Track</label>
+          <select
+            value={selectedTrack?.id ?? ''}
+            onChange={(e) => {
+              const track = myTracks.find(t => t.track.id === e.target.value)?.track ?? null
+              setSelectedTrack(track)
+              setAiData(null)
+              // Auto-select tire compound for new track surface
+              if (track) {
+                const surface = track.surface
+                if (surface === 'asphalt' || surface === 'concrete') {
+                  if (selectedTire.surface === 'dirt') {
+                    const asphaltTire = getDefaultTireForSurface('asphalt')
+                    setSelectedTire(asphaltTire)
+                    setAdjustments(prev => {
+                      const next = { ...prev }
+                      delete next.pressureLF; delete next.pressureRF
+                      delete next.pressureLR; delete next.pressureRR
+                      return next
+                    })
+                  }
+                } else if (surface === 'dirt') {
+                  if (selectedTire.surface === 'asphalt') {
+                    const dirtTire = getDefaultTireForSurface('dirt')
+                    setSelectedTire(dirtTire)
+                    setAdjustments(prev => {
+                      const next = { ...prev }
+                      delete next.pressureLF; delete next.pressureRF
+                      delete next.pressureLR; delete next.pressureRR
+                      return next
+                    })
+                  }
+                }
+                // For 'both' tires (like G60), clear pressure adjustments so they recalculate
+                if (selectedTire.pressureByTrackSurface) {
+                  setAdjustments(prev => {
+                    const next = { ...prev }
+                    delete next.pressureLF; delete next.pressureRF
+                    delete next.pressureLR; delete next.pressureRR
+                    return next
+                  })
+                }
+              }
+            }}
+            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-sm font-semibold text-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[48px] appearance-none"
+            style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
+          >
+            {myTracks.map(entry => (
+              <option key={entry.track.id} value={entry.track.id}>
+                {entry.track.name} — {entry.track.length} mi, {entry.track.surface}, {entry.track.banking}° banking
+              </option>
+            ))}
+          </select>
+          {selectedTrack && (
+            <p className="text-[10px] text-[#555] mt-1.5">
+              {selectedTrack.location} &bull; {selectedTrack.surface} &bull; {selectedTrack.banking}° banking
+            </p>
+          )}
+        </div>
+      )}
 
       {/* AI Summary */}
       {aiData?.summary && (
@@ -349,11 +435,14 @@ export default function SetupCalculator() {
         >
           {tireBrands.map(group => (
             <optgroup key={group.brand} label={group.brand}>
-              {group.compounds.map(t => (
-                <option key={t.id} value={t.id}>
-                  {t.label} — {t.pressureRange.front[0]}-{t.pressureRange.front[1]} psi ({t.surface})
-                </option>
-              ))}
+              {group.compounds.map(t => {
+                const range = getEffectivePressureRange(t, trackSurface)
+                return (
+                  <option key={t.id} value={t.id}>
+                    {t.label} — {range.front[0]}-{range.front[1]} psi ({t.surface})
+                  </option>
+                )
+              })}
             </optgroup>
           ))}
         </select>
@@ -485,7 +574,7 @@ export default function SetupCalculator() {
           ))}
         </div>
         <p className="text-[10px] text-[#555] mt-2">
-          Ranges based on {selectedTire.label} ({selectedTire.surface}) compound
+          Ranges based on {selectedTire.label} on {selectedTrack ? `${selectedTrack.surface} (${selectedTrack.name})` : selectedTire.surface} — {effectivePressureRange.front[0]}-{effectivePressureRange.front[1]} psi front
         </p>
       </SetupSection>
 
