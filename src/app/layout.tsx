@@ -32,7 +32,7 @@ export default function RootLayout({
       <head>
         <Script
           async
-          src="https://plausible.io/js/pa-PhL4tUkbEPSt9ciXQrlDq.js"
+          src="https://plausible.io/js/pa-QtDxDpIsE0SkquJyZRDcS.js"
           strategy="afterInteractive"
         />
         <Script id="plausible-init" strategy="afterInteractive">
