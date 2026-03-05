@@ -1,8 +1,7 @@
 'use client'
 
 import type { SavedEngineBuild } from '@/lib/types'
-import { getHeadById } from '@/data/engine/heads'
-import { getCamById } from '@/data/engine/cams'
+import { findHeadById as getHeadById, findCamById as getCamById } from '@/data/engine/families/registry'
 
 interface BuildCompareTableProps {
   buildA: SavedEngineBuild
@@ -60,14 +59,14 @@ export function BuildCompareTable({ buildA, buildB }: BuildCompareTableProps) {
     },
     {
       label: 'Cam Lift',
-      a: `${camA?.lift}"`,
-      b: `${camB?.lift}"`,
+      a: camA?.lift != null ? `${camA.lift}"` : '—',
+      b: camB?.lift != null ? `${camB.lift}"` : '—',
       winner: 'tie',
     },
     {
       label: 'Cam Duration',
-      a: `${camA?.duration}°`,
-      b: `${camB?.duration}°`,
+      a: camA?.duration != null ? `${camA.duration}°` : '—',
+      b: camB?.duration != null ? `${camB.duration}°` : '—',
       winner: 'tie',
     },
     {

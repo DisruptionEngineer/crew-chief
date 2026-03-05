@@ -109,10 +109,17 @@ export default function TransmissionPage() {
       <div className="checkered-divider" />
 
       {/* Recommended */}
-      <div className="bg-[#00E676]/10 border border-[#00E676]/30 rounded-lg p-4">
-        <p className="text-xs font-semibold text-[#00E676] uppercase tracking-wider mb-1">Recommended</p>
-        <p className="text-lg font-bold">{result.recommended}</p>
-      </div>
+      {result.options.length > 0 ? (
+        <div className="bg-[#00E676]/10 border border-[#00E676]/30 rounded-lg p-4">
+          <p className="text-xs font-semibold text-[#00E676] uppercase tracking-wider mb-1">Recommended</p>
+          <p className="text-lg font-bold">{result.recommended}</p>
+        </div>
+      ) : (
+        <div className="bg-[#FF1744]/10 border border-[#FF1744]/30 rounded-lg p-4">
+          <p className="text-xs font-semibold text-[#FF1744] uppercase tracking-wider mb-1">No Match</p>
+          <p className="text-sm text-[#888]">No transmissions found for this combination. Try changing make or preference.</p>
+        </div>
+      )}
 
       {/* Scored Options */}
       <div className="space-y-3">
