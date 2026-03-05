@@ -92,7 +92,7 @@ export default function PrivacyPage() {
             </ul>
             <p className="mt-3">
               To exercise any of these rights, contact us at{' '}
-              <a href="mailto:support@tenths.app" className="text-[#FF8A00] hover:text-[#FFA640]">support@tenths.app</a>.
+              <a href="mailto:support@tenths.racing" className="text-[#FF8A00] hover:text-[#FFA640]">support@tenths.racing</a>.
             </p>
           </section>
 
@@ -125,7 +125,7 @@ export default function PrivacyPage() {
             <h2 className="text-lg font-semibold text-[#F5F5F5] mb-3">10. Contact</h2>
             <p>
               If you have questions about this Privacy Policy, contact us at{' '}
-              <a href="mailto:support@tenths.app" className="text-[#FF8A00] hover:text-[#FFA640]">support@tenths.app</a>.
+              <a href="mailto:support@tenths.racing" className="text-[#FF8A00] hover:text-[#FFA640]">support@tenths.racing</a>.
             </p>
           </section>
         </div>
