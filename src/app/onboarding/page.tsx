@@ -9,6 +9,7 @@ import { StepCar } from '@/components/onboarding/StepCar'
 import { StepTrack } from '@/components/onboarding/StepTrack'
 import { StepConfirm } from '@/components/onboarding/StepConfirm'
 import { db } from '@/data/db'
+import { createClient } from '@/lib/supabase/client'
 import type { Car, Track, UserProfile, ExperienceLevel, RaceClass, TrackSurface } from '@/lib/types'
 
 interface OnboardingData {
@@ -130,6 +131,33 @@ export default function OnboardingPage() {
       await db.cars.put(car)
       await db.tracks.put(track)
       await db.userProfiles.put(profile)
+
+      // Save to Supabase if authenticated
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        try {
+          // Save user profile to Supabase
+          await supabase.from('user_profiles').upsert({
+            user_id: user.id,
+            display_name: data.displayName,
+            experience_level: data.experienceLevel || 'beginner',
+            home_track_id: data.selectedTrackId || null,
+            onboarding_complete: true,
+          }, { onConflict: 'user_id' })
+
+          // Add selected car to user's garage
+          if (data.selectedCarId) {
+            await supabase.from('user_cars').upsert({
+              user_id: user.id,
+              car_id: data.selectedCarId,
+              is_primary: true,
+            }, { onConflict: 'user_id,car_id' })
+          }
+        } catch {
+          // Supabase save failed — local copy exists as fallback
+        }
+      }
 
       // Mark onboarding complete in localStorage
       localStorage.setItem('tenths-onboarded', 'true')

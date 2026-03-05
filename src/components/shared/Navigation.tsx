@@ -8,6 +8,7 @@ import { useSubscriptionContext } from '@/components/subscription/SubscriptionPr
 
 const navItems = [
   { href: '/dashboard', label: 'Home', icon: HomeIcon, isPro: false },
+  { href: '/garage', label: 'Garage', icon: GarageIcon, isPro: false },
   { href: '/setup', label: 'Setup', icon: WrenchIcon, isPro: false },
   { href: '/engine', label: 'Engine', icon: EngineIcon, isPro: true },
   { href: '/calculators', label: 'Calc', icon: CalculatorIcon, isPro: false },
@@ -250,6 +251,17 @@ function CalculatorIcon({ className }: { className?: string }) {
       <line x1="16" y1="14" x2="16" y2="14.01" />
       <line x1="8" y1="18" x2="8" y2="18.01" />
       <line x1="12" y1="18" x2="16" y2="18" />
+    </svg>
+  )
+}
+
+function GarageIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 20h20" />
+      <path d="M4 20V8l8-5 8 5v12" />
+      <rect x="8" y="14" width="8" height="6" rx="1" />
+      <path d="M10 14v-2a2 2 0 014 0v2" />
     </svg>
   )
 }

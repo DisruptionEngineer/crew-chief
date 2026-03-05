@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from '
 import type { Car, SetupSheet, RaceClass, SuspensionType, EngineSpec } from '@/lib/types'
 import { allCars, allBaselines } from '@/data/cars/registry'
 import { createClient } from '@/lib/supabase/client'
+import { useGarage, type UserSetup } from '@/hooks/useGarage'
 
 interface CarContextType {
   cars: Car[]
@@ -11,6 +12,8 @@ interface CarContextType {
   currentSetup: SetupSheet
   setCurrentCarId: (id: string) => void
   getSetupForCar: (carId: string) => SetupSheet
+  userSetup: UserSetup | null
+  hasGarage: boolean
 }
 
 const CarContext = createContext<CarContextType | undefined>(undefined)
@@ -51,9 +54,55 @@ function mapDbCar(row: Record<string, unknown>): Car {
   }
 }
 
+/** Convert a UserSetup to a SetupSheet for backward compatibility */
+function userSetupToSetupSheet(us: UserSetup, carId: string): SetupSheet {
+  const baseline = allBaselines[carId] || fallbackSetup
+  return {
+    id: us.id,
+    carId: us.carId,
+    name: us.name,
+    date: us.updatedAt,
+    springLF: us.springLF ?? baseline.springLF,
+    springRF: us.springRF ?? baseline.springRF,
+    springLR: us.springLR ?? baseline.springLR,
+    springRR: us.springRR ?? baseline.springRR,
+    rideHeightLF: us.rideHeightLF ?? baseline.rideHeightLF,
+    rideHeightRF: us.rideHeightRF ?? baseline.rideHeightRF,
+    rideHeightLR: us.rideHeightLR ?? baseline.rideHeightLR,
+    rideHeightRR: us.rideHeightRR ?? baseline.rideHeightRR,
+    camberLF: us.camberLF ?? baseline.camberLF,
+    camberRF: us.camberRF ?? baseline.camberRF,
+    casterLF: us.casterLF ?? baseline.casterLF,
+    casterRF: us.casterRF ?? baseline.casterRF,
+    toeFront: us.toeFront ?? baseline.toeFront,
+    toeRear: us.toeRear ?? baseline.toeRear,
+    pressureLF: us.pressureLF ?? baseline.pressureLF,
+    pressureRF: us.pressureRF ?? baseline.pressureRF,
+    pressureLR: us.pressureLR ?? baseline.pressureLR,
+    pressureRR: us.pressureRR ?? baseline.pressureRR,
+    totalWeight: us.totalWeight ?? baseline.totalWeight,
+    crossWeightPct: us.crossWeightPct ?? baseline.crossWeightPct,
+    leftPct: us.leftPct ?? baseline.leftPct,
+    rearPct: us.rearPct ?? baseline.rearPct,
+    cornerWeightLF: us.cornerWeightLF ?? baseline.cornerWeightLF,
+    cornerWeightRF: us.cornerWeightRF ?? baseline.cornerWeightRF,
+    cornerWeightLR: us.cornerWeightLR ?? baseline.cornerWeightLR,
+    cornerWeightRR: us.cornerWeightRR ?? baseline.cornerWeightRR,
+    swayBarFront: us.swayBarFront ?? baseline.swayBarFront,
+    shockLF: us.shockLF ?? baseline.shockLF,
+    shockRF: us.shockRF ?? baseline.shockRF,
+    shockLR: us.shockLR ?? baseline.shockLR,
+    shockRR: us.shockRR ?? baseline.shockRR,
+    gearRatio: us.gearRatio ?? baseline.gearRatio,
+    tireModel: us.tireModel ?? baseline.tireModel,
+    notes: us.notes ?? baseline.notes,
+  }
+}
+
 export function CarProvider({ children }: { children: ReactNode }) {
   const [currentCarId, setCurrentCarId] = useState(allCars[0]?.id || 'monte-carlo-75')
   const [cars, setCars] = useState<Car[]>(allCars)
+  const garage = useGarage()
 
   // Fetch cars from Supabase, fall back to hardcoded
   useEffect(() => {
@@ -82,13 +131,35 @@ export function CarProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('tenths-car-id', currentCarId)
   }, [currentCarId])
 
-  const currentCar = cars.find(c => c.id === currentCarId) || cars[0]
-  const currentSetup = allBaselines[currentCarId] || fallbackSetup
+  // Use garage cars if available, otherwise all DB cars
+  const displayCars = garage.hasGarage
+    ? garage.garageCars.map(gc => gc.car)
+    : cars
 
-  const getSetupForCar = (carId: string) => allBaselines[carId] || fallbackSetup
+  const currentCar = displayCars.find(c => c.id === currentCarId) || displayCars[0] || cars[0]
+
+  // Use user's saved setup if available, otherwise hardcoded baseline
+  const userSetup = garage.getSetupForCar(currentCarId)
+  const currentSetup = userSetup
+    ? userSetupToSetupSheet(userSetup, currentCarId)
+    : allBaselines[currentCarId] || fallbackSetup
+
+  const getSetupForCar = (carId: string) => {
+    const us = garage.getSetupForCar(carId)
+    if (us) return userSetupToSetupSheet(us, carId)
+    return allBaselines[carId] || fallbackSetup
+  }
 
   return (
-    <CarContext.Provider value={{ cars, currentCar, currentSetup, setCurrentCarId, getSetupForCar }}>
+    <CarContext.Provider value={{
+      cars: displayCars,
+      currentCar,
+      currentSetup,
+      setCurrentCarId,
+      getSetupForCar,
+      userSetup,
+      hasGarage: garage.hasGarage,
+    }}>
       {children}
     </CarContext.Provider>
   )
