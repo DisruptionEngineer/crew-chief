@@ -78,6 +78,29 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Pro subscription required' }, { status: 403 })
   }
 
+  // Rate limit: 10 requests per hour per user
+  const RATE_LIMIT = 10
+  const WINDOW_MS = 60 * 60 * 1000 // 1 hour
+  const windowStart = new Date(Date.now() - WINDOW_MS).toISOString()
+
+  const { count } = await supabase
+    .from('ai_usage_log')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+    .gte('created_at', windowStart)
+
+  if ((count ?? 0) >= RATE_LIMIT) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded. You can make 10 AI requests per hour.' },
+      { status: 429 }
+    )
+  }
+
+  // Log this request
+  await supabase
+    .from('ai_usage_log')
+    .insert({ user_id: user.id, endpoint: 'setup/recommend' })
+
   const body: SetupRequest = await request.json()
 
   const userPrompt = `Generate an optimized setup for this car and conditions:
