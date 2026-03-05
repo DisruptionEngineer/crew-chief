@@ -5,7 +5,7 @@ export const STRIPE_CONFIG = {
   currency: 'usd',
   interval: 'month' as const,
   displayPrice: '$9.99',
-  planName: 'Crew Chief Pro',
+  planName: 'Tenths Pro',
 } as const
 
 export const PRO_FEATURES = [

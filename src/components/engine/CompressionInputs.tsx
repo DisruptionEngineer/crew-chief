@@ -30,7 +30,7 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
 
   // CR limits from division rules
   const maxCR = divisionRules.maxCompression
-  const crColor = cr > maxCR ? '#FF1744' : cr > maxCR - 0.3 ? '#FFD600' : '#00E676'
+  const crColor = cr > maxCR ? '#FF1744' : cr > maxCR - 0.3 ? '#FF8A00' : '#00E676'
 
   // Build bore steps from engine family defaults + overbore options
   const stockBore = engineFamily.defaultBore
@@ -75,7 +75,7 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
               onClick={() => onChange({ bore })}
               className={`px-3 py-2 rounded-md text-sm font-mono transition-colors min-h-[40px] ${
                 Math.round(config.bore * 1000) / 1000 === bore
-                  ? 'bg-[#FFD600] text-[#0D0D0D] font-semibold'
+                  ? 'bg-[#FF8A00] text-[#0D0D0D] font-semibold'
                   : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
               }`}
             >
@@ -148,7 +148,7 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
               step={0.005}
               min={0.015}
               max={0.060}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
             />
             <p className="text-[9px] text-[#555] mt-0.5">Standard: .039&quot;</p>
           </div>
@@ -161,7 +161,7 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
               step={0.010}
               min={3.000}
               max={4.500}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
             />
             <p className="text-[9px] text-[#555] mt-0.5">Typically bore + .100&quot;</p>
           </div>

@@ -18,7 +18,7 @@ export function SetupDemo() {
       <div className="bg-[#1A1A1A] border border-[#333] rounded-xl p-5 md:p-8">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <p className="text-[10px] font-semibold text-[#FFD600] uppercase tracking-widest mb-1">Live Demo</p>
+            <p className="text-[10px] font-semibold text-[#FF8A00] uppercase tracking-widest mb-1">Live Demo</p>
             <h3 className="text-lg md:text-xl font-bold">Setup Calculator</h3>
           </div>
           <span className="text-xs text-[#666] font-mono">1975 Monte Carlo</span>
@@ -33,7 +33,7 @@ export function SetupDemo() {
               onClick={() => setCondition(c)}
               className={`py-2.5 rounded-md text-xs font-semibold uppercase transition-all ${
                 condition === c
-                  ? 'bg-[#FFD600] text-[#0D0D0D]'
+                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
                   : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
               }`}
             >
@@ -93,7 +93,7 @@ export function SetupDemo() {
           <p className="text-sm text-[#888] mb-3 text-center">Sign up to unlock the full calculator with all parameters</p>
           <Link
             href="/sign-up"
-            className="bg-[#FFD600] text-[#0D0D0D] font-semibold px-8 py-3 rounded-md hover:bg-[#FFEA00] transition-colors text-sm"
+            className="bg-[#FF8A00] text-[#0D0D0D] font-semibold px-8 py-3 rounded-md hover:bg-[#FFA640] transition-colors text-sm"
           >
             Get Started Free
           </Link>
@@ -120,7 +120,7 @@ function DemoValue({ displayLabel, value, unit, low, high }: {
         <span className="text-[10px] text-[#666]">{unit}</span>
       </div>
       <div className="mt-2 h-1 bg-[#333] rounded-full overflow-hidden">
-        <div className="h-full bg-[#FFD600] rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+        <div className="h-full bg-[#FF8A00] rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
       </div>
       <div className="flex justify-between mt-1">
         <span className="text-[9px] text-[#555]">{low}</span>

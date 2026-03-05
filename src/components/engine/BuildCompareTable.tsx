@@ -91,7 +91,7 @@ export function BuildCompareTable({ buildA, buildB }: BuildCompareTableProps) {
       <div className="grid grid-cols-3 gap-0 border-b border-[#333]">
         <div className="p-3" />
         <div className="p-3 text-center border-l border-[#333]">
-          <p className="text-xs font-semibold text-[#FFD600] truncate">{buildA.name}</p>
+          <p className="text-xs font-semibold text-[#FF8A00] truncate">{buildA.name}</p>
         </div>
         <div className="p-3 text-center border-l border-[#333]">
           <p className="text-xs font-semibold text-[#888] truncate">{buildB.name}</p>
@@ -104,17 +104,17 @@ export function BuildCompareTable({ buildA, buildB }: BuildCompareTableProps) {
           <div className="p-3 flex items-center">
             <span className="text-xs text-[#888]">{row.label}</span>
           </div>
-          <div className={`p-3 text-center border-l border-[#333]/50 ${row.winner === 'a' ? 'bg-[#FFD600]/5' : ''}`}>
+          <div className={`p-3 text-center border-l border-[#333]/50 ${row.winner === 'a' ? 'bg-[#FF8A00]/5' : ''}`}>
             <span
-              className={`font-mono text-sm ${row.winner === 'a' ? 'text-[#FFD600] font-semibold' : 'text-[#F5F5F5]'}`}
+              className={`font-mono text-sm ${row.winner === 'a' ? 'text-[#FF8A00] font-semibold' : 'text-[#F5F5F5]'}`}
               style={row.aColor ? { color: row.aColor } : undefined}
             >
               {row.a}
             </span>
           </div>
-          <div className={`p-3 text-center border-l border-[#333]/50 ${row.winner === 'b' ? 'bg-[#FFD600]/5' : ''}`}>
+          <div className={`p-3 text-center border-l border-[#333]/50 ${row.winner === 'b' ? 'bg-[#FF8A00]/5' : ''}`}>
             <span
-              className={`font-mono text-sm ${row.winner === 'b' ? 'text-[#FFD600] font-semibold' : 'text-[#F5F5F5]'}`}
+              className={`font-mono text-sm ${row.winner === 'b' ? 'text-[#FF8A00] font-semibold' : 'text-[#F5F5F5]'}`}
               style={row.bColor ? { color: row.bColor } : undefined}
             >
               {row.b}

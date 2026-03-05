@@ -129,7 +129,7 @@ export default function NewSessionPage() {
               onClick={() => setEventType(t)}
               className={`flex-1 py-3 rounded-md text-sm font-semibold capitalize transition-colors min-h-[48px] ${
                 eventType === t
-                  ? 'bg-[#FFD600] text-[#0D0D0D]'
+                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
                   : 'bg-[#252525] text-[#888] border border-[#333]'
               }`}
             >
@@ -152,7 +152,7 @@ export default function NewSessionPage() {
                 onClick={() => setCondition(c)}
                 className={`flex-1 py-2.5 rounded-md text-xs font-semibold capitalize transition-colors min-h-[44px] ${
                   condition === c
-                    ? 'bg-[#FFD600] text-[#0D0D0D]'
+                    ? 'bg-[#FF8A00] text-[#0D0D0D]'
                     : 'bg-[#252525] text-[#888] border border-[#333]'
                 }`}
               >
@@ -169,7 +169,7 @@ export default function NewSessionPage() {
               type="number"
               value={temp}
               onChange={e => setTemp(e.target.value)}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
             />
           </div>
           <div>
@@ -178,7 +178,7 @@ export default function NewSessionPage() {
               type="number"
               value={humidity}
               onChange={e => setHumidity(e.target.value)}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
             />
           </div>
         </div>
@@ -198,7 +198,7 @@ export default function NewSessionPage() {
             value={notes}
             onChange={e => setNotes(e.target.value)}
             placeholder="Tight on entry, comes free on exit..."
-            className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[80px] resize-none"
+            className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[80px] resize-none"
           />
         </div>
       </div>
@@ -220,7 +220,7 @@ export default function NewSessionPage() {
                   setLapTimes(newTimes)
                 }}
                 placeholder="0.00"
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
               />
             </div>
           ))}
@@ -252,7 +252,7 @@ export default function NewSessionPage() {
           value={changes}
           onChange={e => setChanges(e.target.value)}
           placeholder="• Lowered RR pressure 1 psi&#10;• Added 1/2 turn RF wedge"
-          className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[80px] resize-none"
+          className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[80px] resize-none"
         />
       </div>
 
@@ -268,7 +268,7 @@ export default function NewSessionPage() {
                 value={startPos}
                 onChange={e => setStartPos(e.target.value)}
                 placeholder="#"
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
               />
             </div>
             <div>
@@ -278,7 +278,7 @@ export default function NewSessionPage() {
                 value={finishPos}
                 onChange={e => setFinishPos(e.target.value)}
                 placeholder="#"
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
               />
             </div>
           </div>
@@ -289,7 +289,7 @@ export default function NewSessionPage() {
       <button
         onClick={handleSave}
         disabled={saving}
-        className="w-full bg-[#FFD600] text-[#0D0D0D] py-4 rounded-md text-sm font-bold hover:bg-[#FFEA00] transition-colors min-h-[56px] disabled:opacity-50"
+        className="w-full bg-[#FF8A00] text-[#0D0D0D] py-4 rounded-md text-sm font-bold hover:bg-[#FFA640] transition-colors min-h-[56px] disabled:opacity-50"
       >
         {saving ? 'Saving...' : 'Save Session'}
       </button>

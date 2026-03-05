@@ -20,7 +20,7 @@ export function useOnboardingGuard() {
       return
     }
 
-    const onboarded = localStorage.getItem('crew-chief-onboarded')
+    const onboarded = localStorage.getItem('tenths-onboarded') || localStorage.getItem('crew-chief-onboarded')
 
     if (onboarded === 'true') {
       setIsReady(true)

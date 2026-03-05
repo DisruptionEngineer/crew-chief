@@ -33,7 +33,7 @@ export default function EngineBuildPage() {
 
   // Engine family & division state
   const [selectedFamilyId, setSelectedFamilyId] = useState('gm-sbc-350')
-  const [selectedDivisionId, setSelectedDivisionId] = useState<RaceClass>('ironman-f8')
+  const [selectedDivisionId, setSelectedDivisionId] = useState<RaceClass>(divisions[0]?.id || 'ironman-f8' as RaceClass)
 
   // Derived: current engine family, division rules, and filtered divisions
   const engineFamily = useMemo(
@@ -160,7 +160,7 @@ export default function EngineBuildPage() {
           <h1 className="text-2xl font-bold tracking-tight uppercase">Engine Build Simulator</h1>
           <p className="text-sm text-[#666] mt-1">
             {engineFamily.name} &mdash;{' '}
-            <span className="text-[#FFD600] font-medium">
+            <span className="text-[#FF8A00] font-medium">
               {eligibleDivisions.find(d => d.id === selectedDivisionId)?.name || 'Rules'}
             </span>
           </p>
@@ -184,7 +184,7 @@ export default function EngineBuildPage() {
           type="text"
           value={buildName}
           onChange={e => setBuildName(e.target.value)}
-          className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+          className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
           placeholder="e.g., Vortec Street Build"
         />
       </div>
@@ -320,7 +320,7 @@ export default function EngineBuildPage() {
         className={`w-full py-3 rounded-lg font-bold text-sm transition-all duration-300 min-h-[48px] active:scale-[0.98] ${
           saveSuccess
             ? 'bg-[#00E676] text-[#0D0D0D] shadow-[0_0_20px_rgba(0,230,118,0.2)]'
-            : 'bg-[#FFD600] text-[#0D0D0D] hover:bg-[#FFEA00] shadow-[0_0_20px_rgba(255,214,0,0.15)] hover:shadow-[0_0_30px_rgba(255,214,0,0.25)]'
+            : 'bg-[#FF8A00] text-[#0D0D0D] hover:bg-[#FFA640] shadow-[0_0_20px_rgba(255,138,0,0.15)] hover:shadow-[0_0_30px_rgba(255,138,0,0.25)]'
         }`}
       >
         {saveSuccess ? '\u2713 Build Saved!' : 'Save Build'}
@@ -351,11 +351,11 @@ function EngineSection({ title, subtitle, expanded, onToggle, children }: {
 }) {
   return (
     <div className={`bg-[#1A1A1A] border rounded-lg overflow-hidden transition-all duration-200 ${
-      expanded ? 'border-[#FFD600]/30 shadow-[0_0_20px_rgba(255,214,0,0.04)]' : 'border-[#333]'
+      expanded ? 'border-[#FF8A00]/30 shadow-[0_0_20px_rgba(255,138,0,0.04)]' : 'border-[#333]'
     }`}>
       <button onClick={onToggle} className="section-header">
         <div className="flex items-center gap-2.5">
-          {expanded && <div className="w-1 h-5 rounded-full bg-[#FFD600]" />}
+          {expanded && <div className="w-1 h-5 rounded-full bg-[#FF8A00]" />}
           <div>
             <h2 className="text-sm font-bold uppercase tracking-wider">{title}</h2>
             {subtitle && <p className="text-[10px] text-[#666] mt-0.5">{subtitle}</p>}

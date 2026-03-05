@@ -9,9 +9,9 @@ export function OnboardingProgress({ currentStep }: { currentStep: number }) {
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                 i < currentStep
-                  ? 'bg-[#FFD600] text-[#0D0D0D]'
+                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
                   : i === currentStep
-                  ? 'bg-[#FFD600]/20 text-[#FFD600] border-2 border-[#FFD600]'
+                  ? 'bg-[#FF8A00]/20 text-[#FF8A00] border-2 border-[#FF8A00]'
                   : 'bg-[#252525] text-[#666] border border-[#333]'
               }`}
             >
@@ -24,7 +24,7 @@ export function OnboardingProgress({ currentStep }: { currentStep: number }) {
             </span>
           </div>
           {i < steps.length - 1 && (
-            <div className={`w-8 h-0.5 mb-4 ${i < currentStep ? 'bg-[#FFD600]' : 'bg-[#333]'}`} />
+            <div className={`w-8 h-0.5 mb-4 ${i < currentStep ? 'bg-[#FF8A00]' : 'bg-[#333]'}`} />
           )}
         </div>
       ))}

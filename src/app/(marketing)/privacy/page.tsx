@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Privacy Policy — Crew Chief',
+  title: 'Privacy Policy — Tenths',
 }
 
 export default function PrivacyPage() {
@@ -25,7 +25,7 @@ export default function PrivacyPage() {
         <div className="space-y-8 text-sm text-[#AAA] leading-relaxed">
           <section>
             <h2 className="text-lg font-semibold text-[#F5F5F5] mb-3">1. Information We Collect</h2>
-            <p className="mb-3">We collect the following information when you use Crew Chief:</p>
+            <p className="mb-3">We collect the following information when you use Tenths:</p>
             <ul className="list-disc list-inside space-y-1 text-[#888]">
               <li><strong className="text-[#AAA]">Account information:</strong> Email address and encrypted password when you sign up</li>
               <li><strong className="text-[#AAA]">Profile data:</strong> Car class, track, and racing preferences you provide during onboarding</li>
@@ -74,7 +74,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-lg font-semibold text-[#F5F5F5] mb-3">5. Cookies</h2>
             <p>
-              Crew Chief uses only essential cookies required for authentication and session management.
+              Tenths uses only essential cookies required for authentication and session management.
               We do not use tracking cookies or advertising cookies. Our analytics provider (Plausible) does not
               use cookies and does not collect personal data.
             </p>
@@ -92,7 +92,7 @@ export default function PrivacyPage() {
             </ul>
             <p className="mt-3">
               To exercise any of these rights, contact us at{' '}
-              <a href="mailto:support@crewchief.app" className="text-[#FFD600] hover:text-[#FFEA00]">support@crewchief.app</a>.
+              <a href="mailto:support@tenths.app" className="text-[#FF8A00] hover:text-[#FFA640]">support@tenths.app</a>.
             </p>
           </section>
 
@@ -108,7 +108,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-lg font-semibold text-[#F5F5F5] mb-3">8. Children&apos;s Privacy</h2>
             <p>
-              Crew Chief is not intended for children under 13. We do not knowingly collect personal information from
+              Tenths is not intended for children under 13. We do not knowingly collect personal information from
               children under 13. If we learn that we have collected data from a child under 13, we will delete it promptly.
             </p>
           </section>
@@ -125,7 +125,7 @@ export default function PrivacyPage() {
             <h2 className="text-lg font-semibold text-[#F5F5F5] mb-3">10. Contact</h2>
             <p>
               If you have questions about this Privacy Policy, contact us at{' '}
-              <a href="mailto:support@crewchief.app" className="text-[#FFD600] hover:text-[#FFEA00]">support@crewchief.app</a>.
+              <a href="mailto:support@tenths.app" className="text-[#FF8A00] hover:text-[#FFA640]">support@tenths.app</a>.
             </p>
           </section>
         </div>

@@ -50,8 +50,8 @@ export default function SignUpPage() {
   if (confirmationSent) {
     return (
       <div className="w-full max-w-sm space-y-6 text-center">
-        <div className="w-16 h-16 mx-auto rounded-full bg-[#FFD600]/10 border border-[#FFD600]/30 flex items-center justify-center">
-          <svg className="w-8 h-8 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+        <div className="w-16 h-16 mx-auto rounded-full bg-[#FF8A00]/10 border border-[#FF8A00]/30 flex items-center justify-center">
+          <svg className="w-8 h-8 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
             <polyline points="22,6 12,13 2,6" />
           </svg>
@@ -60,7 +60,7 @@ export default function SignUpPage() {
           <h1 className="text-xl font-bold text-[#F5F5F5]">Check Your Email</h1>
           <p className="text-sm text-[#888] mt-2">
             We sent a confirmation link to{' '}
-            <span className="text-[#FFD600] font-medium">{email}</span>.
+            <span className="text-[#FF8A00] font-medium">{email}</span>.
             Click it to activate your account.
           </p>
         </div>
@@ -69,7 +69,7 @@ export default function SignUpPage() {
             Don&apos;t see it? Check your spam folder, or{' '}
             <button
               onClick={() => setConfirmationSent(false)}
-              className="text-[#FFD600] hover:text-[#FFEA00] font-semibold"
+              className="text-[#FF8A00] hover:text-[#FFA640] font-semibold"
             >
               try again
             </button>.
@@ -77,7 +77,7 @@ export default function SignUpPage() {
         </div>
         <p className="text-sm text-[#888]">
           Already confirmed?{' '}
-          <Link href="/sign-in" className="text-[#FFD600] hover:text-[#FFEA00] font-semibold">
+          <Link href="/sign-in" className="text-[#FF8A00] hover:text-[#FFA640] font-semibold">
             Sign In
           </Link>
         </p>
@@ -89,7 +89,7 @@ export default function SignUpPage() {
     <div className="w-full max-w-sm space-y-6">
       <div className="text-center">
         <h1 className="text-xl font-bold text-[#F5F5F5]">Create Account</h1>
-        <p className="text-sm text-[#888] mt-1">Join Crew Chief and start racing smarter</p>
+        <p className="text-sm text-[#888] mt-1">Join Tenths — every tenth matters</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -101,7 +101,7 @@ export default function SignUpPage() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="driver@example.com"
             required
-            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FFD600]"
+            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
           />
         </div>
 
@@ -113,7 +113,7 @@ export default function SignUpPage() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="At least 6 characters"
             required
-            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FFD600]"
+            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
           />
         </div>
 
@@ -125,7 +125,7 @@ export default function SignUpPage() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm your password"
             required
-            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FFD600]"
+            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
           />
         </div>
 
@@ -145,7 +145,7 @@ export default function SignUpPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 rounded-md font-semibold text-sm bg-[#FFD600] text-[#0D0D0D] hover:bg-[#FFEA00] transition-colors disabled:opacity-50"
+          className="w-full py-3 rounded-md font-semibold text-sm bg-[#FF8A00] text-[#0D0D0D] hover:bg-[#FFA640] transition-colors disabled:opacity-50"
         >
           {loading ? 'Creating account...' : 'Create Account'}
         </button>
@@ -153,7 +153,7 @@ export default function SignUpPage() {
 
       <p className="text-center text-sm text-[#888]">
         Already have an account?{' '}
-        <Link href="/sign-in" className="text-[#FFD600] hover:text-[#FFEA00] font-semibold">
+        <Link href="/sign-in" className="text-[#FF8A00] hover:text-[#FFA640] font-semibold">
           Sign In
         </Link>
       </p>

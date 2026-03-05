@@ -51,7 +51,7 @@ export function StepConfirm({ data }: StepConfirmProps) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-      <h3 className="text-xs font-semibold text-[#FFD600] uppercase tracking-wider mb-3">{title}</h3>
+      <h3 className="text-xs font-semibold text-[#FF8A00] uppercase tracking-wider mb-3">{title}</h3>
       <div className="space-y-2">{children}</div>
     </div>
   )

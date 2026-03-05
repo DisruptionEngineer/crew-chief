@@ -22,14 +22,14 @@ export function CarProvider({ children }: { children: ReactNode }) {
 
   // Persist car selection
   useEffect(() => {
-    const saved = localStorage.getItem('crew-chief-car-id')
+    const saved = localStorage.getItem('tenths-car-id')
     if (saved && allCars.find(c => c.id === saved)) {
       setCurrentCarId(saved)
     }
   }, [])
 
   useEffect(() => {
-    localStorage.setItem('crew-chief-car-id', currentCarId)
+    localStorage.setItem('tenths-car-id', currentCarId)
   }, [currentCarId])
 
   const currentCar = cars.find(c => c.id === currentCarId) || cars[0]

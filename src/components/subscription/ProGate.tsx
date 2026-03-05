@@ -17,7 +17,7 @@ export function ProGate({ children, variant = 'full-page', feature }: ProGatePro
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="w-8 h-8 rounded-lg bg-[#FFD600] animate-pulse" />
+        <div className="w-8 h-8 rounded-lg bg-[#FF8A00] animate-pulse" />
       </div>
     )
   }
@@ -81,18 +81,18 @@ function PaywallCard({ feature }: { feature?: string }) {
   return (
     <div className="w-full max-w-sm bg-[#1A1A1A] border border-[#333] rounded-xl p-6 text-center shadow-2xl">
       {/* Pro badge */}
-      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FFD600]/10 border border-[#FFD600]/30 rounded-full mb-4">
-        <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="currentColor">
+      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FF8A00]/10 border border-[#FF8A00]/30 rounded-full mb-4">
+        <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
         </svg>
-        <span className="text-[#FFD600] text-xs font-bold uppercase tracking-wider">Pro Feature</span>
+        <span className="text-[#FF8A00] text-xs font-bold uppercase tracking-wider">Pro Feature</span>
       </div>
 
       <h3 className="text-lg font-bold text-[#F5F5F5] mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
         Unlock {feature || 'This Feature'}
       </h3>
       <p className="text-sm text-[#888] mb-6">
-        Get full access to all Crew Chief Pro tools including engine simulation, session logging, and multi-car support.
+        Get full access to all Tenths Pro tools including engine simulation, session logging, and multi-car support.
       </p>
 
       {/* Price */}
@@ -110,7 +110,7 @@ function PaywallCard({ feature }: { feature?: string }) {
           'Priority Support',
         ].map((f) => (
           <li key={f} className="flex items-center gap-2 text-sm text-[#AAA]">
-            <svg className="w-4 h-4 text-[#FFD600] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-4 h-4 text-[#FF8A00] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
               <polyline points="20 6 9 17 4 12" />
             </svg>
             {f}
@@ -121,7 +121,7 @@ function PaywallCard({ feature }: { feature?: string }) {
       <button
         onClick={handleUpgrade}
         disabled={loading}
-        className="w-full py-3 px-4 bg-[#FFD600] hover:bg-[#FFD600]/90 text-[#0D0D0D] font-bold text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-3 px-4 bg-[#FF8A00] hover:bg-[#FF8A00]/90 text-[#0D0D0D] font-bold text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         style={{ fontFamily: 'var(--font-heading)' }}
       >
         {loading ? 'Redirecting...' : 'Upgrade to Pro'}

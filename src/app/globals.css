@@ -51,13 +51,13 @@
 
   /* Racing status colors */
   --color-status-green: #00E676;
-  --color-status-yellow: #FFD600;
+  --color-status-yellow: #FF8A00;
   --color-status-red: #FF1744;
   --color-status-blue: #448AFF;
   --color-status-orange: #FF9100;
 }
 
-/* Crew Chief Racing Theme — always dark */
+/* Tenths Racing Theme — always dark */
 :root {
   --radius: 0.5rem;
   --background: #0D0D0D;
@@ -66,31 +66,31 @@
   --card-foreground: #F5F5F5;
   --popover: #252525;
   --popover-foreground: #F5F5F5;
-  --primary: #FFD600;
+  --primary: #FF8A00;
   --primary-foreground: #0D0D0D;
   --secondary: #252525;
   --secondary-foreground: #F5F5F5;
   --muted: #333333;
   --muted-foreground: #888888;
-  --accent: #FFD600;
+  --accent: #FF8A00;
   --accent-foreground: #0D0D0D;
   --destructive: #FF1744;
   --border: #333333;
   --input: #333333;
-  --ring: #FFD600;
-  --chart-1: #FFD600;
+  --ring: #FF8A00;
+  --chart-1: #FF8A00;
   --chart-2: #00E676;
   --chart-3: #448AFF;
   --chart-4: #FF1744;
   --chart-5: #B0B0B0;
   --sidebar: #1A1A1A;
   --sidebar-foreground: #F5F5F5;
-  --sidebar-primary: #FFD600;
+  --sidebar-primary: #FF8A00;
   --sidebar-primary-foreground: #0D0D0D;
   --sidebar-accent: #252525;
   --sidebar-accent-foreground: #F5F5F5;
   --sidebar-border: #333333;
-  --sidebar-ring: #FFD600;
+  --sidebar-ring: #FF8A00;
 }
 
 @layer base {
@@ -155,7 +155,7 @@
 
 /* Subtle glow for selected/active states */
 .glow-yellow {
-  box-shadow: 0 0 0 1px rgba(255, 214, 0, 0.3), 0 0 20px rgba(255, 214, 0, 0.08);
+  box-shadow: 0 0 0 1px rgba(255, 138, 0, 0.3), 0 0 20px rgba(255, 138, 0, 0.08);
 }
 .glow-green {
   box-shadow: 0 0 0 1px rgba(0, 230, 118, 0.3), 0 0 20px rgba(0, 230, 118, 0.08);
@@ -249,7 +249,7 @@
 }
 .pill-btn[data-active="true"],
 .pill-btn.active {
-  @apply bg-[#FFD600] text-[#0D0D0D] border-[#FFD600];
+  @apply bg-[#FF8A00] text-[#0D0D0D] border-[#FF8A00];
 }
 
 /* Value stepper buttons (+ / -) */
@@ -269,8 +269,8 @@
 }
 .selector-card[data-selected="true"],
 .selector-card.selected {
-  @apply bg-[#FFD600]/10 border-[#FFD600];
-  box-shadow: 0 0 0 1px rgba(255, 214, 0, 0.3), 0 0 20px rgba(255, 214, 0, 0.06);
+  @apply bg-[#FF8A00]/10 border-[#FF8A00];
+  box-shadow: 0 0 0 1px rgba(255, 138, 0, 0.3), 0 0 20px rgba(255, 138, 0, 0.06);
 }
 
 /* ─── INPUT POLISH ─── */
@@ -282,8 +282,8 @@ input[type="number"] {
 }
 input[type="text"]:focus,
 input[type="number"]:focus {
-  border-color: #FFD600 !important;
-  box-shadow: 0 0 0 1px rgba(255, 214, 0, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  border-color: #FF8A00 !important;
+  box-shadow: 0 0 0 1px rgba(255, 138, 0, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* ─── SECTION ACCORDION POLISH ─── */
@@ -300,8 +300,8 @@ input[type="number"]:focus {
 .checkered-divider {
   background-image: repeating-linear-gradient(
     90deg,
-    #FFD600 0px,
-    #FFD600 8px,
+    #FF8A00 0px,
+    #FF8A00 8px,
     transparent 8px,
     transparent 16px
   );
@@ -325,8 +325,8 @@ input[type="number"]:focus {
   border-radius: 1px;
   background-image: repeating-linear-gradient(
     90deg,
-    #FFD600 0px,
-    #FFD600 8px,
+    #FF8A00 0px,
+    #FF8A00 8px,
     transparent 8px,
     transparent 16px
   );
@@ -359,7 +359,7 @@ input[type="number"]:focus {
   @apply bg-[#FF1744]/20 text-[#FF1744];
 }
 .badge-yellow {
-  @apply bg-[#FFD600]/20 text-[#FFD600];
+  @apply bg-[#FF8A00]/20 text-[#FF8A00];
 }
 .badge-muted {
   @apply bg-[#333] text-[#888];
@@ -394,7 +394,7 @@ input[type="number"]:focus {
 /* ─── SELECTION ─── */
 
 ::selection {
-  background: rgba(255, 214, 0, 0.25);
+  background: rgba(255, 138, 0, 0.25);
   color: #F5F5F5;
 }
 
@@ -407,6 +407,6 @@ input[type="number"]:focus {
 /* ─── FOCUS VISIBLE ─── */
 
 :focus-visible {
-  outline: 2px solid rgba(255, 214, 0, 0.5);
+  outline: 2px solid rgba(255, 138, 0, 0.5);
   outline-offset: 2px;
 }

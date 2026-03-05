@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Terms of Service — Crew Chief',
+  title: 'Terms of Service — Tenths',
 }
 
 export default function TermsPage() {
@@ -26,7 +26,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-[#F5F5F5] mb-3">1. Agreement to Terms</h2>
             <p>
-              By accessing or using Crew Chief (&quot;the Service&quot;), operated by Flyin Finn Racing LLC (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;),
+              By accessing or using Tenths (&quot;the Service&quot;), operated by Flyin Finn Racing LLC (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;),
               you agree to be bound by these Terms of Service. If you do not agree to these terms, do not use the Service.
             </p>
           </section>
@@ -34,7 +34,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-[#F5F5F5] mb-3">2. Description of Service</h2>
             <p>
-              Crew Chief is a web-based application that provides chassis setup calculations, diagnostic troubleshooting,
+              Tenths is a web-based application that provides chassis setup calculations, diagnostic troubleshooting,
               session logging, and reference materials for short track racing. The Service is provided &quot;as is&quot; and is intended
               for informational and educational purposes only.
             </p>
@@ -52,7 +52,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-[#F5F5F5] mb-3">4. Subscriptions and Billing</h2>
             <p>
-              Crew Chief offers a free tier and a paid Pro subscription. Pro subscriptions are billed monthly through Stripe.
+              Tenths offers a free tier and a paid Pro subscription. Pro subscriptions are billed monthly through Stripe.
               You may cancel your subscription at any time through your account settings or the Stripe Customer Portal.
               Cancellations take effect at the end of the current billing period. We do not offer refunds for partial months.
             </p>
@@ -102,7 +102,7 @@ export default function TermsPage() {
             <h2 className="text-lg font-semibold text-[#F5F5F5] mb-3">9. Contact</h2>
             <p>
               If you have questions about these Terms, contact us at{' '}
-              <a href="mailto:support@crewchief.app" className="text-[#FFD600] hover:text-[#FFEA00]">support@crewchief.app</a>.
+              <a href="mailto:support@tenths.app" className="text-[#FF8A00] hover:text-[#FFA640]">support@tenths.app</a>.
             </p>
           </section>
         </div>

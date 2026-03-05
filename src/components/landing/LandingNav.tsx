@@ -22,11 +22,11 @@ export function LandingNav() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#FFD600] flex items-center justify-center">
-              <span className="text-[#0D0D0D] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>CC</span>
+            <div className="w-9 h-9 rounded-lg bg-[#FF8A00] flex items-center justify-center">
+              <span className="text-[#0D0D0D] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
             </div>
             <span className="text-sm font-bold text-[#F5F5F5] tracking-wider uppercase hidden sm:block" style={{ fontFamily: 'var(--font-heading)' }}>
-              Crew Chief
+              Tenths
             </span>
           </div>
 
@@ -52,7 +52,7 @@ export function LandingNav() {
             </Link>
             <Link
               href="/sign-up"
-              className="text-sm font-semibold bg-[#FFD600] text-[#0D0D0D] px-4 py-2 rounded-md hover:bg-[#FFEA00] transition-colors"
+              className="text-sm font-semibold bg-[#FF8A00] text-[#0D0D0D] px-4 py-2 rounded-md hover:bg-[#FFA640] transition-colors"
             >
               Get Started Free
             </Link>

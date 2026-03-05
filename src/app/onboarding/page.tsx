@@ -75,8 +75,8 @@ export default function OnboardingPage() {
         year: parseInt(data.carYear) || 0,
         make: data.carMake,
         model: data.carModel,
-        class: (data.raceClass || 'ironman-f8') as RaceClass,
-        eligibleDivisions: [(data.raceClass || 'ironman-f8') as RaceClass],
+        class: (data.raceClass || 'street-stock') as RaceClass,
+        eligibleDivisions: [(data.raceClass || 'street-stock') as RaceClass],
         engineFamilyId: data.engineType?.includes('Ford') ? 'ford-351w' : data.engineType?.includes('4.6') ? 'ford-46-sohc' : data.engineType?.includes('Mopar') ? 'mopar-360' : 'gm-sbc-350',
         weight: parseInt(data.carWeight) || 3300,
         wheelbase: 116,
@@ -127,8 +127,8 @@ export default function OnboardingPage() {
       await db.userProfiles.put(profile)
 
       // Mark onboarding complete in localStorage
-      localStorage.setItem('crew-chief-onboarded', 'true')
-      localStorage.setItem('crew-chief-car-id', carId)
+      localStorage.setItem('tenths-onboarded', 'true')
+      localStorage.setItem('tenths-car-id', carId)
 
       // Navigate to dashboard
       router.push('/dashboard')
@@ -139,7 +139,7 @@ export default function OnboardingPage() {
   }
 
   const handleSkip = () => {
-    localStorage.setItem('crew-chief-onboarded', 'true')
+    localStorage.setItem('tenths-onboarded', 'true')
     router.push('/dashboard')
   }
 
@@ -178,7 +178,7 @@ export default function OnboardingPage() {
             disabled={!canAdvance()}
             className={`px-6 py-3 rounded-md font-semibold text-sm transition-all ${
               canAdvance()
-                ? 'bg-[#FFD600] text-[#0D0D0D] hover:bg-[#FFEA00]'
+                ? 'bg-[#FF8A00] text-[#0D0D0D] hover:bg-[#FFA640]'
                 : 'bg-[#333] text-[#666] cursor-not-allowed'
             }`}
           >
@@ -188,7 +188,7 @@ export default function OnboardingPage() {
           <button
             onClick={handleComplete}
             disabled={saving}
-            className="px-8 py-3 rounded-md font-bold text-sm bg-[#FFD600] text-[#0D0D0D] hover:bg-[#FFEA00] transition-all disabled:opacity-50"
+            className="px-8 py-3 rounded-md font-bold text-sm bg-[#FF8A00] text-[#0D0D0D] hover:bg-[#FFA640] transition-all disabled:opacity-50"
           >
             {saving ? 'Saving...' : "Let's Go Racing 🏁"}
           </button>

@@ -26,7 +26,7 @@ export function DivisionSelector({ divisions, selectedId, onChange }: DivisionSe
             onClick={() => onChange(div.id)}
             className={`px-3 py-2 rounded-md text-xs font-semibold transition-all min-h-[40px] ${
               isSelected
-                ? 'bg-[#FFD600] text-[#0D0D0D]'
+                ? 'bg-[#FF8A00] text-[#0D0D0D]'
                 : 'bg-[#252525] text-[#888] border border-[#333] hover:border-[#555] hover:text-[#F5F5F5]'
             }`}
           >

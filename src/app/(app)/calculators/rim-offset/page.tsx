@@ -47,7 +47,7 @@ export default function RimOffsetPage() {
                 step={0.5}
                 min={5}
                 max={12}
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
               />
               <span className="text-[10px] text-[#666]">&quot;</span>
             </div>
@@ -62,7 +62,7 @@ export default function RimOffsetPage() {
                 step={0.125}
                 min={2}
                 max={7}
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
               />
               <span className="text-[10px] text-[#666]">&quot;</span>
             </div>
@@ -77,7 +77,7 @@ export default function RimOffsetPage() {
                 step={5}
                 min={145}
                 max={325}
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
               />
               <span className="text-[10px] text-[#666]">mm</span>
             </div>
@@ -96,7 +96,7 @@ export default function RimOffsetPage() {
               value={input.stockBackspacing}
               onChange={e => update('stockBackspacing', parseFloat(e.target.value) || 4.25)}
               step={0.125}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
             />
           </div>
           <div>
@@ -106,7 +106,7 @@ export default function RimOffsetPage() {
               value={input.stockRimWidth ?? 7}
               onChange={e => update('stockRimWidth', parseFloat(e.target.value) || 7)}
               step={0.5}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
             />
           </div>
           <div>
@@ -116,7 +116,7 @@ export default function RimOffsetPage() {
               value={input.kingpinOffset ?? 1.5}
               onChange={e => update('kingpinOffset', parseFloat(e.target.value) || 1.5)}
               step={0.25}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
             />
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function RimOffsetPage() {
             <p className="text-[10px] text-[#666] uppercase">Centerline Shift</p>
             <p className={`font-mono text-xl font-bold mt-1 ${
               Math.abs(result.centerlineShift) < 0.25 ? 'text-[#00E676]' :
-              Math.abs(result.centerlineShift) < 0.75 ? 'text-[#FFD600]' : 'text-[#FF1744]'
+              Math.abs(result.centerlineShift) < 0.75 ? 'text-[#FF8A00]' : 'text-[#FF1744]'
             }`}>
               {result.centerlineShift > 0 ? '+' : ''}{result.centerlineShift.toFixed(3)}&quot;
             </p>
@@ -165,7 +165,7 @@ export default function RimOffsetPage() {
           <div className="bg-[#252525] rounded-md p-3 text-center">
             <p className="text-[10px] text-[#666] uppercase">Scrub Radius Change</p>
             <p className={`font-mono text-lg font-bold mt-1 ${
-              Math.abs(result.scrubRadiusChange) < 0.5 ? 'text-[#00E676]' : 'text-[#FFD600]'
+              Math.abs(result.scrubRadiusChange) < 0.5 ? 'text-[#00E676]' : 'text-[#FF8A00]'
             }`}>
               {result.scrubRadiusChange > 0 ? '+' : ''}{result.scrubRadiusChange.toFixed(2)}&quot;
             </p>

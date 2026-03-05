@@ -41,7 +41,7 @@ export default function TransmissionPage() {
                 onClick={() => setInput(prev => ({ ...prev, engineMake: make }))}
                 className={`flex-1 py-2.5 rounded-md text-sm font-semibold transition-colors min-h-[44px] ${
                   input.engineMake === make
-                    ? 'bg-[#FFD600] text-[#0D0D0D]'
+                    ? 'bg-[#FF8A00] text-[#0D0D0D]'
                     : 'bg-[#252525] text-[#888] border border-[#333]'
                 }`}
               >
@@ -61,7 +61,7 @@ export default function TransmissionPage() {
               step={10}
               min={100}
               max={600}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
             />
           </div>
           <div>
@@ -73,7 +73,7 @@ export default function TransmissionPage() {
               step={0.01}
               min={2.5}
               max={5.0}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
             />
           </div>
         </div>
@@ -86,7 +86,7 @@ export default function TransmissionPage() {
               onClick={() => setInput(prev => ({ ...prev, preferAutomatic: true }))}
               className={`flex-1 py-2.5 rounded-md text-sm font-semibold transition-colors min-h-[44px] ${
                 input.preferAutomatic
-                  ? 'bg-[#FFD600] text-[#0D0D0D]'
+                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
                   : 'bg-[#252525] text-[#888] border border-[#333]'
               }`}
             >
@@ -96,7 +96,7 @@ export default function TransmissionPage() {
               onClick={() => setInput(prev => ({ ...prev, preferAutomatic: false }))}
               className={`flex-1 py-2.5 rounded-md text-sm font-semibold transition-colors min-h-[44px] ${
                 !input.preferAutomatic
-                  ? 'bg-[#FFD600] text-[#0D0D0D]'
+                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
                   : 'bg-[#252525] text-[#888] border border-[#333]'
               }`}
             >
@@ -142,7 +142,7 @@ export default function TransmissionPage() {
                 <div className="flex items-center gap-1.5">
                   <span className={`font-mono text-lg font-bold ${
                     opt.score >= 80 ? 'text-[#00E676]' :
-                    opt.score >= 60 ? 'text-[#FFD600]' : 'text-[#888]'
+                    opt.score >= 60 ? 'text-[#FF8A00]' : 'text-[#888]'
                   }`}>
                     {opt.score}
                   </span>
@@ -156,7 +156,7 @@ export default function TransmissionPage() {
                   className="h-full rounded-full transition-all"
                   style={{
                     width: `${opt.score}%`,
-                    backgroundColor: opt.score >= 80 ? '#00E676' : opt.score >= 60 ? '#FFD600' : '#888',
+                    backgroundColor: opt.score >= 80 ? '#00E676' : opt.score >= 60 ? '#FF8A00' : '#888',
                   }}
                 />
               </div>

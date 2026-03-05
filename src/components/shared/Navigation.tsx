@@ -33,7 +33,7 @@ export function Navigation() {
                 key={item.href}
                 href={item.href}
                 className={`relative flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] transition-all duration-200 ${
-                  isActive ? 'text-[#FFD600]' : 'text-[#555] active:scale-95'
+                  isActive ? 'text-[#FF8A00]' : 'text-[#555] active:scale-95'
                 }`}
               >
                 <div className="relative">
@@ -44,7 +44,7 @@ export function Navigation() {
                 </div>
                 <span className={`text-[10px] transition-colors ${isActive ? 'font-semibold' : 'font-medium'}`}>{item.label}</span>
                 {/* Active indicator dot */}
-                <div className={`absolute -top-0.5 w-1 h-1 rounded-full bg-[#FFD600] transition-all duration-200 ${
+                <div className={`absolute -top-0.5 w-1 h-1 rounded-full bg-[#FF8A00] transition-all duration-200 ${
                   isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
                 }`} />
               </Link>
@@ -57,14 +57,14 @@ export function Navigation() {
       <aside className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 flex-col w-20 lg:w-60 bg-[#1A1A1A] border-r border-[#333]">
         {/* Logo */}
         <div className="flex items-center gap-3 px-4 py-5 border-b border-[#333]">
-          <div className="w-10 h-10 rounded-lg bg-[#FFD600] flex items-center justify-center shadow-[0_0_16px_rgba(255,214,0,0.15)]">
-            <span className="text-[#0D0D0D] font-bold text-lg" style={{ fontFamily: 'var(--font-heading)' }}>CC</span>
+          <div className="w-10 h-10 rounded-lg bg-[#FF8A00] flex items-center justify-center shadow-[0_0_16px_rgba(255,138,0,0.15)]">
+            <span className="text-[#0D0D0D] font-bold text-lg" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
           </div>
           <div className="hidden lg:block">
             <h1 className="text-sm font-bold text-[#F5F5F5] tracking-wider uppercase" style={{ fontFamily: 'var(--font-heading)' }}>
-              Crew Chief
+              Tenths
             </h1>
-            <p className="text-[10px] text-[#555] uppercase tracking-widest">Virtual Pit Crew</p>
+            <p className="text-[10px] text-[#555] uppercase tracking-widest">Find Your Tenths</p>
           </div>
         </div>
 
@@ -78,12 +78,12 @@ export function Navigation() {
                 href={item.href}
                 className={`relative flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 group ${
                   isActive
-                    ? 'bg-[#FFD600]/10 text-[#FFD600]'
+                    ? 'bg-[#FF8A00]/10 text-[#FF8A00]'
                     : 'text-[#666] hover:text-[#F5F5F5] hover:bg-[#252525]'
                 }`}
               >
                 {/* Active indicator bar — left edge */}
-                <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-[3px] rounded-r-full bg-[#FFD600] transition-all duration-200 ${
+                <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-[3px] rounded-r-full bg-[#FF8A00] transition-all duration-200 ${
                   isActive ? 'h-6 opacity-100' : 'h-0 opacity-0'
                 }`} />
                 <div className="relative flex-shrink-0">
@@ -96,7 +96,7 @@ export function Navigation() {
                 </div>
                 <span className={`hidden lg:block text-sm ${isActive ? 'font-semibold' : 'font-medium'}`}>{item.label}</span>
                 {item.isPro && !isPro && (
-                  <span className="hidden lg:inline-block ml-auto text-[9px] px-1.5 py-0.5 rounded bg-[#FFD600]/10 text-[#FFD600] font-bold uppercase">Pro</span>
+                  <span className="hidden lg:inline-block ml-auto text-[9px] px-1.5 py-0.5 rounded bg-[#FF8A00]/10 text-[#FF8A00] font-bold uppercase">Pro</span>
                 )}
               </Link>
             )
@@ -109,7 +109,7 @@ export function Navigation() {
             <select
               value={currentCar.id}
               onChange={(e) => setCurrentCarId(e.target.value)}
-              className="w-full bg-[#252525] text-[#F5F5F5] text-xs border border-[#333] rounded-md px-2 py-2.5 pr-7 focus:outline-none focus:ring-1 focus:ring-[#FFD600] cursor-pointer appearance-none transition-colors hover:border-[#555]"
+              className="w-full bg-[#252525] text-[#F5F5F5] text-xs border border-[#333] rounded-md px-2 py-2.5 pr-7 focus:outline-none focus:ring-1 focus:ring-[#FF8A00] cursor-pointer appearance-none transition-colors hover:border-[#555]"
             >
               {cars.map((car) => (
                 <option key={car.id} value={car.id}>
@@ -151,17 +151,17 @@ function UserSection() {
       {!isPro && (
         <Link
           href="/account"
-          className="hidden lg:flex items-center gap-2 w-full px-3 py-2 mb-2 rounded-md bg-[#FFD600]/10 border border-[#FFD600]/20 hover:bg-[#FFD600]/20 transition-colors"
+          className="hidden lg:flex items-center gap-2 w-full px-3 py-2 mb-2 rounded-md bg-[#FF8A00]/10 border border-[#FF8A00]/20 hover:bg-[#FF8A00]/20 transition-colors"
         >
-          <svg className="w-3.5 h-3.5 text-[#FFD600]" viewBox="0 0 24 24" fill="currentColor">
+          <svg className="w-3.5 h-3.5 text-[#FF8A00]" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
-          <span className="text-[11px] font-bold text-[#FFD600]">Upgrade to Pro</span>
+          <span className="text-[11px] font-bold text-[#FF8A00]">Upgrade to Pro</span>
         </Link>
       )}
       <Link href="/account" className="flex items-center gap-3 group">
         <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${
-          isPro ? 'bg-[#FFD600] text-[#0D0D0D] ring-2 ring-[#FFD600]/30' : 'bg-[#FFD600] text-[#0D0D0D]'
+          isPro ? 'bg-[#FF8A00] text-[#0D0D0D] ring-2 ring-[#FF8A00]/30' : 'bg-[#FF8A00] text-[#0D0D0D]'
         }`}>
           {initial}
         </div>
@@ -169,7 +169,7 @@ function UserSection() {
           <div className="flex items-center gap-1.5">
             <span className="text-xs text-[#888] truncate">{user.email}</span>
             {isPro && (
-              <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#FFD600]/10 text-[#FFD600] font-bold uppercase flex-shrink-0">Pro</span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded bg-[#FF8A00]/10 text-[#FF8A00] font-bold uppercase flex-shrink-0">Pro</span>
             )}
           </div>
         </div>
@@ -186,7 +186,7 @@ function UserSection() {
 
 function LockBadge({ className }: { className?: string }) {
   return (
-    <svg className={`w-3 h-3 text-[#FFD600] ${className || ''}`} viewBox="0 0 24 24" fill="currentColor">
+    <svg className={`w-3 h-3 text-[#FF8A00] ${className || ''}`} viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 2C9.24 2 7 4.24 7 7v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V7c0-2.76-2.24-5-5-5zm3 8H9V7c0-1.66 1.34-3 3-3s3 1.34 3 3v3z" />
     </svg>
   )

@@ -1,5 +1,5 @@
 // ============================================================
-// Crew Chief — Type barrel
+// Tenths — Type barrel
 // Re-exports all types from their domain modules
 // ============================================================
 

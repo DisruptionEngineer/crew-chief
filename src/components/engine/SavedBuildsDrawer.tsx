@@ -53,7 +53,7 @@ export function SavedBuildsDrawer({ open, builds, onLoad, onDelete, onCompare, o
                     onClick={() => onLoad(build)}
                     className="flex-1 text-left"
                   >
-                    <p className="text-sm font-semibold text-[#F5F5F5] group-hover:text-[#FFD600] transition-colors">
+                    <p className="text-sm font-semibold text-[#F5F5F5] group-hover:text-[#FF8A00] transition-colors">
                       {build.name}
                     </p>
                     <div className="flex items-center gap-3 mt-1 text-[11px] text-[#888]">
@@ -90,7 +90,7 @@ export function SavedBuildsDrawer({ open, builds, onLoad, onDelete, onCompare, o
             <div className="flex gap-2">
               <select
                 id="compare-a"
-                className="flex-1 bg-[#252525] border border-[#333] rounded-md px-2 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+                className="flex-1 bg-[#252525] border border-[#333] rounded-md px-2 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
                 defaultValue=""
               >
                 <option value="" disabled>Build A</option>
@@ -100,7 +100,7 @@ export function SavedBuildsDrawer({ open, builds, onLoad, onDelete, onCompare, o
               </select>
               <select
                 id="compare-b"
-                className="flex-1 bg-[#252525] border border-[#333] rounded-md px-2 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+                className="flex-1 bg-[#252525] border border-[#333] rounded-md px-2 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
                 defaultValue=""
               >
                 <option value="" disabled>Build B</option>
@@ -114,7 +114,7 @@ export function SavedBuildsDrawer({ open, builds, onLoad, onDelete, onCompare, o
                   const b = (document.getElementById('compare-b') as HTMLSelectElement)?.value
                   if (a && b && a !== b) onCompare(a, b)
                 }}
-                className="px-3 py-2 bg-[#FFD600] text-[#0D0D0D] text-xs font-semibold rounded-md hover:bg-[#FFEA00] transition-colors"
+                className="px-3 py-2 bg-[#FF8A00] text-[#0D0D0D] text-xs font-semibold rounded-md hover:bg-[#FFA640] transition-colors"
               >
                 Compare
               </button>

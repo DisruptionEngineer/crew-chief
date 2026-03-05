@@ -88,7 +88,7 @@ export default function SessionsPage() {
         </div>
         <Link
           href="/sessions/new"
-          className="bg-[#FFD600] text-[#0D0D0D] px-4 py-2.5 rounded-md text-sm font-bold min-h-[48px] flex items-center gap-2 hover:bg-[#FFEA00] transition-colors"
+          className="bg-[#FF8A00] text-[#0D0D0D] px-4 py-2.5 rounded-md text-sm font-bold min-h-[48px] flex items-center gap-2 hover:bg-[#FFA640] transition-colors"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
             <line x1="12" y1="5" x2="12" y2="19" />
@@ -116,7 +116,7 @@ export default function SessionsPage() {
           </p>
           <Link
             href="/sessions/new"
-            className="inline-flex items-center gap-2 bg-[#FFD600] text-[#0D0D0D] px-6 py-3 rounded-md text-sm font-bold hover:bg-[#FFEA00] transition-colors"
+            className="inline-flex items-center gap-2 bg-[#FF8A00] text-[#0D0D0D] px-6 py-3 rounded-md text-sm font-bold hover:bg-[#FFA640] transition-colors"
           >
             Log Your First Session
           </Link>
@@ -145,7 +145,7 @@ function SessionCard({ session }: { session: Session }) {
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs px-2 py-0.5 rounded-full bg-[#FFD600]/20 text-[#FFD600] uppercase font-semibold">
+            <span className="text-xs px-2 py-0.5 rounded-full bg-[#FF8A00]/20 text-[#FF8A00] uppercase font-semibold">
               {session.eventType}
             </span>
             <span className="text-xs text-[#666]">{session.trackCondition}</span>

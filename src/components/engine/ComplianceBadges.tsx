@@ -26,7 +26,7 @@ export function ComplianceBadges({ compliance }: ComplianceBadgesProps) {
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
                 <polyline points="20 6 9 17 4 12" />
               </svg>
-              LEGAL — Ironman F8
+              LEGAL
             </span>
           ) : (
             <span className="flex items-center gap-1.5 text-sm font-semibold text-[#FF1744]">
@@ -38,7 +38,7 @@ export function ComplianceBadges({ compliance }: ComplianceBadgesProps) {
             </span>
           )}
           {compliance.warnings.length > 0 && (
-            <span className="text-[10px] font-semibold text-[#FFD600] bg-[#FFD600]/10 px-2 py-0.5 rounded">
+            <span className="text-[10px] font-semibold text-[#FF8A00] bg-[#FF8A00]/10 px-2 py-0.5 rounded">
               {compliance.warnings.length} warning{compliance.warnings.length !== 1 ? 's' : ''}
             </span>
           )}
@@ -58,12 +58,12 @@ export function ComplianceBadges({ compliance }: ComplianceBadgesProps) {
           ))}
           {compliance.warnings.map((w, i) => (
             <div key={`w-${i}`} className="flex items-start gap-2 text-xs">
-              <span className="text-[#FFD600] flex-shrink-0">⚠</span>
+              <span className="text-[#FF8A00] flex-shrink-0">⚠</span>
               <span className="text-[#888]">{w}</span>
             </div>
           ))}
           {compliance.violations.length === 0 && compliance.warnings.length === 0 && (
-            <p className="text-xs text-[#888]">All engine rules pass. This build is legal for Ironman F8.</p>
+            <p className="text-xs text-[#888]">All engine rules pass. This build is legal for your division.</p>
           )}
         </div>
       )}

@@ -62,7 +62,7 @@ export default function GearRatioPage() {
               onClick={() => handlePresetChange(key)}
               className={`px-3 py-2 rounded-md text-xs font-semibold transition-colors min-h-[40px] ${
                 transPreset === key
-                  ? 'bg-[#FFD600] text-[#0D0D0D]'
+                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
                   : 'bg-[#252525] text-[#888] border border-[#333] hover:border-[#555]'
               }`}
             >
@@ -93,7 +93,7 @@ export default function GearRatioPage() {
               value={input.rearGearRatio}
               onChange={e => update('rearGearRatio', parseFloat(e.target.value) || 3.73)}
               step={0.01}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
             />
           </div>
           <div>
@@ -104,7 +104,7 @@ export default function GearRatioPage() {
                 value={input.tireDiameter}
                 onChange={e => update('tireDiameter', parseFloat(e.target.value) || 26)}
                 step={0.5}
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
               />
               <span className="text-[10px] text-[#666]">&quot;</span>
             </div>
@@ -117,7 +117,7 @@ export default function GearRatioPage() {
                 value={input.trackTopSpeed ?? 65}
                 onChange={e => update('trackTopSpeed', parseFloat(e.target.value) || 65)}
                 step={5}
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
               />
               <span className="text-[10px] text-[#666]">mph</span>
             </div>
@@ -136,7 +136,7 @@ export default function GearRatioPage() {
               value={input.peakTorqueRpm ?? 4200}
               onChange={e => update('peakTorqueRpm', parseFloat(e.target.value) || 4200)}
               step={100}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
             />
           </div>
           <div>
@@ -146,7 +146,7 @@ export default function GearRatioPage() {
               value={input.peakHpRpm ?? 5400}
               onChange={e => update('peakHpRpm', parseFloat(e.target.value) || 5400)}
               step={100}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
             />
           </div>
         </div>
@@ -180,7 +180,7 @@ export default function GearRatioPage() {
       {/* Recommendations */}
       {result.recommendations.length > 0 && (
         <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-          <p className="text-xs font-semibold text-[#FFD600] uppercase tracking-wider mb-2">Analysis</p>
+          <p className="text-xs font-semibold text-[#FF8A00] uppercase tracking-wider mb-2">Analysis</p>
           <div className="space-y-2">
             {result.recommendations.map((rec, i) => (
               <p key={i} className="text-sm text-[#F5F5F5] leading-relaxed">{rec}</p>

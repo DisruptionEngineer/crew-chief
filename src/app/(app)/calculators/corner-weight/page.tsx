@@ -28,7 +28,7 @@ export default function CornerWeightPage() {
     if (!target) return '#F5F5F5'
     const diff = Math.abs(value - target)
     if (diff < tolerancePct * 0.3) return '#00E676'
-    if (diff < tolerancePct) return '#FFD600'
+    if (diff < tolerancePct) return '#FF8A00'
     return '#FF1744'
   }
 
@@ -57,7 +57,7 @@ export default function CornerWeightPage() {
                   type="number"
                   value={input[key] as number}
                   onChange={e => update(key, parseFloat(e.target.value) || 0)}
-                  className="w-full bg-[#1A1A1A] border border-[#333] rounded-md px-3 py-2.5 font-mono text-lg text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[44px]"
+                  className="w-full bg-[#1A1A1A] border border-[#333] rounded-md px-3 py-2.5 font-mono text-lg text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
                 />
               </div>
             )
@@ -76,7 +76,7 @@ export default function CornerWeightPage() {
               value={input.targetCrossWeight ?? 50}
               onChange={e => update('targetCrossWeight', parseFloat(e.target.value) || 50)}
               step={0.5}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
             />
           </div>
           <div>
@@ -86,7 +86,7 @@ export default function CornerWeightPage() {
               value={input.targetLeftPct ?? 55}
               onChange={e => update('targetLeftPct', parseFloat(e.target.value) || 55)}
               step={0.5}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
             />
           </div>
           <div>
@@ -96,7 +96,7 @@ export default function CornerWeightPage() {
               value={input.targetRearPct ?? 49}
               onChange={e => update('targetRearPct', parseFloat(e.target.value) || 49)}
               step={0.5}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
             />
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function CornerWeightPage() {
             value={input.lbsPerTurn ?? 12}
             onChange={e => update('lbsPerTurn', parseFloat(e.target.value) || 12)}
             step={1}
-            className="w-24 bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FFD600]"
+            className="w-24 bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
           />
         </div>
       </div>
@@ -151,7 +151,7 @@ export default function CornerWeightPage() {
           <p className="text-[10px] text-[#666] uppercase">Diagonal Bias</p>
           <p className={`font-mono text-lg font-bold mt-1 ${
             Math.abs(result.diagonalBias) < 0.5 ? 'text-[#00E676]' :
-            Math.abs(result.diagonalBias) < 1.5 ? 'text-[#FFD600]' : 'text-[#FF1744]'
+            Math.abs(result.diagonalBias) < 1.5 ? 'text-[#FF8A00]' : 'text-[#FF1744]'
           }`}>
             {result.diagonalBias > 0 ? '+' : ''}{result.diagonalBias.toFixed(1)}%
           </p>
@@ -165,7 +165,7 @@ export default function CornerWeightPage() {
       {/* Load Bolt Adjustments */}
       {result.loadBoltAdjustments.length > 0 && (
         <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-          <p className="text-xs font-semibold text-[#FFD600] uppercase tracking-wider mb-3">
+          <p className="text-xs font-semibold text-[#FF8A00] uppercase tracking-wider mb-3">
             Recommended Adjustments
           </p>
           <div className="space-y-3">
@@ -173,7 +173,7 @@ export default function CornerWeightPage() {
               <div key={i} className="bg-[#252525] rounded-md p-3">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-semibold text-[#F5F5F5]">{adj.corner} Load Bolt</span>
-                  <span className="font-mono text-sm font-bold text-[#FFD600]">
+                  <span className="font-mono text-sm font-bold text-[#FF8A00]">
                     {Math.abs(adj.turns).toFixed(1)} turn{Math.abs(adj.turns) !== 1 ? 's' : ''} {adj.direction}
                   </span>
                 </div>

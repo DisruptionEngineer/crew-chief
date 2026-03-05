@@ -20,7 +20,7 @@ const categoryLabels: Record<RuleCategory, { label: string; icon: string }> = {
 const categoryOrder: RuleCategory[] = ['weight', 'engine', 'suspension', 'tires', 'drivetrain', 'safety', 'fuel', 'electrical', 'body', 'general']
 
 export default function RulesPage() {
-  const [activeDivisionId, setActiveDivisionId] = useState<RaceClass>('ironman-f8')
+  const [activeDivisionId, setActiveDivisionId] = useState<RaceClass>(divisions[0]?.id || 'street-stock' as RaceClass)
   const [search, setSearch] = useState('')
   const [expandedCategory, setExpandedCategory] = useState<RuleCategory | null>(null)
   const [showTechChecklist, setShowTechChecklist] = useState(false)
@@ -75,7 +75,7 @@ export default function RulesPage() {
       {/* Header */}
       <div className="animate-fade-up">
         <h1 className="text-2xl font-bold tracking-tight uppercase">Rules</h1>
-        <p className="text-sm text-[#666] mt-1">2026 Painesville Speedway</p>
+        <p className="text-sm text-[#666] mt-1">Division Rules & Tech</p>
       </div>
 
       {/* Division Switcher */}
@@ -86,7 +86,7 @@ export default function RulesPage() {
             onClick={() => handleDivisionChange(div.id)}
             className={`flex-shrink-0 px-3.5 py-2.5 rounded-md text-xs font-semibold transition-all duration-200 min-h-[44px] whitespace-nowrap ${
               activeDivisionId === div.id
-                ? 'bg-[#FFD600] text-[#0D0D0D] shadow-[0_0_16px_rgba(255,214,0,0.2)]'
+                ? 'bg-[#FF8A00] text-[#0D0D0D] shadow-[0_0_16px_rgba(255,138,0,0.2)]'
                 : 'bg-[#252525] text-[#666] border border-[#333] hover:border-[#555] hover:text-[#F5F5F5]'
             }`}
           >
@@ -106,7 +106,7 @@ export default function RulesPage() {
           <span>Formats: <span className="text-[#F5F5F5]">{activeDivision.formats.join(', ')}</span></span>
           <span>Mod level: <span className={`font-semibold ${
             activeDivision.modificationLevel === 'open' ? 'text-[#00E676]' :
-            activeDivision.modificationLevel === 'limited' ? 'text-[#FFD600]' :
+            activeDivision.modificationLevel === 'limited' ? 'text-[#FF8A00]' :
             'text-[#888]'
           }`}>{activeDivision.modificationLevel}</span></span>
         </div>
@@ -126,7 +126,7 @@ export default function RulesPage() {
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder={`Search ${activeDivision.name} rules...`}
-          className="w-full bg-[#252525] border border-[#333] rounded-md pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#FFD600] min-h-[48px]"
+          className="w-full bg-[#252525] border border-[#333] rounded-md pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[48px]"
         />
       </div>
 
@@ -136,13 +136,13 @@ export default function RulesPage() {
           onClick={() => setShowTechChecklist(!showTechChecklist)}
           className={`w-full text-left p-4 rounded-lg border transition-colors ${
             showTechChecklist
-              ? 'bg-[#FFD600]/10 border-[#FFD600]/30'
-              : 'bg-[#1A1A1A] border-[#333] hover:border-[#FFD600]/30'
+              ? 'bg-[#FF8A00]/10 border-[#FF8A00]/30'
+              : 'bg-[#1A1A1A] border-[#333] hover:border-[#FF8A00]/30'
           }`}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                 <polyline points="9 11 12 14 22 4" />
                 <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
               </svg>
@@ -156,7 +156,7 @@ export default function RulesPage() {
               className="h-full rounded-full transition-all"
               style={{
                 width: `${totalChecks > 0 ? (checkedCount / totalChecks) * 100 : 0}%`,
-                backgroundColor: checkedCount === totalChecks ? '#00E676' : '#FFD600',
+                backgroundColor: checkedCount === totalChecks ? '#00E676' : '#FF8A00',
               }}
             />
           </div>
@@ -176,7 +176,7 @@ export default function RulesPage() {
                       type="checkbox"
                       checked={checkedItems[item.id] || false}
                       onChange={e => setCheckedItems({ ...checkedItems, [item.id]: e.target.checked })}
-                      className="mt-1 w-5 h-5 rounded border-[#555] bg-[#252525] text-[#FFD600] focus:ring-[#FFD600] focus:ring-offset-0 cursor-pointer accent-[#FFD600]"
+                      className="mt-1 w-5 h-5 rounded border-[#555] bg-[#252525] text-[#FF8A00] focus:ring-[#FF8A00] focus:ring-offset-0 cursor-pointer accent-[#FF8A00]"
                     />
                     <div>
                       <p className={`text-sm ${checkedItems[item.id] ? 'text-[#666] line-through' : 'text-[#F5F5F5]'}`}>
@@ -202,14 +202,14 @@ export default function RulesPage() {
 
             return (
               <div key={cat} className={`bg-[#1A1A1A] border rounded-lg overflow-hidden transition-all duration-200 ${
-                isExpanded ? 'border-[#FFD600]/25 shadow-[0_0_16px_rgba(255,214,0,0.03)]' : 'border-[#333]'
+                isExpanded ? 'border-[#FF8A00]/25 shadow-[0_0_16px_rgba(255,138,0,0.03)]' : 'border-[#333]'
               }`}>
                 <button
                   onClick={() => setExpandedCategory(isExpanded ? null : cat)}
                   className="section-header"
                 >
                   <div className="flex items-center gap-2.5">
-                    {isExpanded && <div className="w-1 h-5 rounded-full bg-[#FFD600]" />}
+                    {isExpanded && <div className="w-1 h-5 rounded-full bg-[#FF8A00]" />}
                     <CategoryIcon category={cat} />
                     <h2 className="text-sm font-bold uppercase tracking-wider">{label}</h2>
                     <span className="text-[10px] text-[#555] bg-[#252525] px-2 py-0.5 rounded-full font-mono">{catRules.length}</span>
@@ -238,7 +238,7 @@ export default function RulesPage() {
                     {catRules.map(rule => (
                       <div key={rule.id} className="bg-[#252525] rounded-md p-3">
                         <div className="flex items-start gap-2.5">
-                          <span className="text-[10px] text-[#FFD600] font-mono flex-shrink-0 mt-0.5 opacity-70">{rule.number}</span>
+                          <span className="text-[10px] text-[#FF8A00] font-mono flex-shrink-0 mt-0.5 opacity-70">{rule.number}</span>
                           <p className="text-sm text-[#F5F5F5] leading-relaxed">{rule.text}</p>
                         </div>
                       </div>
@@ -256,16 +256,16 @@ export default function RulesPage() {
 
 function CategoryIcon({ category }: { category: RuleCategory }) {
   const icons: Record<string, React.ReactNode> = {
-    weight: <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /></svg>,
-    engine: <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" /></svg>,
-    suspension: <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" /></svg>,
-    tires: <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>,
-    safety: <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>,
-    drivetrain: <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="3" /><circle cx="19" cy="12" r="2" /><circle cx="5" cy="12" r="2" /></svg>,
-    fuel: <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M3 22h12V2H3v20z" /><path d="M15 12h3a2 2 0 012 2v4a2 2 0 002 2h0a2 2 0 002-2V8l-4-4" /></svg>,
-    electrical: <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>,
-    body: <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><rect x="1" y="3" width="15" height="13" /><polygon points="16 8 20 8 23 11 23 16 16 16 16 8" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" /></svg>,
-    general: <svg className="w-4 h-4 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>,
+    weight: <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /></svg>,
+    engine: <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" /></svg>,
+    suspension: <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" /></svg>,
+    tires: <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /></svg>,
+    safety: <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>,
+    drivetrain: <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="3" /><circle cx="19" cy="12" r="2" /><circle cx="5" cy="12" r="2" /></svg>,
+    fuel: <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M3 22h12V2H3v20z" /><path d="M15 12h3a2 2 0 012 2v4a2 2 0 002 2h0a2 2 0 002-2V8l-4-4" /></svg>,
+    electrical: <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>,
+    body: <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><rect x="1" y="3" width="15" height="13" /><polygon points="16 8 20 8 23 11 23 16 16 16 16 8" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" /></svg>,
+    general: <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>,
   }
   return <>{icons[category] || icons.general}</>
 }

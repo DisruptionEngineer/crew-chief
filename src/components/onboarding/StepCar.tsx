@@ -9,8 +9,8 @@ interface StepCarProps {
 }
 
 const presets = [
-  { label: '1975 Monte Carlo', year: '1975', make: 'Chevrolet', model: 'Monte Carlo', weight: '3300', engine: 'GM 350', cls: 'ironman-f8' },
-  { label: 'Crown Vic 06/08', year: '2006', make: 'Ford', model: 'Crown Victoria', weight: '3400', engine: 'Ford 4.6L V8', cls: 'old-school-f8' },
+  { label: '1988 Monte Carlo SS', year: '1988', make: 'Chevrolet', model: 'Monte Carlo', weight: '3200', engine: 'GM 350', cls: 'street-stock' },
+  { label: '2005 Impala', year: '2005', make: 'Chevrolet', model: 'Impala', weight: '3400', engine: 'GM LS', cls: 'modified' },
 ]
 
 export function StepCar({ carYear, carMake, carModel, carWeight, engineType, raceClass, onChange }: StepCarProps) {
@@ -40,7 +40,7 @@ export function StepCar({ carYear, carMake, carModel, carWeight, engineType, rac
               onClick={() => fillPreset(p)}
               className={`p-3 rounded-lg border text-left transition-all text-sm ${
                 carModel === p.model && carYear === p.year
-                  ? 'bg-[#FFD600]/10 border-[#FFD600] text-[#F5F5F5]'
+                  ? 'bg-[#FF8A00]/10 border-[#FF8A00] text-[#F5F5F5]'
                   : 'bg-[#1A1A1A] border-[#333] text-[#888] hover:border-[#555]'
               }`}
             >
@@ -62,11 +62,18 @@ export function StepCar({ carYear, carMake, carModel, carWeight, engineType, rac
           <select
             value={raceClass}
             onChange={(e) => onChange('raceClass', e.target.value)}
-            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] focus:outline-none focus:ring-2 focus:ring-[#FFD600]"
+            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
           >
             <option value="">Select...</option>
-            <option value="ironman-f8">Ironman Figure 8</option>
-            <option value="old-school-f8">Old School Figure 8</option>
+            <option value="street-stock">Street Stock</option>
+            <option value="modified">Modified</option>
+            <option value="late-model">Late Model</option>
+            <option value="sportsman">Sportsman</option>
+            <option value="hobby-stock">Hobby Stock</option>
+            <option value="legend-car">Legend Car</option>
+            <option value="enduro">Enduro</option>
+            <option value="figure-8">Figure 8</option>
+            <option value="other">Other</option>
           </select>
         </div>
       </div>
@@ -85,7 +92,7 @@ function Field({ label, value, field, onChange, placeholder, type = 'text' }: {
         value={value}
         onChange={(e) => onChange(field, e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FFD600]"
+        className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
       />
     </div>
   )

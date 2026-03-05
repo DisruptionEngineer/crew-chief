@@ -16,7 +16,7 @@ export function StepDriver({ displayName, experienceLevel, onChange }: StepDrive
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold mb-1">Welcome to Crew Chief</h2>
+        <h2 className="text-2xl font-bold mb-1">Welcome to Tenths</h2>
         <p className="text-sm text-[#888]">Let&apos;s set up your driver profile.</p>
       </div>
 
@@ -26,8 +26,8 @@ export function StepDriver({ displayName, experienceLevel, onChange }: StepDrive
           type="text"
           value={displayName}
           onChange={(e) => onChange('displayName', e.target.value)}
-          placeholder="e.g. Flyin Finn"
-          className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FFD600] focus:border-transparent"
+          placeholder="e.g. Fast Eddie"
+          className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00] focus:border-transparent"
         />
       </div>
 
@@ -40,7 +40,7 @@ export function StepDriver({ displayName, experienceLevel, onChange }: StepDrive
               onClick={() => onChange('experienceLevel', lvl.value)}
               className={`w-full text-left p-4 rounded-lg border transition-all ${
                 experienceLevel === lvl.value
-                  ? 'bg-[#FFD600]/10 border-[#FFD600] text-[#F5F5F5]'
+                  ? 'bg-[#FF8A00]/10 border-[#FF8A00] text-[#F5F5F5]'
                   : 'bg-[#1A1A1A] border-[#333] text-[#888] hover:border-[#555]'
               }`}
             >

@@ -1,7 +1,7 @@
 {
-  "name": "Crew Chief - Virtual Race Team",
-  "short_name": "Crew Chief",
-  "description": "Your pit crew in your pocket. Setup calculator, session logger, troubleshooting, and rulebook for short track racing.",
+  "name": "Tenths — Find Your Tenths",
+  "short_name": "Tenths",
+  "description": "Every tenth matters. Setup calculator, diagnostic troubleshooter, session logger, and rulebook for short track racing.",
   "start_url": "/dashboard",
   "display": "standalone",
   "background_color": "#0D0D0D",

@@ -1,5 +1,5 @@
 // ============================================================
-// Crew Chief - Core Type Definitions
+// Tenths - Core Type Definitions
 // Re-exports from types/ barrel for backward compatibility
 // ============================================================
 

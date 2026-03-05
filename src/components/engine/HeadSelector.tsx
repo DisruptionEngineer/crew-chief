@@ -28,14 +28,14 @@ export function HeadSelector({ heads, selectedId, onChange }: HeadSelectorProps)
               onClick={() => onChange(head.id)}
               className={`text-left p-3 rounded-lg border transition-all duration-200 min-h-[48px] ${
                 isSelected
-                  ? 'bg-[#FFD600]/8 border-[#FFD600] glow-yellow'
+                  ? 'bg-[#FF8A00]/8 border-[#FF8A00] glow-yellow'
                   : 'bg-[#252525] border-[#333] hover:border-[#555] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)]'
               }`}
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className={`text-sm font-semibold ${isSelected ? 'text-[#FFD600]' : 'text-[#F5F5F5]'}`}>
+                    <span className={`text-sm font-semibold ${isSelected ? 'text-[#FF8A00]' : 'text-[#F5F5F5]'}`}>
                       {head.name}
                     </span>
                     {head.isVortec && (
@@ -64,7 +64,7 @@ export function HeadSelector({ heads, selectedId, onChange }: HeadSelectorProps)
               {/* Mini flow bar */}
               <div className="mt-2 h-1 bg-[#333] rounded-full overflow-hidden">
                 <div
-                  className={`h-full rounded-full transition-all ${isSelected ? 'bg-[#FFD600]' : 'bg-[#666]'}`}
+                  className={`h-full rounded-full transition-all ${isSelected ? 'bg-[#FF8A00]' : 'bg-[#666]'}`}
                   style={{ width: `${(peakFlow / maxFlow) * 100}%` }}
                 />
               </div>

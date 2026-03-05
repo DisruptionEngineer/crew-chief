@@ -54,7 +54,7 @@ function CompareContent() {
     return (
       <div className="text-center py-16">
         <p className="text-[#888]">Could not find one or both builds.</p>
-        <Link href="/engine" className="text-[#FFD600] text-sm mt-2 block">
+        <Link href="/engine" className="text-[#FF8A00] text-sm mt-2 block">
           ← Back to Engine Builder
         </Link>
       </div>
@@ -73,7 +73,7 @@ function CompareContent() {
         </Link>
         <h1 className="text-2xl font-bold tracking-tight uppercase mt-2">Compare Builds</h1>
         <p className="text-sm text-[#888] mt-1">
-          <span className="text-[#FFD600]">{buildA.name}</span>
+          <span className="text-[#FF8A00]">{buildA.name}</span>
           {' vs '}
           <span>{buildB.name}</span>
         </p>

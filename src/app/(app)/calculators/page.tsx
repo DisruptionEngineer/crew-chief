@@ -8,12 +8,12 @@ const calculators = [
     title: 'Corner Weight',
     description: 'Calculate cross-weight percentage, left/rear bias, and load bolt adjustments to hit your target.',
     icon: (
-      <svg className="w-8 h-8 text-[#FFD600]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <svg className="w-8 h-8 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
         <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
         <line x1="3" y1="6" x2="21" y2="6" />
       </svg>
     ),
-    color: '#FFD600',
+    color: '#FF8A00',
   },
   {
     href: '/calculators/rim-offset',
@@ -79,7 +79,7 @@ export default function CalculatorsHub() {
                 {calc.icon}
               </div>
               <div className="flex-1">
-                <h2 className="text-sm font-bold uppercase tracking-wider text-[#F5F5F5] group-hover:text-[#FFD600] transition-colors">
+                <h2 className="text-sm font-bold uppercase tracking-wider text-[#F5F5F5] group-hover:text-[#FF8A00] transition-colors">
                   {calc.title}
                 </h2>
                 <p className="text-[12px] text-[#666] mt-1.5 leading-relaxed">{calc.description}</p>

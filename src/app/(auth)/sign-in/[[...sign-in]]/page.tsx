@@ -37,7 +37,7 @@ export default function SignInPage() {
     <div className="w-full max-w-sm space-y-6">
       <div className="text-center">
         <h1 className="text-xl font-bold text-[#F5F5F5]">Sign In</h1>
-        <p className="text-sm text-[#888] mt-1">Welcome back to Crew Chief</p>
+        <p className="text-sm text-[#888] mt-1">Welcome back to Tenths</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -49,7 +49,7 @@ export default function SignInPage() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="driver@example.com"
             required
-            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FFD600]"
+            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
           />
         </div>
 
@@ -61,7 +61,7 @@ export default function SignInPage() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
             required
-            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FFD600]"
+            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
           />
         </div>
 
@@ -74,7 +74,7 @@ export default function SignInPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 rounded-md font-semibold text-sm bg-[#FFD600] text-[#0D0D0D] hover:bg-[#FFEA00] transition-colors disabled:opacity-50"
+          className="w-full py-3 rounded-md font-semibold text-sm bg-[#FF8A00] text-[#0D0D0D] hover:bg-[#FFA640] transition-colors disabled:opacity-50"
         >
           {loading ? 'Signing in...' : 'Sign In'}
         </button>
@@ -82,7 +82,7 @@ export default function SignInPage() {
 
       <p className="text-center text-sm text-[#888]">
         Don&apos;t have an account?{' '}
-        <Link href="/sign-up" className="text-[#FFD600] hover:text-[#FFEA00] font-semibold">
+        <Link href="/sign-up" className="text-[#FF8A00] hover:text-[#FFA640] font-semibold">
           Sign Up
         </Link>
       </p>

@@ -4,13 +4,13 @@ import { SupabaseProvider } from '@/components/shared/SupabaseProvider'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Crew Chief — Virtual Race Team',
-  description: 'Your pit crew in your pocket. Setup calculator, session logger, troubleshooting, and rulebook for short track racing.',
+  title: 'Tenths — Find Your Tenths',
+  description: 'Every tenth matters. Setup calculator, diagnostic troubleshooter, session logger, and rulebook for short track racing.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'Crew Chief',
+    title: 'Tenths',
   },
 }
 

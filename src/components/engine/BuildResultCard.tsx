@@ -36,7 +36,7 @@ export function BuildResultCard({ result }: BuildResultCardProps) {
         <StatCard
           label="Compression"
           value={`${result.compressionRatio}:1`}
-          color={result.compressionRatio > 10.5 ? '#FF1744' : result.compressionRatio > 10.2 ? '#FFD600' : '#00E676'}
+          color={result.compressionRatio > 10.5 ? '#FF1744' : result.compressionRatio > 10.2 ? '#FF8A00' : '#00E676'}
         />
       </div>
 
@@ -74,9 +74,9 @@ function StatCard({ label, value, unit, subValue, accent, color }: {
   accent?: boolean
   color?: string
 }) {
-  const valueColor = color || (accent ? '#FFD600' : '#F5F5F5')
+  const valueColor = color || (accent ? '#FF8A00' : '#F5F5F5')
   return (
-    <div className={`bg-[#252525] rounded-md p-3 ${accent ? 'ring-1 ring-[#FFD600]/15' : ''}`}>
+    <div className={`bg-[#252525] rounded-md p-3 ${accent ? 'ring-1 ring-[#FF8A00]/15' : ''}`}>
       <p className="text-[10px] text-[#555] uppercase tracking-wide">{label}</p>
       <div className="flex items-baseline gap-1 mt-1">
         <span

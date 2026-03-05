@@ -26,7 +26,7 @@ export default function SetupCalculator() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold tracking-tight uppercase">Setup Calculator</h1>
-        <p className="text-sm text-[#888] mt-1">{currentCar.year} {currentCar.model} at Painesville Speedway</p>
+        <p className="text-sm text-[#888] mt-1">{currentCar.year} {currentCar.model}</p>
       </div>
 
       {/* Track Condition Picker */}
@@ -39,7 +39,7 @@ export default function SetupCalculator() {
               onClick={() => setCondition(c.value)}
               className={`flex-1 py-3 rounded-md text-sm font-semibold transition-colors min-h-[48px] ${
                 condition === c.value
-                  ? 'bg-[#FFD600] text-[#0D0D0D]'
+                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
                   : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
               }`}
             >
@@ -57,7 +57,7 @@ export default function SetupCalculator() {
             onClick={() => setRaceType('figure-8')}
             className={`flex-1 py-3 rounded-md text-sm font-semibold transition-colors min-h-[48px] ${
               raceType === 'figure-8'
-                ? 'bg-[#FFD600] text-[#0D0D0D]'
+                ? 'bg-[#FF8A00] text-[#0D0D0D]'
                 : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
             }`}
           >
@@ -67,7 +67,7 @@ export default function SetupCalculator() {
             onClick={() => setRaceType('oval')}
             className={`flex-1 py-3 rounded-md text-sm font-semibold transition-colors min-h-[48px] ${
               raceType === 'oval'
-                ? 'bg-[#FFD600] text-[#0D0D0D]'
+                ? 'bg-[#FF8A00] text-[#0D0D0D]'
                 : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
             }`}
           >
@@ -101,7 +101,7 @@ export default function SetupCalculator() {
           ))}
         </div>
         {raceType === 'figure-8' && (
-          <p className="text-xs text-[#FFD600] mt-2 flex items-center gap-1">
+          <p className="text-xs text-[#FF8A00] mt-2 flex items-center gap-1">
             <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
             Equal L/R for Figure 8 — symmetric turns both directions
           </p>
@@ -188,7 +188,7 @@ export default function SetupCalculator() {
             </div>
             <div>
               <span className="text-[#666]">Cross-Wt</span>
-              <p className="font-semibold text-[#FFD600]">{currentSetup.crossWeightPct}%</p>
+              <p className="font-semibold text-[#FF8A00]">{currentSetup.crossWeightPct}%</p>
             </div>
             <div>
               <span className="text-[#666]">Left %</span>
@@ -277,7 +277,7 @@ function SetupValueCard({ label, value, unit, rangeLow, rangeHigh, explanation, 
       </div>
       {/* Range bar */}
       <div className="mt-2 h-1.5 bg-[#333] rounded-full overflow-hidden">
-        <div className="h-full bg-[#FFD600] rounded-full transition-all" style={{ width: `${pct}%` }} />
+        <div className="h-full bg-[#FF8A00] rounded-full transition-all" style={{ width: `${pct}%` }} />
       </div>
       <div className="flex justify-between text-[9px] text-[#555] mt-1">
         <span>{rangeLow}</span>
@@ -316,7 +316,7 @@ function CornerWeight({ label, value }: { label: string; value: number }) {
 
 function StatusValue({ value, target, tolerance, unit }: { value: number; target: number; tolerance: number; unit: string }) {
   const diff = Math.abs(value - target)
-  const color = diff <= tolerance * 0.5 ? '#00E676' : diff <= tolerance ? '#FFD600' : '#FF1744'
+  const color = diff <= tolerance * 0.5 ? '#00E676' : diff <= tolerance ? '#FF8A00' : '#FF1744'
   return <p className="font-semibold" style={{ color }}>{value}{unit}</p>
 }
 

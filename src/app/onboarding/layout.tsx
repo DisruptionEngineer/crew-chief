@@ -12,14 +12,14 @@ export default function OnboardingLayout({
       {/* Header */}
       <header className="flex items-center justify-between px-4 md:px-8 py-4 border-b border-[#333]/50">
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-[#FFD600] flex items-center justify-center">
-            <span className="text-[#0D0D0D] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>CC</span>
+          <div className="w-9 h-9 rounded-lg bg-[#FF8A00] flex items-center justify-center">
+            <span className="text-[#0D0D0D] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
           </div>
           <span className="text-sm font-bold text-[#F5F5F5] tracking-wider uppercase hidden sm:block" style={{ fontFamily: 'var(--font-heading)' }}>
-            Crew Chief
+            Tenths
           </span>
         </Link>
-        <span className="text-xs text-[#666]">Setting up your pit crew</span>
+        <span className="text-xs text-[#666]">Getting you dialed in</span>
       </header>
 
       {/* Content */}

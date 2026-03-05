@@ -9,7 +9,7 @@ interface EngineFamilySelectorProps {
 }
 
 const MANUFACTURER_COLORS: Record<string, string> = {
-  GM: '#FFD600',
+  GM: '#FF8A00',
   Ford: '#448AFF',
   Mopar: '#FF9100',
 }
@@ -27,7 +27,7 @@ export function EngineFamilySelector({ families, selectedId, onChange }: EngineF
             onClick={() => onChange(family.id)}
             className={`text-left p-3 rounded-lg border transition-all duration-200 min-h-[48px] ${
               isSelected
-                ? 'border-[#FFD600] bg-[#FFD600]/8 glow-yellow'
+                ? 'border-[#FF8A00] bg-[#FF8A00]/8 glow-yellow'
                 : 'bg-[#252525] border-[#333] hover:border-[#555] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)]'
             }`}
           >
@@ -37,7 +37,7 @@ export function EngineFamilySelector({ families, selectedId, onChange }: EngineF
                 style={{ backgroundColor: color, boxShadow: isSelected ? `0 0 8px ${color}40` : 'none' }}
               />
               <span className={`text-[10px] font-bold uppercase tracking-wider transition-colors ${
-                isSelected ? 'text-[#FFD600]' : 'text-[#888]'
+                isSelected ? 'text-[#FF8A00]' : 'text-[#888]'
               }`}>
                 {family.manufacturer}
               </span>

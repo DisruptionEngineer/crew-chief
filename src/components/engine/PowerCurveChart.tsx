@@ -101,10 +101,10 @@ export function PowerCurveChart({
               type="monotone"
               dataKey="hp"
               name="HP"
-              stroke="#FFD600"
+              stroke="#FF8A00"
               strokeWidth={2.5}
               dot={false}
-              activeDot={{ r: 4, fill: '#FFD600' }}
+              activeDot={{ r: 4, fill: '#FF8A00' }}
             />
             <Line
               type="monotone"
@@ -123,7 +123,7 @@ export function PowerCurveChart({
                   type="monotone"
                   dataKey="hp2"
                   name={`HP (${compareLabel || 'B'})`}
-                  stroke="#FFD600"
+                  stroke="#FF8A00"
                   strokeWidth={1.5}
                   strokeDasharray="5 5"
                   dot={false}
@@ -145,7 +145,7 @@ export function PowerCurveChart({
               x={peakHpRpm}
               y={peakHp}
               r={5}
-              fill="#FFD600"
+              fill="#FF8A00"
               stroke="#0D0D0D"
               strokeWidth={2}
             />
