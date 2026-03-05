@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { SetupDemo } from '@/components/landing/SetupDemo'
-import { FeatureCard } from '@/components/landing/FeatureCard'
+import { ToolShowcase } from '@/components/landing/ToolShowcase'
 
 export default function LandingPage() {
   return (
@@ -95,58 +95,18 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ===== FEATURES ===== */}
+      {/* ===== TOOL SHOWCASE ===== */}
       <section id="features" className="py-16 md:py-24 border-t border-[#333]/30">
         <div className="max-w-6xl mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
-            <p className="text-[10px] font-semibold text-[#FF8A00] uppercase tracking-widest mb-2">Everything You Need</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-3">Four Tools. One App.</h2>
+            <p className="text-[10px] font-semibold text-[#FF8A00] uppercase tracking-widest mb-2">Beyond the Calculator</p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">Your Complete Racing Toolkit</h2>
             <p className="text-[#888] max-w-md mx-auto">
-              Built for Saturday night racers who wrench their own cars and want every edge they can get.
+              Diagnosis, engine builds, session data, corner weights, gear ratios — everything you need to find your tenths.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
-            <FeatureCard
-              icon={
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
-                </svg>
-              }
-              title="Setup Calculator"
-              description="Get chassis recommendations tuned to your car, track conditions, and race type. Springs, alignment, tire pressures, cross-weight — all calculated."
-            />
-            <FeatureCard
-              icon={
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-              }
-              title="Troubleshooter"
-              description="Tell us what your car is doing wrong. We'll tell you what to fix first — prioritized from easiest to most involved, with explanations."
-            />
-            <FeatureCard
-              icon={
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2" />
-                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
-                </svg>
-              }
-              title="Session Logger"
-              description="Track your changes, lap times, and handling notes race by race. Build a history of what works at your track in your conditions."
-            />
-            <FeatureCard
-              icon={
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
-                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
-                </svg>
-              }
-              title="Rulebook"
-              description="Your class rules with searchable tech inspection checklist. Know exactly what's legal before you get to tech."
-            />
-          </div>
+          <ToolShowcase />
         </div>
       </section>
 
