@@ -35,7 +35,11 @@ export default function AccountPage() {
           <div>
             <p className="text-sm font-semibold text-[#F5F5F5]">{user?.email}</p>
             <div className="flex items-center gap-2 mt-1">
-              {isPro ? (
+              {subscription?.status === 'trialing' ? (
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#00E676]/10 text-[#00E676] font-bold uppercase border border-[#00E676]/20">
+                  Free Trial
+                </span>
+              ) : isPro ? (
                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#FF8A00]/10 text-[#FF8A00] font-bold uppercase border border-[#FF8A00]/20">
                   Pro Member
                 </span>
@@ -84,8 +88,9 @@ export default function AccountPage() {
   )
 }
 
-function ActiveSubscriptionCard({ subscription }: { subscription: { current_period_end: string | null; cancel_at_period_end: boolean } }) {
+function ActiveSubscriptionCard({ subscription }: { subscription: { status: string; current_period_end: string | null; cancel_at_period_end: boolean } }) {
   const [loading, setLoading] = useState(false)
+  const isTrialing = subscription.status === 'trialing'
 
   const handleManage = async () => {
     setLoading(true)
@@ -102,7 +107,7 @@ function ActiveSubscriptionCard({ subscription }: { subscription: { current_peri
     }
   }
 
-  const renewDate = subscription.current_period_end
+  const endDate = subscription.current_period_end
     ? new Date(subscription.current_period_end).toLocaleDateString('en-US', {
         month: 'long',
         day: 'numeric',
@@ -111,21 +116,47 @@ function ActiveSubscriptionCard({ subscription }: { subscription: { current_peri
     : null
 
   return (
-    <div className="bg-[#1A1A1A] border border-[#FF8A00]/20 rounded-lg p-5">
+    <div className={`bg-[#1A1A1A] border rounded-lg p-5 ${isTrialing ? 'border-[#00E676]/20' : 'border-[#FF8A00]/20'}`}>
       <div className="flex items-center gap-2 mb-3">
-        <svg className="w-5 h-5 text-[#FF8A00]" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-        </svg>
-        <h2 className="text-sm font-bold uppercase tracking-wider text-[#FF8A00]">Tenths Pro</h2>
+        {isTrialing ? (
+          <>
+            <svg className="w-5 h-5 text-[#00E676]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <path d="M12 8v4l3 3" />
+              <circle cx="12" cy="12" r="10" />
+            </svg>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[#00E676]">Free Trial Active</h2>
+          </>
+        ) : (
+          <>
+            <svg className="w-5 h-5 text-[#FF8A00]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[#FF8A00]">Tenths Pro</h2>
+          </>
+        )}
       </div>
-      <p className="text-sm text-[#888]">
-        {STRIPE_CONFIG.displayPrice}/month
-        {subscription.cancel_at_period_end && renewDate
-          ? ` \u2022 Cancels ${renewDate}`
-          : renewDate
-          ? ` \u2022 Renews ${renewDate}`
-          : ''}
-      </p>
+
+      {isTrialing ? (
+        <div className="space-y-2">
+          <p className="text-sm text-[#CCC]">
+            You have full Pro access until <span className="font-semibold text-[#F5F5F5]">{endDate}</span>
+          </p>
+          <p className="text-xs text-[#888]">
+            Your card will be charged {STRIPE_CONFIG.displayPrice}/month after your trial ends.
+            Cancel anytime before then and you won&apos;t be charged.
+          </p>
+        </div>
+      ) : (
+        <p className="text-sm text-[#888]">
+          {STRIPE_CONFIG.displayPrice}/month
+          {subscription.cancel_at_period_end && endDate
+            ? ` \u2022 Cancels ${endDate}`
+            : endDate
+            ? ` \u2022 Renews ${endDate}`
+            : ''}
+        </p>
+      )}
+
       <button
         onClick={handleManage}
         disabled={loading}

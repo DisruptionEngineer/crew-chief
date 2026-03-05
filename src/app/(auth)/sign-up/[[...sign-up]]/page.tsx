@@ -2,10 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useSupabase } from '@/components/shared/SupabaseProvider'
 
 export default function SignUpPage() {
   const { supabase } = useSupabase()
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get('redirect')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -33,7 +36,7 @@ export default function SignUpPage() {
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback?next=/onboarding`,
+        emailRedirectTo: `${window.location.origin}/auth/callback?next=${redirect || '/onboarding'}`,
       },
     })
 

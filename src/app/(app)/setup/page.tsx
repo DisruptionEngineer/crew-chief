@@ -52,6 +52,7 @@ export default function SetupCalculator() {
   const [saved, setSaved] = useState(false)
   const [aiLoading, setAiLoading] = useState(false)
   const [aiData, setAiData] = useState<AiResponse | null>(null)
+  const [aiError, setAiError] = useState<string | null>(null)
 
   // Track selection — default to primary track
   const [selectedTrack, setSelectedTrack] = useState<Track | null>(null)
@@ -205,10 +206,14 @@ export default function SetupCalculator() {
     if (!user || !isPro) return
     setAiLoading(true)
     setAiData(null)
+    setAiError(null)
 
     try {
       const { data: { session } } = await supabase.auth.getSession()
-      if (!session) return
+      if (!session) {
+        setAiError('Session expired — try signing out and back in.')
+        return
+      }
 
       const res = await fetch('/api/setup/recommend', {
         method: 'POST',
@@ -244,7 +249,7 @@ export default function SetupCalculator() {
             windDirection: weather.current.windDirection,
             condition: weather.current.condition,
           } : undefined,
-          raceTimeWeather: raceTimeForecast ? {
+          raceTimeWeather: (raceTimeForecast && nextRace) ? {
             temp: raceTimeForecast.temp,
             humidity: raceTimeForecast.humidity,
             dewPoint: raceTimeForecast.dewPoint,
@@ -253,39 +258,59 @@ export default function SetupCalculator() {
             windDirection: raceTimeForecast.windDirection,
             precipProbability: raceTimeForecast.precipProbability,
             condition: raceTimeForecast.condition,
-            raceTime: nextRace!.raceTime.toISOString(),
+            raceTime: nextRace.raceTime.toISOString(),
           } : undefined,
           condition,
           raceType,
           tireCompound: selectedTire.label,
           // Send locked values as constraints the AI must respect
+          // For each locked param, send the effective value (user adjustment or recommendation default)
           lockedValues: Object.fromEntries(
-            Array.from(locked).map(param => [param, adjustments[param]])
-              .filter(([, v]) => v !== undefined)
+            Array.from(locked).map(param => {
+              // If user manually adjusted, use that value
+              if (adjustments[param] !== undefined) return [param, adjustments[param]]
+              // Otherwise find the recommendation default
+              const allRecs = [...recs.springs, ...recs.alignment, ...recs.tirePressures, ...recs.weight]
+              const rec = allRecs.find(r => r.parameter === param)
+              if (rec && typeof rec.value === 'number') return [param, rec.value]
+              return [param, undefined]
+            }).filter(([, v]) => v !== undefined)
           ),
         }),
       })
 
-      if (res.ok) {
-        const data: AiResponse = await res.json()
-        setAiData(data)
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}))
+        const msg = errorData.error || `Request failed (${res.status})`
+        console.error('AI Crew Chief error:', res.status, msg)
+        setAiError(msg)
+        return
+      }
 
-        // Apply AI values to adjustments — skip locked parameters
-        const newAdj: Record<string, number> = {}
-        for (const section of [data.springs, data.alignment, data.tirePressures, data.weight] as Record<string, AiRecommendation>[]) {
-          if (!section) continue
-          for (const [key, rec] of Object.entries(section)) {
-            if (typeof rec.value === 'number' && !locked.has(key)) newAdj[key] = rec.value
+      const data: AiResponse = await res.json()
+      setAiData(data)
+
+      // Apply AI values to adjustments — skip locked parameters
+      // Parse values as numbers since LLMs sometimes return "900" instead of 900
+      const newAdj: Record<string, number> = {}
+      for (const section of [data.springs, data.alignment, data.tirePressures, data.weight] as Record<string, AiRecommendation>[]) {
+        if (!section) continue
+        for (const [key, rec] of Object.entries(section)) {
+          const numVal = typeof rec.value === 'number' ? rec.value : Number(rec.value)
+          if (!isNaN(numVal) && !locked.has(key)) {
+            newAdj[key] = numVal
           }
         }
-        setAdjustments(prev => ({ ...prev, ...newAdj }))
       }
-    } catch {
-      // Silent fail
+      setAdjustments(prev => ({ ...prev, ...newAdj }))
+    } catch (err) {
+      console.error('AI Crew Chief error:', err)
+      setAiError('Something went wrong — try again.')
     } finally {
       setAiLoading(false)
     }
-  }, [user, isPro, currentCar, condition, raceType, supabase, selectedTire, selectedTrack, locked, adjustments])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, isPro, currentCar, condition, raceType, supabase, selectedTire, selectedTrack, locked, adjustments, recs])
 
   return (
     <div className="space-y-6">
@@ -484,6 +509,18 @@ export default function SetupCalculator() {
         </div>
       )}
 
+      {/* AI Error */}
+      {aiError && (
+        <div className="bg-[#FF1744]/5 border border-[#FF1744]/30 rounded-lg p-4">
+          <div className="flex items-center gap-2">
+            <svg className="w-4 h-4 text-[#FF1744] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
+            </svg>
+            <p className="text-sm text-[#FF1744]">{aiError}</p>
+          </div>
+        </div>
+      )}
+
       {/* AI Summary */}
       {aiData?.summary && (
         <div className="bg-gradient-to-r from-[#7C3AED]/10 to-[#6366F1]/10 border border-[#7C3AED]/30 rounded-lg p-4">
@@ -641,10 +678,12 @@ export default function SetupCalculator() {
         <div className="grid grid-cols-2 gap-3">
           {recs.alignment.filter(r => r.parameter !== 'toeFront').map(rec => {
             const recValue = rec.value as number
+            const isCamber = rec.parameter.startsWith('camber')
+            const side = rec.parameter.endsWith('LF') ? 'Left Front' : 'Right Front'
             return (
               <SetupValueCard
                 key={rec.parameter}
-                label={rec.label.replace('Camber - ', '').replace('Caster - ', '')}
+                label={`${isCamber ? 'Camber' : 'Caster'} ${side}`}
                 value={getAdjusted(rec.parameter, recValue)}
                 unit="deg"
                 rangeLow={rec.rangeLow!}
@@ -888,10 +927,10 @@ function SetupValueCard({ label, value, unit, rangeLow, rangeHigh, step = 1, for
       {/* Stepper buttons */}
       <div className="flex gap-2 mt-2">
         <button
-          onClick={() => onAdjust(+(Math.max(rangeLow - step * 2, value - step)).toFixed(4))}
-          disabled={isLocked}
+          onClick={() => onAdjust(+(Math.max(rangeLow, value - step)).toFixed(4))}
+          disabled={isLocked || value <= rangeLow}
           className={`flex-1 py-1.5 rounded text-sm font-mono transition-colors min-h-[36px] ${
-            isLocked
+            isLocked || value <= rangeLow
               ? 'bg-[#2A2A2A] text-[#444] cursor-not-allowed'
               : 'bg-[#333] hover:bg-[#444]'
           }`}
@@ -899,10 +938,10 @@ function SetupValueCard({ label, value, unit, rangeLow, rangeHigh, step = 1, for
           -
         </button>
         <button
-          onClick={() => onAdjust(+(Math.min(rangeHigh + step * 2, value + step)).toFixed(4))}
-          disabled={isLocked}
+          onClick={() => onAdjust(+(Math.min(rangeHigh, value + step)).toFixed(4))}
+          disabled={isLocked || value >= rangeHigh}
           className={`flex-1 py-1.5 rounded text-sm font-mono transition-colors min-h-[36px] ${
-            isLocked
+            isLocked || value >= rangeHigh
               ? 'bg-[#2A2A2A] text-[#444] cursor-not-allowed'
               : 'bg-[#333] hover:bg-[#444]'
           }`}

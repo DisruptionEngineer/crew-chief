@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getStripe } from '@/lib/stripe/client'
 import { STRIPE_CONFIG } from '@/lib/stripe/config'
-import { createServerSupabaseClient } from '@/lib/supabase/server'
+import { createServerSupabaseClient, createAdminSupabaseClient } from '@/lib/supabase/server'
 import type Stripe from 'stripe'
 
 export async function POST(request: NextRequest) {
@@ -11,6 +11,64 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+    }
+
+    // Parse optional body (existing callers POST with no body, so handle gracefully)
+    let promoCode: string | undefined
+    try {
+      const body = await request.json()
+      promoCode = body?.promoCode
+    } catch {
+      // No body or invalid JSON — that's fine, proceed without promo
+    }
+
+    // Validate promo code if provided
+    let trialDays: number | undefined
+    if (promoCode) {
+      const adminDb = createAdminSupabaseClient()
+
+      // Look up the promotion
+      const { data: promo } = await adminDb
+        .from('promotions')
+        .select('*')
+        .eq('code', promoCode.toUpperCase().trim())
+        .eq('is_active', true)
+        .maybeSingle()
+
+      if (!promo) {
+        return NextResponse.json({ error: 'Invalid or expired promo code' }, { status: 400 })
+      }
+
+      // Check date validity
+      const now = new Date()
+      if (promo.valid_from && new Date(promo.valid_from) > now) {
+        return NextResponse.json({ error: 'This promo code is not yet active' }, { status: 400 })
+      }
+      if (promo.valid_until && new Date(promo.valid_until) < now) {
+        return NextResponse.json({ error: 'This promo code has expired' }, { status: 400 })
+      }
+
+      // Check max uses
+      if (promo.max_uses !== null && promo.use_count >= promo.max_uses) {
+        return NextResponse.json({ error: 'This promo code has been fully redeemed' }, { status: 400 })
+      }
+
+      // Record redemption
+      const { error: redeemError } = await adminDb
+        .from('promotion_redemptions')
+        .insert({
+          promotion_id: promo.id,
+          user_id: user.id,
+        })
+
+      if (redeemError) {
+        console.error('Promo redemption error:', redeemError)
+        // Don't block checkout — just skip the trial
+      } else {
+        // Increment use count
+        await adminDb.rpc('increment_promo_use_count', { promo_id: promo.id })
+        trialDays = promo.trial_days
+      }
     }
 
     const stripe = getStripe()
@@ -30,7 +88,10 @@ export async function POST(request: NextRequest) {
       success_url: `${origin}/account?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/account`,
       metadata: { userId: user.id },
-      subscription_data: { metadata: { userId: user.id } },
+      subscription_data: {
+        metadata: { userId: user.id },
+        ...(trialDays ? { trial_period_days: trialDays } : {}),
+      },
     }
 
     // Reuse existing customer or set email for new one

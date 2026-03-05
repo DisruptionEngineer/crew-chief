@@ -1,12 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useSupabase } from '@/components/shared/SupabaseProvider'
 
 export default function SignInPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirect = searchParams.get('redirect')
   const { supabase } = useSupabase()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -29,7 +31,7 @@ export default function SignInPage() {
       return
     }
 
-    router.push('/dashboard')
+    router.push(redirect || '/dashboard')
     router.refresh()
   }
 
