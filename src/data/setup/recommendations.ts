@@ -9,10 +9,51 @@ const conditionSpringMultiplier: Record<TrackCondition, number> = {
   slick: 0.90,
 }
 
-// Base spring rates by car
+// Base spring rates by car (front/rear in lbs/in)
 const baseSpringRates: Record<string, { front: number; rear: number }> = {
+  // GM A/G-body (SLA front, coil rear)
   'monte-carlo-75': { front: 900, rear: 200 },
+  'cutlass-81': { front: 875, rear: 200 },
+  'grand-prix-78': { front: 900, rear: 200 },
+  'regal-84': { front: 875, rear: 200 },
+  'malibu-79': { front: 875, rear: 200 },
+  // GM B-body (full-size, heavier)
+  'caprice-90': { front: 950, rear: 225 },
+  'impala-96': { front: 925, rear: 225 },
+  // GM F-body (leaf rear)
+  'camaro-78': { front: 900, rear: 175 },
+  // Ford Panther (Watts link rear)
   'crown-vic-06': { front: 850, rear: 250 },
+  // Ford Fox-body (strut front, leaf rear)
+  'mustang-89': { front: 800, rear: 175 },
+  'thunderbird-87': { front: 825, rear: 200 },
+  // GM W-body (strut front)
+  'monte-carlo-95': { front: 850, rear: 200 },
+  'lumina-92': { front: 850, rear: 200 },
+  // Ford mid-size
+  'taurus-97': { front: 825, rear: 200 },
+  // Pontiac N-body
+  'grand-am-88': { front: 800, rear: 175 },
+  // Compacts (strut front, torsion beam rear)
+  'civic-98': { front: 550, rear: 350 },
+  'cavalier-02': { front: 575, rear: 350 },
+  'neon-00': { front: 575, rear: 350 },
+  'sentra-97': { front: 550, rear: 325 },
+  'corolla-95': { front: 550, rear: 325 },
+  'focus-02': { front: 575, rear: 350 },
+  'escort-93': { front: 525, rear: 325 },
+  // Trucks (SLA front, leaf rear)
+  's10-98': { front: 850, rear: 200 },
+  'ranger-95': { front: 825, rear: 200 },
+  // Late Models (purpose-built, lighter)
+  'crate-late-model': { front: 750, rear: 225 },
+  'super-late-model': { front: 700, rear: 200 },
+  // Modifieds (tube frame, wide track)
+  'sk-modified': { front: 700, rear: 200 },
+  'tour-modified': { front: 650, rear: 175 },
+  // Legends / Bandolero (very light)
+  'legends-car': { front: 350, rear: 200 },
+  'bandolero': { front: 200, rear: 150 },
 }
 
 // Alignment presets

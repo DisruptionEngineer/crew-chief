@@ -1,3 +1,7 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { createClient } from '@/lib/supabase/client'
 import type { TrackSurface } from '@/lib/types'
 
 interface StepTrackProps {
@@ -8,6 +12,16 @@ interface StepTrackProps {
   onChange: (field: string, value: string) => void
 }
 
+interface DbTrack {
+  id: string
+  name: string
+  location: string
+  length: number
+  surface: TrackSurface
+  banking: number
+  state: string
+}
+
 const surfaces: { value: TrackSurface; label: string }[] = [
   { value: 'asphalt', label: 'Asphalt' },
   { value: 'concrete', label: 'Concrete' },
@@ -16,65 +30,185 @@ const surfaces: { value: TrackSurface; label: string }[] = [
 ]
 
 export function StepTrack({ trackName, trackSurface, trackLength, trackBanking, onChange }: StepTrackProps) {
+  const [dbTracks, setDbTracks] = useState<DbTrack[]>([])
+  const [search, setSearch] = useState('')
+  const [showSearch, setShowSearch] = useState(true)
+  const [selectedDbTrackId, setSelectedDbTrackId] = useState<string | null>(null)
+
+  // Fetch tracks from Supabase
+  useEffect(() => {
+    const supabase = createClient()
+    supabase
+      .from('tracks')
+      .select('id, name, location, length, surface, banking, state')
+      .eq('active', true)
+      .order('name')
+      .then(({ data }) => {
+        if (data) setDbTracks(data as DbTrack[])
+      })
+  }, [])
+
+  const filtered = search.length >= 2
+    ? dbTracks.filter(t =>
+        t.name.toLowerCase().includes(search.toLowerCase()) ||
+        t.location.toLowerCase().includes(search.toLowerCase()) ||
+        t.state.toLowerCase().includes(search.toLowerCase())
+      )
+    : dbTracks
+
+  const selectTrack = (track: DbTrack) => {
+    setSelectedDbTrackId(track.id)
+    onChange('trackName', track.name)
+    onChange('trackSurface', track.surface)
+    onChange('trackLength', String(track.length))
+    onChange('trackBanking', String(track.banking))
+    onChange('selectedTrackId', track.id)
+    setShowSearch(false)
+  }
+
+  const useCustom = () => {
+    setSelectedDbTrackId(null)
+    setShowSearch(false)
+    onChange('selectedTrackId', '')
+  }
+
   return (
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-1">Home Track</h2>
-        <p className="text-sm text-[#888]">Where do you race?</p>
+        <p className="text-sm text-[#888]">Search our database or enter manually.</p>
       </div>
 
-      <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Track Name</label>
-        <input
-          type="text"
-          value={trackName}
-          onChange={(e) => onChange('trackName', e.target.value)}
-          placeholder="e.g. Eldora Speedway"
-          className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
-        />
-      </div>
+      {showSearch ? (
+        <>
+          {/* Search box */}
+          <div>
+            <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">
+              Search Tracks ({dbTracks.length} in database)
+            </label>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by track name, city, or state..."
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
+              autoFocus
+            />
+          </div>
 
-      <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-3">Surface Type</label>
-        <div className="grid grid-cols-4 gap-2">
-          {surfaces.map((s) => (
-            <button
-              key={s.value}
-              onClick={() => onChange('trackSurface', s.value)}
-              className={`py-3 rounded-md text-xs font-semibold uppercase transition-all ${
-                trackSurface === s.value
-                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
-                  : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
-              }`}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-      </div>
+          {/* Results */}
+          <div className="max-h-64 overflow-y-auto space-y-1">
+            {filtered.slice(0, 20).map((track) => (
+              <button
+                key={track.id}
+                onClick={() => selectTrack(track)}
+                className="w-full p-3 rounded-lg border bg-[#1A1A1A] border-[#333] text-left transition-all hover:border-[#FF8A00] hover:bg-[#FF8A00]/5"
+              >
+                <span className="font-semibold text-[#F5F5F5]">{track.name}</span>
+                <span className="text-xs text-[#666] ml-2">{track.location}</span>
+                <div className="flex gap-3 mt-1 text-[10px] text-[#555]">
+                  <span>{track.length} mi</span>
+                  <span>{track.surface}</span>
+                  <span>{track.banking}&deg; banking</span>
+                </div>
+              </button>
+            ))}
+            {filtered.length === 0 && search.length >= 2 && (
+              <p className="text-sm text-[#666] py-4 text-center">No matches found</p>
+            )}
+          </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Length</label>
-          <input
-            type="text"
-            value={trackLength}
-            onChange={(e) => onChange('trackLength', e.target.value)}
-            placeholder="e.g. 1/5 mile"
-            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
-          />
-        </div>
-        <div>
-          <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Banking (degrees)</label>
-          <input
-            type="number"
-            value={trackBanking}
-            onChange={(e) => onChange('trackBanking', e.target.value)}
-            placeholder="e.g. 5"
-            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
-          />
-        </div>
-      </div>
+          {/* Manual entry option */}
+          <button
+            onClick={useCustom}
+            className="w-full py-2 text-sm text-[#888] hover:text-[#FF8A00] transition-colors"
+          >
+            My track isn&apos;t listed — enter manually
+          </button>
+        </>
+      ) : (
+        <>
+          {/* Selected track or manual entry */}
+          {selectedDbTrackId && (
+            <div className="p-3 rounded-lg border border-[#FF8A00]/30 bg-[#FF8A00]/5">
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-[#F5F5F5]">{trackName}</span>
+                <button
+                  onClick={() => { setShowSearch(true); setSelectedDbTrackId(null) }}
+                  className="text-xs text-[#888] hover:text-[#FF8A00]"
+                >
+                  Change
+                </button>
+              </div>
+            </div>
+          )}
+
+          {!selectedDbTrackId && (
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-xs font-semibold text-[#888] uppercase tracking-wider">Manual Entry</label>
+              <button
+                onClick={() => setShowSearch(true)}
+                className="text-xs text-[#888] hover:text-[#FF8A00]"
+              >
+                Search database instead
+              </button>
+            </div>
+          )}
+
+          <div>
+            <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Track Name</label>
+            <input
+              type="text"
+              value={trackName}
+              onChange={(e) => onChange('trackName', e.target.value)}
+              placeholder="e.g. Eldora Speedway"
+              className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
+            />
+          </div>
+
+          <div>
+            <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-3">Surface Type</label>
+            <div className="grid grid-cols-4 gap-2">
+              {surfaces.map((s) => (
+                <button
+                  key={s.value}
+                  onClick={() => onChange('trackSurface', s.value)}
+                  className={`py-3 rounded-md text-xs font-semibold uppercase transition-all ${
+                    trackSurface === s.value
+                      ? 'bg-[#FF8A00] text-[#0D0D0D]'
+                      : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
+                  }`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Length</label>
+              <input
+                type="text"
+                value={trackLength}
+                onChange={(e) => onChange('trackLength', e.target.value)}
+                placeholder="e.g. 0.375"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Banking (degrees)</label>
+              <input
+                type="number"
+                value={trackBanking}
+                onChange={(e) => onChange('trackBanking', e.target.value)}
+                placeholder="e.g. 5"
+                className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

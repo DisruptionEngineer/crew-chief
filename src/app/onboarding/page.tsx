@@ -20,10 +20,12 @@ interface OnboardingData {
   carWeight: string
   engineType: string
   raceClass: string
+  selectedCarId: string
   trackName: string
   trackSurface: TrackSurface | ''
   trackLength: string
   trackBanking: string
+  selectedTrackId: string
 }
 
 const initialData: OnboardingData = {
@@ -35,10 +37,12 @@ const initialData: OnboardingData = {
   carWeight: '',
   engineType: '',
   raceClass: '',
+  selectedCarId: '',
   trackName: '',
   trackSurface: '',
   trackLength: '',
   trackBanking: '',
+  selectedTrackId: '',
 }
 
 export default function OnboardingPage() {
@@ -64,11 +68,12 @@ export default function OnboardingPage() {
   const handleComplete = async () => {
     setSaving(true)
     try {
-      const carId = uuid()
-      const trackId = uuid()
+      // Use DB car ID if selected from database, otherwise generate new
+      const carId = data.selectedCarId || uuid()
+      const trackId = data.selectedTrackId || uuid()
       const profileId = uuid()
 
-      // Create car record
+      // Create car record (for IndexedDB — DB cars are already in Supabase)
       const car: Car = {
         id: carId,
         name: `${data.carYear} ${data.carModel}`,
@@ -100,11 +105,11 @@ export default function OnboardingPage() {
         id: trackId,
         name: data.trackName,
         location: '',
-        length: data.trackLength || '1/5 mile',
+        length: data.trackLength || '0.375',
         surface: (data.trackSurface || 'mixed') as TrackSurface,
         surfaceDetails: '',
         banking: parseInt(data.trackBanking) || 0,
-        shape: 'figure-8',
+        shape: 'oval',
         elevation: 0,
         notes: '',
       }
@@ -112,7 +117,7 @@ export default function OnboardingPage() {
       // Create user profile
       const profile: UserProfile = {
         id: profileId,
-        userId: '', // Will be set from Supabase auth
+        userId: '',
         displayName: data.displayName,
         experienceLevel: data.experienceLevel as ExperienceLevel,
         carId,
@@ -160,7 +165,7 @@ export default function OnboardingPage() {
               onClick={() => setStep((s) => s - 1)}
               className="text-sm text-[#888] hover:text-[#F5F5F5] transition-colors px-4 py-2"
             >
-              ← Back
+              &larr; Back
             </button>
           ) : (
             <button
@@ -182,7 +187,7 @@ export default function OnboardingPage() {
                 : 'bg-[#333] text-[#666] cursor-not-allowed'
             }`}
           >
-            Continue →
+            Continue &rarr;
           </button>
         ) : (
           <button
