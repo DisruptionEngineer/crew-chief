@@ -243,6 +243,126 @@
 .stagger-5 { animation-delay: 250ms; }
 .stagger-6 { animation-delay: 300ms; }
 
+/* ─── HERO BOOT SEQUENCE ─── */
+
+@keyframes hero-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes hero-glow-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+    filter: blur(8px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.02);
+    filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes arc-draw {
+  from {
+    stroke-dashoffset: 565;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes ring-expand {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes stat-slide {
+  from {
+    opacity: 0;
+    transform: translateY(8px) translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
+}
+
+@keyframes counter-tick {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+    filter: blur(6px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.hero-reveal {
+  animation: hero-reveal 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-glow-in {
+  animation: hero-glow-in 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-arc-draw {
+  stroke-dasharray: 565;
+  stroke-dashoffset: 565;
+  animation: arc-draw 1200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-ring {
+  animation: ring-expand 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-stat {
+  animation: stat-slide 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-counter {
+  animation: counter-tick 700ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Hero stagger — longer delays for boot sequence feel */
+.hero-d0 { animation-delay: 100ms; }
+.hero-d1 { animation-delay: 200ms; }
+.hero-d2 { animation-delay: 350ms; }
+.hero-d3 { animation-delay: 500ms; }
+.hero-d4 { animation-delay: 650ms; }
+.hero-d5 { animation-delay: 800ms; }
+.hero-d6 { animation-delay: 950ms; }
+.hero-d7 { animation-delay: 1100ms; }
+.hero-d8 { animation-delay: 1250ms; }
+.hero-d9 { animation-delay: 1400ms; }
+
 /* ─── INTERACTIVE ELEMENTS ─── */
 
 /* Pill button (division/category selectors) */

@@ -17,23 +17,23 @@ export default function LandingPage() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left: Copy */}
             <div>
-              <div className="inline-flex items-center gap-2 bg-[#00B4FF]/10 border border-[#00B4FF]/20 rounded-full px-4 py-1.5 mb-6">
+              <div className="hero-reveal hero-d0 inline-flex items-center gap-2 bg-[#00B4FF]/10 border border-[#00B4FF]/20 rounded-full px-4 py-1.5 mb-6">
                 <div className="w-2 h-2 rounded-full bg-[#00B4FF] animate-pulse" />
                 <span className="text-xs font-semibold text-[#00B4FF] uppercase tracking-wider">Free for racers</span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-6">
+              <h1 className="hero-reveal hero-d1 text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-6">
                 Every Tenth{' '}
                 <br className="hidden sm:block" />
                 <span className="text-[#00B4FF]">Matters.</span>
               </h1>
 
-              <p className="text-lg text-[#7A7A90] leading-relaxed mb-8 max-w-lg">
+              <p className="hero-reveal hero-d2 text-lg text-[#7A7A90] leading-relaxed mb-8 max-w-lg">
                 Setup calculator, diagnostic troubleshooter, session logger, and rulebook — all in your pocket.
                 Built for racers who wrench their own cars and chase every tenth.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="hero-reveal hero-d3 flex flex-col sm:flex-row gap-3">
                 <Link
                   href="/sign-up"
                   className="inline-flex items-center justify-center bg-[#00B4FF] text-[#0A0A0F] font-bold px-8 py-4 rounded-md hover:bg-[#33C4FF] transition-colors text-base"
@@ -53,26 +53,26 @@ export default function LandingPage() {
             <div className="relative flex items-center justify-center">
               <div className="w-full aspect-square max-w-md relative">
                 {/* Outer ring */}
-                <div className="absolute inset-0 rounded-full border-2 border-[#2A2A3A]/50" />
+                <div className="hero-ring hero-d3 absolute inset-0 rounded-full border-2 border-[#2A2A3A]/50" />
                 {/* Inner ring */}
-                <div className="absolute inset-8 rounded-full border border-[#2A2A3A]/30" />
+                <div className="hero-ring hero-d4 absolute inset-8 rounded-full border border-[#2A2A3A]/30" />
                 {/* Center data */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-7xl md:text-8xl font-bold text-[#00B4FF]" style={{ fontFamily: 'var(--font-mono)' }}>0.1</span>
-                  <span className="text-sm text-[#555570] uppercase tracking-widest mt-2">seconds</span>
-                  <span className="text-xs text-[#3A3A4A] mt-1">The gap between winning and losing</span>
+                  <span className="hero-counter hero-d6 text-7xl md:text-8xl font-bold text-[#00B4FF]" style={{ fontFamily: 'var(--font-mono)' }}>0.1</span>
+                  <span className="hero-reveal hero-d7 text-sm text-[#555570] uppercase tracking-widest mt-2">seconds</span>
+                  <span className="hero-reveal hero-d7 text-xs text-[#3A3A4A] mt-1">The gap between winning and losing</span>
                 </div>
                 {/* Accent arcs */}
-                <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 200 200">
+                <svg className="hero-glow-in hero-d5 absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 200 200">
                   <circle cx="100" cy="100" r="90" fill="none" stroke="#00B4FF" strokeWidth="3" strokeDasharray="200 365" opacity="0.6" />
                   <circle cx="100" cy="100" r="80" fill="none" stroke="#00B4FF" strokeWidth="1.5" strokeDasharray="120 383" opacity="0.3" />
                 </svg>
                 {/* Corner stats */}
-                <div className="absolute top-4 right-4 text-right">
+                <div className="hero-stat hero-d8 absolute top-4 right-4 text-right">
                   <span className="text-[10px] text-[#3A3A4A] uppercase tracking-wider block">Springs</span>
                   <span className="text-sm font-mono text-[#7A7A90]">Calculated</span>
                 </div>
-                <div className="absolute bottom-4 left-4">
+                <div className="hero-stat hero-d9 absolute bottom-4 left-4">
                   <span className="text-[10px] text-[#3A3A4A] uppercase tracking-wider block">Cross-Weight</span>
                   <span className="text-sm font-mono text-[#7A7A90]">Optimized</span>
                 </div>
