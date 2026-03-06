@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { divisions } from '@/data/divisions/registry'
-import type { RuleCategory, TechCheckItem, RaceClass, Division } from '@/lib/types'
+import { useTrackDivisions } from '@/hooks/useTrackDivisions'
+import type { RuleCategory, TechCheckItem } from '@/lib/types'
 
 const categoryLabels: Record<RuleCategory, { label: string; icon: string }> = {
   weight: { label: 'Weight & Dimensions', icon: 'scale' },
@@ -20,19 +20,23 @@ const categoryLabels: Record<RuleCategory, { label: string; icon: string }> = {
 const categoryOrder: RuleCategory[] = ['weight', 'engine', 'suspension', 'tires', 'drivetrain', 'safety', 'fuel', 'electrical', 'body', 'general']
 
 export default function RulesPage() {
-  const [activeDivisionId, setActiveDivisionId] = useState<RaceClass>(divisions[0]?.id || 'street-stock' as RaceClass)
+  const {
+    tracksWithDivisions,
+    divisions,
+    rules,
+    techChecklist,
+    activeDivision,
+    selectedTrackId,
+    selectTrack,
+    selectDivision,
+    loading,
+    error,
+  } = useTrackDivisions()
+
   const [search, setSearch] = useState('')
   const [expandedCategory, setExpandedCategory] = useState<RuleCategory | null>(null)
   const [showTechChecklist, setShowTechChecklist] = useState(false)
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({})
-
-  const activeDivision: Division = useMemo(
-    () => divisions.find(d => d.id === activeDivisionId) || divisions[0],
-    [activeDivisionId]
-  )
-
-  const rules = activeDivision.rules
-  const techChecklist = activeDivision.techChecklist
 
   const filteredRules = useMemo(() => {
     if (!search) return rules
@@ -61,13 +65,57 @@ export default function RulesPage() {
   const checkedCount = Object.values(checkedItems).filter(Boolean).length
   const totalChecks = techChecklist.length
 
-  // Reset checked items and expanded category when division changes
-  function handleDivisionChange(id: RaceClass) {
-    setActiveDivisionId(id)
+  function handleDivisionChange(id: string) {
+    selectDivision(id)
     setCheckedItems({})
     setExpandedCategory(null)
     setShowTechChecklist(false)
     setSearch('')
+  }
+
+  function handleTrackChange(trackId: string) {
+    selectTrack(trackId)
+    setCheckedItems({})
+    setExpandedCategory(null)
+    setShowTechChecklist(false)
+    setSearch('')
+  }
+
+  if (loading) {
+    return (
+      <div className="space-y-6 animate-pulse">
+        <div className="h-8 bg-[#252525] rounded w-32" />
+        <div className="h-10 bg-[#252525] rounded w-full" />
+        <div className="h-24 bg-[#1A1A1A] rounded" />
+        <div className="space-y-3">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="h-16 bg-[#1A1A1A] rounded" />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-4">
+        <h1 className="text-2xl font-bold tracking-tight uppercase">Rules</h1>
+        <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+          <p className="text-sm text-red-400">Failed to load rules: {error}</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!activeDivision) {
+    return (
+      <div className="space-y-4">
+        <h1 className="text-2xl font-bold tracking-tight uppercase">Rules</h1>
+        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-8 text-center">
+          <p className="text-sm text-[#888]">No divisions found. Rules will appear here once a track has published its rulebook.</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -85,6 +133,31 @@ export default function RulesPage() {
         </div>
       </div>
 
+      {/* Track Switcher (only if multiple tracks have rules) */}
+      {tracksWithDivisions.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 animate-fade-up">
+          {tracksWithDivisions.map(track => (
+            <button
+              key={track.id}
+              onClick={() => handleTrackChange(track.id)}
+              className={`flex-shrink-0 px-3.5 py-2 rounded-md text-xs font-semibold transition-all duration-200 whitespace-nowrap ${
+                selectedTrackId === track.id
+                  ? 'bg-[#FF8A00]/15 text-[#FF8A00] border border-[#FF8A00]/30'
+                  : 'bg-[#1A1A1A] text-[#666] border border-[#333] hover:border-[#555] hover:text-[#F5F5F5]'
+              }`}
+            >
+              <span className="flex items-center gap-1.5">
+                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                {track.name}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Division Switcher */}
       <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 animate-fade-up stagger-1">
         {divisions.map(div => (
@@ -92,7 +165,7 @@ export default function RulesPage() {
             key={div.id}
             onClick={() => handleDivisionChange(div.id)}
             className={`flex-shrink-0 px-3.5 py-2.5 rounded-md text-xs font-semibold transition-all duration-200 min-h-[44px] whitespace-nowrap ${
-              activeDivisionId === div.id
+              activeDivision.id === div.id
                 ? 'bg-[#FF8A00] text-[#0D0D0D] shadow-[0_0_16px_rgba(255,138,0,0.2)]'
                 : 'bg-[#252525] text-[#666] border border-[#333] hover:border-[#555] hover:text-[#F5F5F5]'
             }`}
@@ -202,7 +275,11 @@ export default function RulesPage() {
       {/* Rules by Category */}
       {!showTechChecklist && (
         <div className="space-y-3">
-          {categoryOrder.filter(cat => rulesByCategory[cat]).map(cat => {
+          {categoryOrder.filter(cat => rulesByCategory[cat]).length === 0 && search ? (
+            <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-8 text-center">
+              <p className="text-sm text-[#888]">No rules match &ldquo;{search}&rdquo;</p>
+            </div>
+          ) : categoryOrder.filter(cat => rulesByCategory[cat]).map(cat => {
             const catRules = rulesByCategory[cat]!
             const isExpanded = expandedCategory === cat
             const { label } = categoryLabels[cat]
