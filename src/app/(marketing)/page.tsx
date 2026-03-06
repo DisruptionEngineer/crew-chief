@@ -12,8 +12,8 @@ export default function LandingPage() {
       <LandingNav />
 
       {/* ===== HERO ===== */}
-      <section className="relative min-h-screen flex items-center pt-16">
-        <div className="max-w-6xl mx-auto px-4 md:px-8 w-full py-16 md:py-24">
+      <section className="relative min-h-screen flex items-start pt-16">
+        <div className="max-w-6xl mx-auto px-4 md:px-8 w-full pt-8 md:pt-12 pb-16 md:pb-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left: Copy */}
             <div>
