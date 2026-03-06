@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@supabase/supabase-js'
 
+export const maxDuration = 60
+
 const anthropic = new Anthropic()
 
 const SYSTEM_PROMPT = `You are an expert dirt track racing crew chief with 30+ years of experience setting up stock cars, modifieds, and compact cars for short track racing. You specialize in figure-8 and oval racing at tracks between 1/4 mile and 1/2 mile.

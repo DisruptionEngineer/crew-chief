@@ -29,7 +29,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <CarProvider>
         <div className="flex flex-col md:flex-row min-h-screen">
           <Navigation />
-          <main className="flex-1 pb-nav md:pb-0 md:ml-20 lg:ml-60">
+          <main className="flex-1 pt-14 pb-nav md:pt-0 md:pb-0 md:ml-20 lg:ml-60">
             <div className="max-w-5xl mx-auto px-4 py-6 md:px-6 md:py-8">
               {children}
             </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { useCar } from '@/hooks/useCar'
 import { useAuth } from '@/hooks/useAuth'
@@ -25,6 +26,9 @@ export function Navigation() {
 
   return (
     <>
+      {/* Mobile Top Bar — user avatar + account link */}
+      <MobileHeader />
+
       {/* Mobile Bottom Tab Bar */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#1A1A1A]/95 backdrop-blur-md border-t border-[#333]/80">
         <div className="flex items-center justify-around h-16" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
@@ -178,10 +182,89 @@ function UserSection() {
       </Link>
       <button
         onClick={signOut}
-        className="hidden lg:block w-full mt-2 text-xs text-[#666] hover:text-[#F5F5F5] text-left transition-colors"
+        className="hidden md:block w-full mt-2 text-xs text-[#666] hover:text-[#F5F5F5] text-left transition-colors"
+        title="Sign Out"
       >
-        Sign Out
+        <span className="hidden lg:inline">Sign Out</span>
+        <svg className="lg:hidden w-4 h-4 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
       </button>
+    </div>
+  )
+}
+
+function MobileHeader() {
+  const { user, signOut } = useAuth()
+  const { isPro } = useSubscriptionContext()
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  if (!user) return null
+
+  const initial = (user.email?.[0] ?? '?').toUpperCase()
+
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 md:hidden">
+      <div className="flex items-center justify-between px-4 py-3 bg-[#0D0D0D]/95 backdrop-blur-md">
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-[#FF8A00] flex items-center justify-center shadow-[0_0_12px_rgba(255,138,0,0.15)]">
+            <span className="text-[#0D0D0D] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
+          </div>
+          <span className="text-sm font-bold text-[#F5F5F5] tracking-wider uppercase" style={{ fontFamily: 'var(--font-heading)' }}>
+            Tenths
+          </span>
+        </div>
+
+        {/* User avatar button */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className={`relative w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${
+            isPro ? 'bg-[#FF8A00] text-[#0D0D0D] ring-2 ring-[#FF8A00]/30' : 'bg-[#FF8A00] text-[#0D0D0D]'
+          }`}
+        >
+          {initial}
+        </button>
+      </div>
+
+      {/* Dropdown menu */}
+      {menuOpen && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
+          <div className="absolute right-3 top-14 z-50 w-48 bg-[#1A1A1A] border border-[#333] rounded-lg shadow-xl overflow-hidden">
+            <div className="px-4 py-3 border-b border-[#333]">
+              <p className="text-xs text-[#888] truncate">{user.email}</p>
+              {isPro && (
+                <span className="inline-block mt-1 text-[9px] px-1.5 py-0.5 rounded bg-[#FF8A00]/10 text-[#FF8A00] font-bold uppercase">Pro</span>
+              )}
+            </div>
+            <Link
+              href="/account"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-2 px-4 py-3 text-sm text-[#CCC] hover:bg-[#252525] transition-colors"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Account
+            </Link>
+            <button
+              onClick={() => { setMenuOpen(false); signOut() }}
+              className="flex items-center gap-2 w-full px-4 py-3 text-sm text-[#888] hover:text-[#F5F5F5] hover:bg-[#252525] transition-colors border-t border-[#333]"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+              Sign Out
+            </button>
+          </div>
+        </>
+      )}
     </div>
   )
 }
