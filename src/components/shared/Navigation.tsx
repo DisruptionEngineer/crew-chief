@@ -31,19 +31,19 @@ export function Navigation() {
 
       {/* Mobile Bottom Tab Bar */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#1A1A1A]/95 backdrop-blur-md border-t border-[#333]/80">
-        <div className="flex items-center justify-around h-16" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+        <div className="flex items-center justify-around h-16 w-full" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)', paddingLeft: 'max(4px, env(safe-area-inset-left, 4px))', paddingRight: 'max(4px, env(safe-area-inset-right, 4px))' }}>
           {navItems.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative flex flex-col items-center justify-center gap-0.5 min-w-[48px] min-h-[48px] transition-all duration-200 ${
+                className={`relative flex flex-col items-center justify-center gap-0.5 flex-1 min-h-[44px] transition-all duration-200 ${
                   isActive ? 'text-[#FF8A00]' : 'text-[#555] active:scale-95'
                 }`}
               >
                 <div className="relative">
-                  <item.icon className="w-5 h-5" />
+                  <item.icon className="w-[18px] h-[18px]" />
                   {item.isPro && !isPro && (
                     <LockBadge className="absolute -top-1 -right-2" />
                   )}

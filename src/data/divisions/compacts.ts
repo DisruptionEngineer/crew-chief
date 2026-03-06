@@ -28,6 +28,8 @@ export const compactsEngineRules: DivisionEngineRules = {
 export const compactsDivision: Division = {
   id: 'compacts',
   name: 'Compacts',
+  trackId: 'painesville',
+  trackName: 'Painesville Speedway',
   description: 'Budget 4-cylinder class. FWD or RWD, stock everything. Civics, Cavaliers, Neons, Cobalts. Lowest entry cost.',
   formats: ['figure-8'],
   allowedEngineFamilyIds: [],

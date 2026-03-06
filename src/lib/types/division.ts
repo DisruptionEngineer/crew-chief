@@ -43,6 +43,9 @@ export interface Division {
   engineRules: DivisionEngineRules
   rules: Rule[]
   techChecklist: TechCheckItem[]
+  // Track association
+  trackId: string
+  trackName: string
   // Weight limits
   minWeightLbs: number
   maxWeightLbs: number

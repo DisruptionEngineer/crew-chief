@@ -39,12 +39,9 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Invalid or expired promo code' }, { status: 400 })
       }
 
-      // Check date validity
+      // Check expiration
       const now = new Date()
-      if (promo.valid_from && new Date(promo.valid_from) > now) {
-        return NextResponse.json({ error: 'This promo code is not yet active' }, { status: 400 })
-      }
-      if (promo.valid_until && new Date(promo.valid_until) < now) {
+      if (promo.expires_at && new Date(promo.expires_at) < now) {
         return NextResponse.json({ error: 'This promo code has expired' }, { status: 400 })
       }
 

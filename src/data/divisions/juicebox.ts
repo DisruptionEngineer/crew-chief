@@ -34,6 +34,8 @@ export const juiceboxEngineRules: DivisionEngineRules = {
 export const juiceboxDivision: Division = {
   id: 'juicebox',
   name: 'JuiceBox',
+  trackId: 'painesville',
+  trackName: 'Painesville Speedway',
   description: 'Demolition derby meets enduro. Stock full-size cars, figure 8 format. Contact racing expected. Cheapest entry, maximum entertainment.',
   formats: ['figure-8'],
   allowedEngineFamilyIds: ['gm-sbc-350', 'ford-351w', 'mopar-360', 'ford-46-sohc'],

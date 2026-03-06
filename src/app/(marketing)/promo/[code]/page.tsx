@@ -14,7 +14,7 @@ export default async function PromoPage({ params }: Props) {
   // Look up the promotion
   const { data: promo } = await adminDb
     .from('promotions')
-    .select('code, trial_days, description, valid_from, valid_until, max_uses, use_count, is_active')
+    .select('code, trial_days, description, expires_at, max_uses, use_count, is_active')
     .eq('code', upperCode)
     .eq('is_active', true)
     .maybeSingle()
@@ -26,9 +26,7 @@ export default async function PromoPage({ params }: Props) {
     error = 'Invalid promo code'
   } else {
     const now = new Date()
-    if (promo.valid_from && new Date(promo.valid_from) > now) {
-      error = 'This promo is not yet active'
-    } else if (promo.valid_until && new Date(promo.valid_until) < now) {
+    if (promo.expires_at && new Date(promo.expires_at) < now) {
       error = 'This promo has expired'
     } else if (promo.max_uses !== null && promo.use_count >= promo.max_uses) {
       error = 'This promo has been fully redeemed'

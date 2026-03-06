@@ -34,6 +34,8 @@ export const oldSchoolF8EngineRules: DivisionEngineRules = {
 export const oldSchoolF8Division: Division = {
   id: 'old-school-f8',
   name: 'Old School Figure 8',
+  trackId: 'painesville',
+  trackName: 'Painesville Speedway',
   description: 'Stock-bodied, "run what you brung" figure 8 class. Factory FI allowed. Lower entry barrier — perfect for Crown Vics and big sedans.',
   formats: ['figure-8'],
   allowedEngineFamilyIds: ['gm-sbc-350', 'ford-351w', 'mopar-360', 'ford-46-sohc'],

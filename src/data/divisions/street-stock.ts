@@ -34,6 +34,8 @@ export const streetStockEngineRules: DivisionEngineRules = {
 export const streetStockDivision: Division = {
   id: 'street-stock',
   name: 'Street Stock',
+  trackId: 'painesville',
+  trackName: 'Painesville Speedway',
   description: 'The "open but affordable" oval class. Porting allowed, higher cam lifts, adjustable shocks, load bolts, tubular A-arms. Where setup knowledge pays off.',
   formats: ['oval'],
   allowedEngineFamilyIds: ['gm-sbc-350', 'ford-351w', 'mopar-360'],

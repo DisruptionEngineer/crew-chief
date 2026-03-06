@@ -33,6 +33,8 @@ export const ironmanF8EngineRules: DivisionEngineRules = {
 export const ironmanF8Division: Division = {
   id: 'ironman-f8',
   name: 'Ironman Figure 8',
+  trackId: 'painesville',
+  trackName: 'Painesville Speedway',
   description: 'Full-bodied American muscle, figure 8 format. Limited modifications reward driver skill and smart engine building.',
   formats: ['figure-8'],
   allowedEngineFamilyIds: ['gm-sbc-350', 'ford-351w', 'mopar-360'],
