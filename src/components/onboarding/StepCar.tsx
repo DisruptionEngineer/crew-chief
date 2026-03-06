@@ -76,14 +76,14 @@ export function StepCar({ carYear, carMake, carModel, carWeight, engineType, rac
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-1">Your Race Car</h2>
-        <p className="text-sm text-[#888]">Search our database or enter manually.</p>
+        <p className="text-sm text-[#7A7A90]">Search our database or enter manually.</p>
       </div>
 
       {showSearch ? (
         <>
           {/* Search box */}
           <div>
-            <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">
+            <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">
               Search Cars ({dbCars.length} in database)
             </label>
             <input
@@ -91,7 +91,7 @@ export function StepCar({ carYear, carMake, carModel, carWeight, engineType, rac
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by make, model, or name..."
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
+              className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-4 py-3 text-[#D4D4E0] placeholder:text-[#3A3A4A] focus:outline-none focus:ring-2 focus:ring-[#00B4FF]"
               autoFocus
             />
           </div>
@@ -102,21 +102,21 @@ export function StepCar({ carYear, carMake, carModel, carWeight, engineType, rac
               <button
                 key={car.id}
                 onClick={() => selectCar(car)}
-                className="w-full p-3 rounded-lg border bg-[#1A1A1A] border-[#333] text-left transition-all hover:border-[#FF8A00] hover:bg-[#FF8A00]/5"
+                className="w-full p-3 rounded-lg border bg-[#14141F] border-[#2A2A3A] text-left transition-all hover:border-[#00B4FF] hover:bg-[#00B4FF]/5"
               >
-                <span className="font-semibold text-[#F5F5F5]">{car.name}</span>
-                <span className="text-xs text-[#666] ml-2">{car.eligible_divisions?.[0]?.replace(/-/g, ' ')}</span>
+                <span className="font-semibold text-[#D4D4E0]">{car.name}</span>
+                <span className="text-xs text-[#555570] ml-2">{car.eligible_divisions?.[0]?.replace(/-/g, ' ')}</span>
               </button>
             ))}
             {filtered.length === 0 && search.length >= 2 && (
-              <p className="text-sm text-[#666] py-4 text-center">No matches found</p>
+              <p className="text-sm text-[#555570] py-4 text-center">No matches found</p>
             )}
           </div>
 
           {/* Manual entry option */}
           <button
             onClick={useCustom}
-            className="w-full py-2 text-sm text-[#888] hover:text-[#FF8A00] transition-colors"
+            className="w-full py-2 text-sm text-[#7A7A90] hover:text-[#00B4FF] transition-colors"
           >
             My car isn&apos;t listed — enter manually
           </button>
@@ -125,12 +125,12 @@ export function StepCar({ carYear, carMake, carModel, carWeight, engineType, rac
         <>
           {/* Selected car or manual entry */}
           {selectedDbCarId && (
-            <div className="p-3 rounded-lg border border-[#FF8A00]/30 bg-[#FF8A00]/5">
+            <div className="p-3 rounded-lg border border-[#00B4FF]/30 bg-[#00B4FF]/5">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-[#F5F5F5]">{carYear} {carMake} {carModel}</span>
+                <span className="font-semibold text-[#D4D4E0]">{carYear} {carMake} {carModel}</span>
                 <button
                   onClick={() => { setShowSearch(true); setSelectedDbCarId(null) }}
-                  className="text-xs text-[#888] hover:text-[#FF8A00]"
+                  className="text-xs text-[#7A7A90] hover:text-[#00B4FF]"
                 >
                   Change
                 </button>
@@ -140,10 +140,10 @@ export function StepCar({ carYear, carMake, carModel, carWeight, engineType, rac
 
           {!selectedDbCarId && (
             <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-semibold text-[#888] uppercase tracking-wider">Manual Entry</label>
+              <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider">Manual Entry</label>
               <button
                 onClick={() => setShowSearch(true)}
-                className="text-xs text-[#888] hover:text-[#FF8A00]"
+                className="text-xs text-[#7A7A90] hover:text-[#00B4FF]"
               >
                 Search database instead
               </button>
@@ -157,11 +157,11 @@ export function StepCar({ carYear, carMake, carModel, carWeight, engineType, rac
             <Field label="Weight (lbs)" value={carWeight} field="carWeight" onChange={onChange} placeholder="3300" type="number" />
             <Field label="Engine" value={engineType} field="engineType" onChange={onChange} placeholder="GM 350" />
             <div>
-              <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Class</label>
+              <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">Class</label>
               <select
                 value={raceClass}
                 onChange={(e) => onChange('raceClass', e.target.value)}
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
+                className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-4 py-3 text-[#D4D4E0] focus:outline-none focus:ring-2 focus:ring-[#00B4FF]"
               >
                 <option value="">Select...</option>
                 <option value="street-stock">Street Stock</option>
@@ -183,13 +183,13 @@ function Field({ label, value, field, onChange, placeholder, type = 'text' }: {
 }) {
   return (
     <div>
-      <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">{label}</label>
+      <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">{label}</label>
       <input
         type={type}
         value={value}
         onChange={(e) => onChange(field, e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
+        className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-4 py-3 text-[#D4D4E0] placeholder:text-[#3A3A4A] focus:outline-none focus:ring-2 focus:ring-[#00B4FF]"
       />
     </div>
   )

@@ -104,7 +104,7 @@ export default function NewSessionPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <button onClick={() => router.back()} className="text-[#888] hover:text-[#F5F5F5] min-h-[48px] flex items-center">
+          <button onClick={() => router.back()} className="text-[#7A7A90] hover:text-[#D4D4E0] min-h-[48px] flex items-center">
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="15 18 9 12 15 6" /></svg>
           </button>
           <h1 className="text-2xl font-bold tracking-tight uppercase">New Session</h1>
@@ -112,16 +112,16 @@ export default function NewSessionPage() {
       </div>
 
       {/* Car & Date */}
-      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-        <p className="text-xs text-[#666]">{currentCar.year} {currentCar.model}</p>
-        <p className="text-sm text-[#888] mt-1">
+      <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
+        <p className="text-xs text-[#555570]">{currentCar.year} {currentCar.model}</p>
+        <p className="text-sm text-[#7A7A90] mt-1">
           {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
         </p>
       </div>
 
       {/* Event Type */}
       <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Event Type</label>
+        <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">Event Type</label>
         <div className="flex gap-2">
           {eventTypes.map(t => (
             <button
@@ -129,8 +129,8 @@ export default function NewSessionPage() {
               onClick={() => setEventType(t)}
               className={`flex-1 py-3 rounded-md text-sm font-semibold capitalize transition-colors min-h-[48px] ${
                 eventType === t
-                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
-                  : 'bg-[#252525] text-[#888] border border-[#333]'
+                  ? 'bg-[#00B4FF] text-[#0A0A0F]'
+                  : 'bg-[#1A1A28] text-[#7A7A90] border border-[#2A2A3A]'
               }`}
             >
               {t}
@@ -140,11 +140,11 @@ export default function NewSessionPage() {
       </div>
 
       {/* Conditions */}
-      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4 space-y-4">
-        <h2 className="text-xs font-semibold text-[#888] uppercase tracking-wider">Conditions</h2>
+      <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4 space-y-4">
+        <h2 className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider">Conditions</h2>
 
         <div>
-          <label className="text-xs text-[#666] block mb-2">Track</label>
+          <label className="text-xs text-[#555570] block mb-2">Track</label>
           <div className="flex gap-2">
             {conditions.map(c => (
               <button
@@ -152,8 +152,8 @@ export default function NewSessionPage() {
                 onClick={() => setCondition(c)}
                 className={`flex-1 py-2.5 rounded-md text-xs font-semibold capitalize transition-colors min-h-[44px] ${
                   condition === c
-                    ? 'bg-[#FF8A00] text-[#0D0D0D]'
-                    : 'bg-[#252525] text-[#888] border border-[#333]'
+                    ? 'bg-[#00B4FF] text-[#0A0A0F]'
+                    : 'bg-[#1A1A28] text-[#7A7A90] border border-[#2A2A3A]'
                 }`}
               >
                 {c}
@@ -164,52 +164,52 @@ export default function NewSessionPage() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-xs text-[#666] block mb-1">Temp (°F)</label>
+            <label className="text-xs text-[#555570] block mb-1">Temp (°F)</label>
             <input
               type="number"
               value={temp}
               onChange={e => setTemp(e.target.value)}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
+              className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[44px]"
             />
           </div>
           <div>
-            <label className="text-xs text-[#666] block mb-1">Humidity (%)</label>
+            <label className="text-xs text-[#555570] block mb-1">Humidity (%)</label>
             <input
               type="number"
               value={humidity}
               onChange={e => setHumidity(e.target.value)}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
+              className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[44px]"
             />
           </div>
         </div>
       </div>
 
       {/* Handling */}
-      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-        <h2 className="text-xs font-semibold text-[#888] uppercase tracking-wider mb-4">Handling</h2>
+      <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
+        <h2 className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider mb-4">Handling</h2>
         <div className="space-y-3">
           <HandlingRow label="Entry" value={handlingEntry} onChange={setHandlingEntry} />
           <HandlingRow label="Mid" value={handlingMid} onChange={setHandlingMid} />
           <HandlingRow label="Exit" value={handlingExit} onChange={setHandlingExit} />
         </div>
         <div className="mt-4">
-          <label className="text-xs text-[#666] block mb-1">Notes</label>
+          <label className="text-xs text-[#555570] block mb-1">Notes</label>
           <textarea
             value={notes}
             onChange={e => setNotes(e.target.value)}
             placeholder="Tight on entry, comes free on exit..."
-            className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[80px] resize-none"
+            className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[80px] resize-none"
           />
         </div>
       </div>
 
       {/* Lap Times */}
-      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-        <h2 className="text-xs font-semibold text-[#888] uppercase tracking-wider mb-4">Lap Times</h2>
+      <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
+        <h2 className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider mb-4">Lap Times</h2>
         <div className="grid grid-cols-2 gap-3">
           {lapTimes.map((t, i) => (
             <div key={i}>
-              <label className="text-[10px] text-[#666]">#{i + 1}</label>
+              <label className="text-[10px] text-[#555570]">#{i + 1}</label>
               <input
                 type="number"
                 step="0.01"
@@ -220,25 +220,25 @@ export default function NewSessionPage() {
                   setLapTimes(newTimes)
                 }}
                 placeholder="0.00"
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
+                className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[44px]"
               />
             </div>
           ))}
           <button
             onClick={() => setLapTimes([...lapTimes, ''])}
-            className="flex items-center justify-center bg-[#252525] border border-[#333] rounded-md text-[#666] hover:text-[#F5F5F5] transition-colors min-h-[44px] mt-4"
+            className="flex items-center justify-center bg-[#1A1A28] border border-[#2A2A3A] rounded-md text-[#555570] hover:text-[#D4D4E0] transition-colors min-h-[44px] mt-4"
           >
             + Add
           </button>
         </div>
         {validLaps.length > 0 && (
-          <div className="flex gap-6 mt-4 pt-3 border-t border-[#333]">
+          <div className="flex gap-6 mt-4 pt-3 border-t border-[#2A2A3A]">
             <div>
-              <span className="text-[10px] text-[#666] uppercase">Best</span>
+              <span className="text-[10px] text-[#555570] uppercase">Best</span>
               <p className="font-mono font-semibold text-[#00E676]">{bestLap.toFixed(2)}s</p>
             </div>
             <div>
-              <span className="text-[10px] text-[#666] uppercase">Average</span>
+              <span className="text-[10px] text-[#555570] uppercase">Average</span>
               <p className="font-mono font-semibold">{avgLap.toFixed(2)}s</p>
             </div>
           </div>
@@ -246,39 +246,39 @@ export default function NewSessionPage() {
       </div>
 
       {/* Changes Made */}
-      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-        <h2 className="text-xs font-semibold text-[#888] uppercase tracking-wider mb-3">Changes Made</h2>
+      <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
+        <h2 className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider mb-3">Changes Made</h2>
         <textarea
           value={changes}
           onChange={e => setChanges(e.target.value)}
           placeholder="• Lowered RR pressure 1 psi&#10;• Added 1/2 turn RF wedge"
-          className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[80px] resize-none"
+          className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[80px] resize-none"
         />
       </div>
 
       {/* Result (for races) */}
       {(eventType === 'heat' || eventType === 'feature') && (
-        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-          <h2 className="text-xs font-semibold text-[#888] uppercase tracking-wider mb-3">Result</h2>
+        <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
+          <h2 className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider mb-3">Result</h2>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs text-[#666] block mb-1">Started</label>
+              <label className="text-xs text-[#555570] block mb-1">Started</label>
               <input
                 type="number"
                 value={startPos}
                 onChange={e => setStartPos(e.target.value)}
                 placeholder="#"
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
+                className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[44px]"
               />
             </div>
             <div>
-              <label className="text-xs text-[#666] block mb-1">Finished</label>
+              <label className="text-xs text-[#555570] block mb-1">Finished</label>
               <input
                 type="number"
                 value={finishPos}
                 onChange={e => setFinishPos(e.target.value)}
                 placeholder="#"
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
+                className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[44px]"
               />
             </div>
           </div>
@@ -289,7 +289,7 @@ export default function NewSessionPage() {
       <button
         onClick={handleSave}
         disabled={saving}
-        className="w-full bg-[#FF8A00] text-[#0D0D0D] py-4 rounded-md text-sm font-bold hover:bg-[#FFA640] transition-colors min-h-[56px] disabled:opacity-50"
+        className="w-full bg-[#00B4FF] text-[#0A0A0F] py-4 rounded-md text-sm font-bold hover:bg-[#33C4FF] transition-colors min-h-[56px] disabled:opacity-50"
       >
         {saving ? 'Saving...' : 'Save Session'}
       </button>
@@ -304,18 +304,18 @@ function HandlingRow({ label, value, onChange }: {
   const options: HandlingFeel[] = ['tight', 'neutral', 'loose']
   const colors: Record<HandlingFeel, string> = {
     tight: 'bg-[#FF1744] text-white',
-    neutral: 'bg-[#00E676] text-[#0D0D0D]',
-    loose: 'bg-[#448AFF] text-white',
+    neutral: 'bg-[#00E676] text-[#0A0A0F]',
+    loose: 'bg-[#00B4FF] text-white',
   }
   const inactiveColors: Record<HandlingFeel, string> = {
     tight: 'text-[#FF1744] border-[#FF1744]/30',
     neutral: 'text-[#00E676] border-[#00E676]/30',
-    loose: 'text-[#448AFF] border-[#448AFF]/30',
+    loose: 'text-[#00B4FF] border-[#00B4FF]/30',
   }
 
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs text-[#666] w-10">{label}</span>
+      <span className="text-xs text-[#555570] w-10">{label}</span>
       <div className="flex gap-2 flex-1">
         {options.map(opt => (
           <button

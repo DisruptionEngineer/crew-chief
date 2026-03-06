@@ -25,20 +25,20 @@ export default function RimOffsetPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="animate-fade-up">
-        <Link href="/calculators" className="text-xs text-[#555] hover:text-[#888] transition-colors inline-flex items-center gap-1 group">
+        <Link href="/calculators" className="text-xs text-[#3A3A4A] hover:text-[#7A7A90] transition-colors inline-flex items-center gap-1 group">
           <svg className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><polyline points="15 18 9 12 15 6" /></svg>
           Calculators
         </Link>
         <h1 className="text-2xl font-bold tracking-tight uppercase mt-2">Rim Offset Calculator</h1>
-        <p className="text-sm text-[#666] mt-1">Backspacing to offset, scrub radius, track width change</p>
+        <p className="text-sm text-[#555570] mt-1">Backspacing to offset, scrub radius, track width change</p>
       </div>
 
       {/* New Wheel */}
-      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-        <p className="text-xs font-semibold text-[#448AFF] uppercase tracking-wider mb-3">New Wheel</p>
+      <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
+        <p className="text-xs font-semibold text-[#00B4FF] uppercase tracking-wider mb-3">New Wheel</p>
         <div className="grid grid-cols-3 gap-3">
           <div>
-            <label className="text-[10px] text-[#666] uppercase block mb-1">Rim Width</label>
+            <label className="text-[10px] text-[#555570] uppercase block mb-1">Rim Width</label>
             <div className="flex items-center gap-1">
               <input
                 type="number"
@@ -47,13 +47,13 @@ export default function RimOffsetPage() {
                 step={0.5}
                 min={5}
                 max={12}
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
+                className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[44px]"
               />
-              <span className="text-[10px] text-[#666]">&quot;</span>
+              <span className="text-[10px] text-[#555570]">&quot;</span>
             </div>
           </div>
           <div>
-            <label className="text-[10px] text-[#666] uppercase block mb-1">Backspacing</label>
+            <label className="text-[10px] text-[#555570] uppercase block mb-1">Backspacing</label>
             <div className="flex items-center gap-1">
               <input
                 type="number"
@@ -62,13 +62,13 @@ export default function RimOffsetPage() {
                 step={0.125}
                 min={2}
                 max={7}
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
+                className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[44px]"
               />
-              <span className="text-[10px] text-[#666]">&quot;</span>
+              <span className="text-[10px] text-[#555570]">&quot;</span>
             </div>
           </div>
           <div>
-            <label className="text-[10px] text-[#666] uppercase block mb-1">Tire Width</label>
+            <label className="text-[10px] text-[#555570] uppercase block mb-1">Tire Width</label>
             <div className="flex items-center gap-1">
               <input
                 type="number"
@@ -77,46 +77,46 @@ export default function RimOffsetPage() {
                 step={5}
                 min={145}
                 max={325}
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
+                className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[44px]"
               />
-              <span className="text-[10px] text-[#666]">mm</span>
+              <span className="text-[10px] text-[#555570]">mm</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Stock Reference */}
-      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-        <p className="text-xs font-semibold text-[#888] uppercase tracking-wider mb-3">Stock Reference</p>
+      <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
+        <p className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider mb-3">Stock Reference</p>
         <div className="grid grid-cols-3 gap-3">
           <div>
-            <label className="text-[10px] text-[#666] uppercase block mb-1">Stock Backspacing</label>
+            <label className="text-[10px] text-[#555570] uppercase block mb-1">Stock Backspacing</label>
             <input
               type="number"
               value={input.stockBackspacing}
               onChange={e => update('stockBackspacing', parseFloat(e.target.value) || 4.25)}
               step={0.125}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
+              className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#00B4FF]"
             />
           </div>
           <div>
-            <label className="text-[10px] text-[#666] uppercase block mb-1">Stock Rim Width</label>
+            <label className="text-[10px] text-[#555570] uppercase block mb-1">Stock Rim Width</label>
             <input
               type="number"
               value={input.stockRimWidth ?? 7}
               onChange={e => update('stockRimWidth', parseFloat(e.target.value) || 7)}
               step={0.5}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
+              className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#00B4FF]"
             />
           </div>
           <div>
-            <label className="text-[10px] text-[#666] uppercase block mb-1">Kingpin Offset</label>
+            <label className="text-[10px] text-[#555570] uppercase block mb-1">Kingpin Offset</label>
             <input
               type="number"
               value={input.kingpinOffset ?? 1.5}
               onChange={e => update('kingpinOffset', parseFloat(e.target.value) || 1.5)}
               step={0.25}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
+              className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2 font-mono text-sm text-center focus:outline-none focus:ring-1 focus:ring-[#00B4FF]"
             />
           </div>
         </div>
@@ -125,53 +125,53 @@ export default function RimOffsetPage() {
       <div className="checkered-divider" />
 
       {/* Results */}
-      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-        <p className="text-xs font-semibold text-[#888] uppercase tracking-wider mb-3">Results</p>
+      <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
+        <p className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider mb-3">Results</p>
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-[#252525] rounded-md p-3 text-center">
-            <p className="text-[10px] text-[#666] uppercase">Offset</p>
-            <p className="font-mono text-2xl font-bold mt-1 text-[#448AFF]">
+          <div className="bg-[#1A1A28] rounded-md p-3 text-center">
+            <p className="text-[10px] text-[#555570] uppercase">Offset</p>
+            <p className="font-mono text-2xl font-bold mt-1 text-[#00B4FF]">
               {result.offsetMm > 0 ? '+' : ''}{result.offsetMm.toFixed(0)} mm
             </p>
-            <p className="text-[10px] text-[#666]">{result.offsetInches.toFixed(3)}&quot;</p>
+            <p className="text-[10px] text-[#555570]">{result.offsetInches.toFixed(3)}&quot;</p>
           </div>
-          <div className="bg-[#252525] rounded-md p-3 text-center">
-            <p className="text-[10px] text-[#666] uppercase">Stock Offset</p>
+          <div className="bg-[#1A1A28] rounded-md p-3 text-center">
+            <p className="text-[10px] text-[#555570] uppercase">Stock Offset</p>
             <p className="font-mono text-2xl font-bold mt-1">
               {result.stockOffsetMm > 0 ? '+' : ''}{result.stockOffsetMm.toFixed(0)} mm
             </p>
           </div>
-          <div className="bg-[#252525] rounded-md p-3 text-center">
-            <p className="text-[10px] text-[#666] uppercase">Centerline Shift</p>
+          <div className="bg-[#1A1A28] rounded-md p-3 text-center">
+            <p className="text-[10px] text-[#555570] uppercase">Centerline Shift</p>
             <p className={`font-mono text-xl font-bold mt-1 ${
               Math.abs(result.centerlineShift) < 0.25 ? 'text-[#00E676]' :
-              Math.abs(result.centerlineShift) < 0.75 ? 'text-[#FF8A00]' : 'text-[#FF1744]'
+              Math.abs(result.centerlineShift) < 0.75 ? 'text-[#00B4FF]' : 'text-[#FF1744]'
             }`}>
               {result.centerlineShift > 0 ? '+' : ''}{result.centerlineShift.toFixed(3)}&quot;
             </p>
-            <p className="text-[10px] text-[#666]">{result.centerlineShift > 0 ? 'Outward' : result.centerlineShift < 0 ? 'Inward' : 'No change'}</p>
+            <p className="text-[10px] text-[#555570]">{result.centerlineShift > 0 ? 'Outward' : result.centerlineShift < 0 ? 'Inward' : 'No change'}</p>
           </div>
-          <div className="bg-[#252525] rounded-md p-3 text-center">
-            <p className="text-[10px] text-[#666] uppercase">Track Width Change</p>
+          <div className="bg-[#1A1A28] rounded-md p-3 text-center">
+            <p className="text-[10px] text-[#555570] uppercase">Track Width Change</p>
             <p className="font-mono text-xl font-bold mt-1">
               {result.trackWidthChange > 0 ? '+' : ''}{result.trackWidthChange.toFixed(2)}&quot;
             </p>
-            <p className="text-[10px] text-[#666]">Both sides combined</p>
+            <p className="text-[10px] text-[#555570]">Both sides combined</p>
           </div>
         </div>
 
         {/* Scrub Radius */}
         <div className="mt-3 grid grid-cols-2 gap-3">
-          <div className="bg-[#252525] rounded-md p-3 text-center">
-            <p className="text-[10px] text-[#666] uppercase">Scrub Radius Change</p>
+          <div className="bg-[#1A1A28] rounded-md p-3 text-center">
+            <p className="text-[10px] text-[#555570] uppercase">Scrub Radius Change</p>
             <p className={`font-mono text-lg font-bold mt-1 ${
-              Math.abs(result.scrubRadiusChange) < 0.5 ? 'text-[#00E676]' : 'text-[#FF8A00]'
+              Math.abs(result.scrubRadiusChange) < 0.5 ? 'text-[#00E676]' : 'text-[#00B4FF]'
             }`}>
               {result.scrubRadiusChange > 0 ? '+' : ''}{result.scrubRadiusChange.toFixed(2)}&quot;
             </p>
           </div>
-          <div className="bg-[#252525] rounded-md p-3 text-center">
-            <p className="text-[10px] text-[#666] uppercase">Est. Scrub Radius</p>
+          <div className="bg-[#1A1A28] rounded-md p-3 text-center">
+            <p className="text-[10px] text-[#555570] uppercase">Est. Scrub Radius</p>
             <p className="font-mono text-lg font-bold mt-1">{result.estimatedScrubRadius.toFixed(2)}&quot;</p>
           </div>
         </div>
@@ -183,7 +183,7 @@ export default function RimOffsetPage() {
           <p className="text-xs font-semibold text-[#FF1744] uppercase tracking-wider mb-2">Warnings</p>
           <ul className="space-y-1.5">
             {result.warnings.map((w, i) => (
-              <li key={i} className="text-sm text-[#F5F5F5] flex items-start gap-2">
+              <li key={i} className="text-sm text-[#D4D4E0] flex items-start gap-2">
                 <span className="text-[#FF1744] flex-shrink-0 mt-0.5">&#x26A0;</span>
                 {w}
               </li>

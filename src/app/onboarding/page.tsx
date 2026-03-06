@@ -197,19 +197,19 @@ export default function OnboardingPage() {
       {step === 3 && <StepConfirm data={data} />}
 
       {/* Navigation buttons */}
-      <div className="flex items-center justify-between mt-8 pt-6 border-t border-[#333]/50">
+      <div className="flex items-center justify-between mt-8 pt-6 border-t border-[#2A2A3A]/50">
         <div>
           {step > 0 ? (
             <button
               onClick={() => setStep((s) => s - 1)}
-              className="text-sm text-[#888] hover:text-[#F5F5F5] transition-colors px-4 py-2"
+              className="text-sm text-[#7A7A90] hover:text-[#D4D4E0] transition-colors px-4 py-2"
             >
               &larr; Back
             </button>
           ) : (
             <button
               onClick={handleSkip}
-              className="text-sm text-[#666] hover:text-[#888] transition-colors px-4 py-2"
+              className="text-sm text-[#555570] hover:text-[#7A7A90] transition-colors px-4 py-2"
             >
               Skip for now
             </button>
@@ -222,8 +222,8 @@ export default function OnboardingPage() {
             disabled={!canAdvance()}
             className={`px-6 py-3 rounded-md font-semibold text-sm transition-all ${
               canAdvance()
-                ? 'bg-[#FF8A00] text-[#0D0D0D] hover:bg-[#FFA640]'
-                : 'bg-[#333] text-[#666] cursor-not-allowed'
+                ? 'bg-[#00B4FF] text-[#0A0A0F] hover:bg-[#33C4FF]'
+                : 'bg-[#2A2A3A] text-[#555570] cursor-not-allowed'
             }`}
           >
             Continue &rarr;
@@ -232,7 +232,7 @@ export default function OnboardingPage() {
           <button
             onClick={handleComplete}
             disabled={saving}
-            className="px-8 py-3 rounded-md font-bold text-sm bg-[#FF8A00] text-[#0D0D0D] hover:bg-[#FFA640] transition-all disabled:opacity-50"
+            className="px-8 py-3 rounded-md font-bold text-sm bg-[#00B4FF] text-[#0A0A0F] hover:bg-[#33C4FF] transition-all disabled:opacity-50"
           >
             {saving ? 'Saving...' : "Let's Go Racing 🏁"}
           </button>

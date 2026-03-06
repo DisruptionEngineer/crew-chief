@@ -24,7 +24,7 @@ const PowerCurveChart = dynamic(
   () => import('@/components/engine/PowerCurveChart').then(mod => ({ default: mod.PowerCurveChart })),
   {
     ssr: false,
-    loading: () => <div className="h-64 bg-[#1A1A1A] border border-[#333] rounded-lg animate-pulse" />,
+    loading: () => <div className="h-64 bg-[#14141F] border border-[#2A2A3A] rounded-lg animate-pulse" />,
   }
 )
 
@@ -158,16 +158,16 @@ export default function EngineBuildPage() {
       <div className="flex items-start justify-between gap-4 animate-fade-up">
         <div>
           <h1 className="text-2xl font-bold tracking-tight uppercase">Engine Build Simulator</h1>
-          <p className="text-sm text-[#666] mt-1">
+          <p className="text-sm text-[#555570] mt-1">
             {engineFamily.name} &mdash;{' '}
-            <span className="text-[#FF8A00] font-medium">
+            <span className="text-[#00B4FF] font-medium">
               {eligibleDivisions.find(d => d.id === selectedDivisionId)?.name || 'Rules'}
             </span>
           </p>
         </div>
         <button
           onClick={() => setDrawerOpen(true)}
-          className="flex items-center gap-2 px-3 py-2 bg-[#252525] border border-[#333] rounded-md text-xs text-[#888] hover:text-[#F5F5F5] hover:border-[#555] transition-all duration-200 min-h-[40px] active:scale-95"
+          className="flex items-center gap-2 px-3 py-2 bg-[#1A1A28] border border-[#2A2A3A] rounded-md text-xs text-[#7A7A90] hover:text-[#D4D4E0] hover:border-[#3A3A4A] transition-all duration-200 min-h-[40px] active:scale-95"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" />
@@ -179,12 +179,12 @@ export default function EngineBuildPage() {
 
       {/* Build name */}
       <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Build Name</label>
+        <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">Build Name</label>
         <input
           type="text"
           value={buildName}
           onChange={e => setBuildName(e.target.value)}
-          className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[44px]"
+          className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[44px]"
           placeholder="e.g., Vortec Street Build"
         />
       </div>
@@ -221,7 +221,7 @@ export default function EngineBuildPage() {
           onChange={handleDivisionChange}
         />
         {divisionRules.notes && (
-          <p className="text-[11px] text-[#666] mt-3 leading-relaxed">{divisionRules.notes}</p>
+          <p className="text-[11px] text-[#555570] mt-3 leading-relaxed">{divisionRules.notes}</p>
         )}
       </EngineSection>
 
@@ -271,29 +271,29 @@ export default function EngineBuildPage() {
       </EngineSection>
 
       {/* Division-aware fixed components */}
-      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
+      <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
         <div className="flex items-center gap-2 mb-3">
-          <svg className="w-3.5 h-3.5 text-[#666]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-3.5 h-3.5 text-[#555570]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
             <path d="M7 11V7a5 5 0 0110 0v4" />
           </svg>
-          <p className="text-xs font-semibold text-[#888] uppercase tracking-wider">Fixed by Rules</p>
+          <p className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider">Fixed by Rules</p>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <div className="bg-[#252525] rounded-md p-3">
-            <p className="text-[10px] text-[#555] uppercase">Carburetor</p>
-            <p className="text-sm font-mono font-semibold mt-0.5">{divisionRules.carbCfmLimit} <span className="text-[10px] text-[#666] font-normal">CFM max</span></p>
+          <div className="bg-[#1A1A28] rounded-md p-3">
+            <p className="text-[10px] text-[#3A3A4A] uppercase">Carburetor</p>
+            <p className="text-sm font-mono font-semibold mt-0.5">{divisionRules.carbCfmLimit} <span className="text-[10px] text-[#555570] font-normal">CFM max</span></p>
           </div>
-          <div className="bg-[#252525] rounded-md p-3">
-            <p className="text-[10px] text-[#555] uppercase">Max Cam Lift</p>
+          <div className="bg-[#1A1A28] rounded-md p-3">
+            <p className="text-[10px] text-[#3A3A4A] uppercase">Max Cam Lift</p>
             <p className="text-sm font-mono font-semibold mt-0.5">{divisionRules.maxCamLift}&quot;</p>
           </div>
-          <div className="bg-[#252525] rounded-md p-3">
-            <p className="text-[10px] text-[#555] uppercase">Max CR</p>
+          <div className="bg-[#1A1A28] rounded-md p-3">
+            <p className="text-[10px] text-[#3A3A4A] uppercase">Max CR</p>
             <p className="text-sm font-mono font-semibold mt-0.5">{divisionRules.maxCompression}:1</p>
           </div>
-          <div className="bg-[#252525] rounded-md p-3">
-            <p className="text-[10px] text-[#555] uppercase">Head Material</p>
+          <div className="bg-[#1A1A28] rounded-md p-3">
+            <p className="text-[10px] text-[#3A3A4A] uppercase">Head Material</p>
             <p className="text-sm font-mono font-semibold mt-0.5">{divisionRules.requiresCastIron ? 'Cast Iron' : 'Any'}</p>
           </div>
         </div>
@@ -319,8 +319,8 @@ export default function EngineBuildPage() {
         disabled={saveSuccess}
         className={`w-full py-3 rounded-lg font-bold text-sm transition-all duration-300 min-h-[48px] active:scale-[0.98] ${
           saveSuccess
-            ? 'bg-[#00E676] text-[#0D0D0D] shadow-[0_0_20px_rgba(0,230,118,0.2)]'
-            : 'bg-[#FF8A00] text-[#0D0D0D] hover:bg-[#FFA640] shadow-[0_0_20px_rgba(255,138,0,0.15)] hover:shadow-[0_0_30px_rgba(255,138,0,0.25)]'
+            ? 'bg-[#00E676] text-[#0A0A0F] shadow-[0_0_20px_rgba(0,230,118,0.2)]'
+            : 'bg-[#00B4FF] text-[#0A0A0F] hover:bg-[#33C4FF] shadow-[0_0_20px_rgba(255,138,0,0.15)] hover:shadow-[0_0_30px_rgba(255,138,0,0.25)]'
         }`}
       >
         {saveSuccess ? '\u2713 Build Saved!' : 'Save Build'}
@@ -350,18 +350,18 @@ function EngineSection({ title, subtitle, expanded, onToggle, children }: {
   children: React.ReactNode
 }) {
   return (
-    <div className={`bg-[#1A1A1A] border rounded-lg overflow-hidden transition-all duration-200 ${
-      expanded ? 'border-[#FF8A00]/30 shadow-[0_0_20px_rgba(255,138,0,0.04)]' : 'border-[#333]'
+    <div className={`bg-[#14141F] border rounded-lg overflow-hidden transition-all duration-200 ${
+      expanded ? 'border-[#00B4FF]/30 shadow-[0_0_20px_rgba(255,138,0,0.04)]' : 'border-[#2A2A3A]'
     }`}>
       <button onClick={onToggle} className="section-header">
         <div className="flex items-center gap-2.5">
-          {expanded && <div className="w-1 h-5 rounded-full bg-[#FF8A00]" />}
+          {expanded && <div className="w-1 h-5 rounded-full bg-[#00B4FF]" />}
           <div>
             <h2 className="text-sm font-bold uppercase tracking-wider">{title}</h2>
-            {subtitle && <p className="text-[10px] text-[#666] mt-0.5">{subtitle}</p>}
+            {subtitle && <p className="text-[10px] text-[#555570] mt-0.5">{subtitle}</p>}
           </div>
         </div>
-        <svg className={`w-4 h-4 text-[#666] transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+        <svg className={`w-4 h-4 text-[#555570] transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>

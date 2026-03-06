@@ -84,11 +84,11 @@ export default function SessionsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight uppercase">Session Log</h1>
-          <p className="text-sm text-[#888] mt-1">Track your practice and race sessions</p>
+          <p className="text-sm text-[#7A7A90] mt-1">Track your practice and race sessions</p>
         </div>
         <Link
           href="/sessions/new"
-          className="bg-[#FF8A00] text-[#0D0D0D] px-4 py-2.5 rounded-md text-sm font-bold min-h-[48px] flex items-center gap-2 hover:bg-[#FFA640] transition-colors"
+          className="bg-[#00B4FF] text-[#0A0A0F] px-4 py-2.5 rounded-md text-sm font-bold min-h-[48px] flex items-center gap-2 hover:bg-[#33C4FF] transition-colors"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
             <line x1="12" y1="5" x2="12" y2="19" />
@@ -99,24 +99,24 @@ export default function SessionsPage() {
       </div>
 
       {loading ? (
-        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-8 text-center">
-          <p className="text-sm text-[#888]">Loading sessions...</p>
+        <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-8 text-center">
+          <p className="text-sm text-[#7A7A90]">Loading sessions...</p>
         </div>
       ) : sessions.length === 0 ? (
-        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-8 text-center">
-          <svg className="w-12 h-12 mx-auto text-[#333] mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+        <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-8 text-center">
+          <svg className="w-12 h-12 mx-auto text-[#2A2A3A] mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
             <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2" />
             <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
             <line x1="12" y1="11" x2="12" y2="17" />
             <line x1="9" y1="14" x2="15" y2="14" />
           </svg>
           <h3 className="text-lg font-semibold mb-2">No Sessions Yet</h3>
-          <p className="text-sm text-[#888] mb-4">
+          <p className="text-sm text-[#7A7A90] mb-4">
             Log your first practice or race session to start tracking your setup changes and handling notes.
           </p>
           <Link
             href="/sessions/new"
-            className="inline-flex items-center gap-2 bg-[#FF8A00] text-[#0D0D0D] px-6 py-3 rounded-md text-sm font-bold hover:bg-[#FFA640] transition-colors"
+            className="inline-flex items-center gap-2 bg-[#00B4FF] text-[#0A0A0F] px-6 py-3 rounded-md text-sm font-bold hover:bg-[#33C4FF] transition-colors"
           >
             Log Your First Session
           </Link>
@@ -136,28 +136,28 @@ export default function SessionsPage() {
 function SessionCard({ session }: { session: Session }) {
   const handlingColor = (feel: HandlingFeel) => {
     if (feel === 'tight') return 'text-[#FF1744]'
-    if (feel === 'loose') return 'text-[#448AFF]'
+    if (feel === 'loose') return 'text-[#00B4FF]'
     return 'text-[#00E676]'
   }
 
   return (
-    <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
+    <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
       <div className="flex items-start justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs px-2 py-0.5 rounded-full bg-[#FF8A00]/20 text-[#FF8A00] uppercase font-semibold">
+            <span className="text-xs px-2 py-0.5 rounded-full bg-[#00B4FF]/20 text-[#00B4FF] uppercase font-semibold">
               {session.eventType}
             </span>
-            <span className="text-xs text-[#666]">{session.trackCondition}</span>
+            <span className="text-xs text-[#555570]">{session.trackCondition}</span>
           </div>
-          <p className="text-sm text-[#888] mt-1">
+          <p className="text-sm text-[#7A7A90] mt-1">
             {new Date(session.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
           </p>
         </div>
         {session.bestLap > 0 && (
           <div className="text-right">
             <p className="font-mono text-lg font-semibold">{session.bestLap.toFixed(2)}s</p>
-            <p className="text-[10px] text-[#666]">Best Lap</p>
+            <p className="text-[10px] text-[#555570]">Best Lap</p>
           </div>
         )}
       </div>
@@ -166,7 +166,7 @@ function SessionCard({ session }: { session: Session }) {
         <span>Mid: <span className={handlingColor(session.handlingMid)}>{session.handlingMid}</span></span>
         <span>Exit: <span className={handlingColor(session.handlingExit)}>{session.handlingExit}</span></span>
       </div>
-      {session.notes && <p className="text-xs text-[#888] mt-2 line-clamp-2">{session.notes}</p>}
+      {session.notes && <p className="text-xs text-[#7A7A90] mt-2 line-clamp-2">{session.notes}</p>}
     </div>
   )
 }

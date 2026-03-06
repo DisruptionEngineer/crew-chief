@@ -20,7 +20,7 @@ export function StepConfirm({ data }: StepConfirmProps) {
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-1">Ready to Race</h2>
-        <p className="text-sm text-[#888]">Here&apos;s your profile. Hit the button to start.</p>
+        <p className="text-sm text-[#7A7A90]">Here&apos;s your profile. Hit the button to start.</p>
       </div>
 
       {/* Driver */}
@@ -50,8 +50,8 @@ export function StepConfirm({ data }: StepConfirmProps) {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
-      <h3 className="text-xs font-semibold text-[#FF8A00] uppercase tracking-wider mb-3">{title}</h3>
+    <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
+      <h3 className="text-xs font-semibold text-[#00B4FF] uppercase tracking-wider mb-3">{title}</h3>
       <div className="space-y-2">{children}</div>
     </div>
   )
@@ -60,8 +60,8 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between text-sm">
-      <span className="text-[#666]">{label}</span>
-      <span className="text-[#F5F5F5] font-medium capitalize">{value}</span>
+      <span className="text-[#555570]">{label}</span>
+      <span className="text-[#D4D4E0] font-medium capitalize">{value}</span>
     </div>
   )
 }

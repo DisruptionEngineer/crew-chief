@@ -319,7 +319,7 @@ export default function SetupCalculator() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight uppercase">Setup Builder</h1>
-          <p className="text-sm text-[#888] mt-1">{currentCar.year} {currentCar.model}</p>
+          <p className="text-sm text-[#7A7A90] mt-1">{currentCar.year} {currentCar.model}</p>
         </div>
         {/* AI + Save Buttons */}
         <div className="flex gap-2">
@@ -343,8 +343,8 @@ export default function SetupCalculator() {
               disabled={saving || (!isPro && !user)}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-xs font-semibold transition-all min-h-[40px] ${
                 saved
-                  ? 'bg-[#00E676] text-[#0D0D0D]'
-                  : 'bg-[#FF8A00] text-[#0D0D0D] hover:bg-[#FFA640]'
+                  ? 'bg-[#00E676] text-[#0A0A0F]'
+                  : 'bg-[#00B4FF] text-[#0A0A0F] hover:bg-[#33C4FF]'
               } disabled:opacity-50`}
             >
               {saved ? (
@@ -366,7 +366,7 @@ export default function SetupCalculator() {
       {/* Track Selector */}
       {myTracks.length > 0 && (
         <div>
-          <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Track</label>
+          <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">Track</label>
           <select
             value={selectedTrack?.id ?? ''}
             onChange={(e) => {
@@ -411,7 +411,7 @@ export default function SetupCalculator() {
                 }
               }
             }}
-            className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-sm font-semibold text-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[48px] appearance-none"
+            className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-4 py-3 text-sm font-semibold text-[#D4D4E0] focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[48px] appearance-none"
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
           >
             {myTracks.map(entry => (
@@ -421,7 +421,7 @@ export default function SetupCalculator() {
             ))}
           </select>
           {selectedTrack && !weather && (
-            <p className="text-[10px] text-[#555] mt-1.5">
+            <p className="text-[10px] text-[#3A3A4A] mt-1.5">
               {selectedTrack.location} &bull; {selectedTrack.surface} &bull; {selectedTrack.banking}° banking
             </p>
           )}
@@ -430,7 +430,7 @@ export default function SetupCalculator() {
 
       {/* Weather at Track */}
       {selectedTrack && (weatherLoading || weather) && (
-        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4">
+        <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <svg className="w-4 h-4 text-[#4FC3F7]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -438,17 +438,17 @@ export default function SetupCalculator() {
               </svg>
               <span className="text-xs font-bold text-[#4FC3F7] uppercase tracking-wider">Weather at Track</span>
             </div>
-            <span className="text-[10px] text-[#555]">{selectedTrack.name}</span>
+            <span className="text-[10px] text-[#3A3A4A]">{selectedTrack.name}</span>
           </div>
           {weatherLoading ? (
-            <div className="flex items-center gap-2 text-xs text-[#666]">
+            <div className="flex items-center gap-2 text-xs text-[#555570]">
               <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" opacity="0.25" /><path d="M4 12a8 8 0 018-8" /></svg>
               Loading conditions...
             </div>
           ) : weather ? (
             <>
               {/* Current Conditions */}
-              <p className="text-[10px] text-[#555] uppercase tracking-wider mb-2">Right Now</p>
+              <p className="text-[10px] text-[#3A3A4A] uppercase tracking-wider mb-2">Right Now</p>
               <div className="grid grid-cols-4 gap-3">
                 <WeatherStat label="Temp" value={`${weather.current.temp}°`} sub={`Feels ${weather.current.feelsLike}°`} />
                 <WeatherStat label="Humidity" value={`${weather.current.humidity}%`} sub={`DP ${weather.current.dewPoint}°`} />
@@ -457,7 +457,7 @@ export default function SetupCalculator() {
               </div>
               {/* Dew point warning */}
               {weather.current.temp - weather.current.dewPoint <= 5 && (
-                <p className="text-[10px] text-[#FF8A00] mt-2 flex items-center gap-1">
+                <p className="text-[10px] text-[#00B4FF] mt-2 flex items-center gap-1">
                   <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
                   Dew point spread is tight ({weather.current.temp - weather.current.dewPoint}°) — track may be slippery
                 </p>
@@ -466,15 +466,15 @@ export default function SetupCalculator() {
               {/* Race-Time Forecast */}
               {nextRace && raceTimeForecast && (
                 <>
-                  <div className="border-t border-[#333] mt-3 pt-3">
+                  <div className="border-t border-[#2A2A3A] mt-3 pt-3">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-1.5">
-                        <svg className="w-3.5 h-3.5 text-[#FF8A00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                        <svg className="w-3.5 h-3.5 text-[#00B4FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                           <path d="M3 3v18h18" /><path d="M18 9l-5 5-2-2-4 4" />
                         </svg>
-                        <span className="text-[10px] text-[#FF8A00] uppercase tracking-wider font-bold">At Race Time</span>
+                        <span className="text-[10px] text-[#00B4FF] uppercase tracking-wider font-bold">At Race Time</span>
                       </div>
-                      <span className="text-[10px] text-[#555]">
+                      <span className="text-[10px] text-[#3A3A4A]">
                         {new Date(nextRace.raceTime).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
                         {' '}
                         {new Date(nextRace.raceTime).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
@@ -488,7 +488,7 @@ export default function SetupCalculator() {
                     </div>
                     {/* Race-time dew point warning */}
                     {raceTimeForecast.temp - raceTimeForecast.dewPoint <= 5 && (
-                      <p className="text-[10px] text-[#FF8A00] mt-2 flex items-center gap-1">
+                      <p className="text-[10px] text-[#00B4FF] mt-2 flex items-center gap-1">
                         <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
                         Dew point will be tight at race time — expect a slippery track
                       </p>
@@ -535,20 +535,20 @@ export default function SetupCalculator() {
 
       {/* Pro Upsell for free users */}
       {!isPro && (
-        <div className="bg-[#FF8A00]/5 border border-[#FF8A00]/20 rounded-lg p-4 flex items-center gap-3">
-          <svg className="w-5 h-5 text-[#FF8A00] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+        <div className="bg-[#00B4FF]/5 border border-[#00B4FF]/20 rounded-lg p-4 flex items-center gap-3">
+          <svg className="w-5 h-5 text-[#00B4FF] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
           <div className="flex-1">
-            <p className="text-sm font-semibold text-[#FF8A00]">Upgrade to Pro</p>
-            <p className="text-xs text-[#888] mt-0.5">Save setups to the cloud and get AI-powered crew chief recommendations</p>
+            <p className="text-sm font-semibold text-[#00B4FF]">Upgrade to Pro</p>
+            <p className="text-xs text-[#7A7A90] mt-0.5">Save setups to the cloud and get AI-powered crew chief recommendations</p>
           </div>
         </div>
       )}
 
       {/* Track Condition Picker */}
       <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Track Condition</label>
+        <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">Track Condition</label>
         <div className="flex gap-2">
           {conditions.map(c => (
             <button
@@ -556,8 +556,8 @@ export default function SetupCalculator() {
               onClick={() => { setCondition(c.value); setAiData(null) }}
               className={`flex-1 py-3 rounded-md text-sm font-semibold transition-colors min-h-[48px] ${
                 condition === c.value
-                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
-                  : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
+                  ? 'bg-[#00B4FF] text-[#0A0A0F]'
+                  : 'bg-[#1A1A28] text-[#7A7A90] hover:text-[#D4D4E0] border border-[#2A2A3A]'
               }`}
             >
               {c.label}
@@ -568,14 +568,14 @@ export default function SetupCalculator() {
 
       {/* Race Type */}
       <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Race Type</label>
+        <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">Race Type</label>
         <div className="flex gap-2">
           <button
             onClick={() => { setRaceType('figure-8'); setAiData(null) }}
             className={`flex-1 py-3 rounded-md text-sm font-semibold transition-colors min-h-[48px] ${
               raceType === 'figure-8'
-                ? 'bg-[#FF8A00] text-[#0D0D0D]'
-                : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
+                ? 'bg-[#00B4FF] text-[#0A0A0F]'
+                : 'bg-[#1A1A28] text-[#7A7A90] hover:text-[#D4D4E0] border border-[#2A2A3A]'
             }`}
           >
             Figure 8
@@ -584,8 +584,8 @@ export default function SetupCalculator() {
             onClick={() => { setRaceType('oval'); setAiData(null) }}
             className={`flex-1 py-3 rounded-md text-sm font-semibold transition-colors min-h-[48px] ${
               raceType === 'oval'
-                ? 'bg-[#FF8A00] text-[#0D0D0D]'
-                : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
+                ? 'bg-[#00B4FF] text-[#0A0A0F]'
+                : 'bg-[#1A1A28] text-[#7A7A90] hover:text-[#D4D4E0] border border-[#2A2A3A]'
             }`}
           >
             Oval
@@ -595,7 +595,7 @@ export default function SetupCalculator() {
 
       {/* Tire Compound Selector */}
       <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Tire Compound</label>
+        <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">Tire Compound</label>
         <select
           value={selectedTire.id}
           onChange={(e) => {
@@ -613,7 +613,7 @@ export default function SetupCalculator() {
               })
             }
           }}
-          className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-sm font-semibold text-[#F5F5F5] focus:outline-none focus:ring-1 focus:ring-[#FF8A00] min-h-[48px] appearance-none"
+          className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-4 py-3 text-sm font-semibold text-[#D4D4E0] focus:outline-none focus:ring-1 focus:ring-[#00B4FF] min-h-[48px] appearance-none"
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center' }}
         >
           {tireBrands.map(group => (
@@ -661,7 +661,7 @@ export default function SetupCalculator() {
           ))}
         </div>
         {raceType === 'figure-8' && (
-          <p className="text-xs text-[#FF8A00] mt-2 flex items-center gap-1">
+          <p className="text-xs text-[#00B4FF] mt-2 flex items-center gap-1">
             <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
             Equal L/R for Figure 8 — symmetric turns both directions
           </p>
@@ -705,27 +705,27 @@ export default function SetupCalculator() {
           const toeValue = getAdjusted('toeFront', -0.0625 * (raceType === 'oval' ? 3 : 1))
           const toeDisplay = `${Math.abs(toeValue * 16).toFixed(0)}/16" ${toeValue < 0 ? 'toe-out' : toeValue > 0 ? 'toe-in' : 'zero'}`
           return (
-            <div key={rec.parameter} className="bg-[#252525] rounded-md p-3 mt-3">
+            <div key={rec.parameter} className="bg-[#1A1A28] rounded-md p-3 mt-3">
               <div className="flex justify-between items-center">
-                <p className="text-[10px] text-[#666] uppercase">{rec.label}</p>
+                <p className="text-[10px] text-[#555570] uppercase">{rec.label}</p>
                 <p className="font-mono text-lg font-medium">{toeDisplay}</p>
               </div>
               <div className="flex gap-2 mt-2">
                 <button
                   onClick={() => setAdjusted('toeFront', +(toeValue - 0.0625).toFixed(4))}
-                  className="flex-1 py-1.5 bg-[#333] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[36px]"
+                  className="flex-1 py-1.5 bg-[#2A2A3A] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[36px]"
                 >
                   - 1/16&quot;
                 </button>
                 <button
                   onClick={() => setAdjusted('toeFront', +(toeValue + 0.0625).toFixed(4))}
-                  className="flex-1 py-1.5 bg-[#333] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[36px]"
+                  className="flex-1 py-1.5 bg-[#2A2A3A] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[36px]"
                 >
                   + 1/16&quot;
                 </button>
               </div>
               {expandedSection === 'alignment' && (
-                <p className="text-xs text-[#888] mt-2">{aiData?.alignment?.toeFront?.explanation || rec.explanation}</p>
+                <p className="text-xs text-[#7A7A90] mt-2">{aiData?.alignment?.toeFront?.explanation || rec.explanation}</p>
               )}
             </div>
           )
@@ -758,7 +758,7 @@ export default function SetupCalculator() {
             />
           ))}
         </div>
-        <p className="text-[10px] text-[#555] mt-2">
+        <p className="text-[10px] text-[#3A3A4A] mt-2">
           Ranges based on {selectedTire.label} on {selectedTrack ? `${selectedTrack.surface} (${selectedTrack.name})` : selectedTire.surface} — {effectivePressureRange.front[0]}-{effectivePressureRange.front[1]} psi front
         </p>
       </SetupSection>
@@ -772,8 +772,8 @@ export default function SetupCalculator() {
         aiExplanation={aiData?.weight ? Object.values(aiData.weight).map(r => r.explanation).join(' ') : undefined}
       >
         {/* Corner weights — adjustable */}
-        <div className="bg-[#252525] rounded-md p-4">
-          <p className="text-[10px] text-[#666] uppercase mb-3 text-center">Corner Weights (lbs)</p>
+        <div className="bg-[#1A1A28] rounded-md p-4">
+          <p className="text-[10px] text-[#555570] uppercase mb-3 text-center">Corner Weights (lbs)</p>
           <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto">
             <CornerWeightStepper label="LF" value={getAdjusted('cornerWeightLF', currentSetup.cornerWeightLF)} onAdjust={(v) => setAdjusted('cornerWeightLF', v)} />
             <CornerWeightStepper label="RF" value={getAdjusted('cornerWeightRF', currentSetup.cornerWeightRF)} onAdjust={(v) => setAdjusted('cornerWeightRF', v)} />
@@ -794,25 +794,25 @@ export default function SetupCalculator() {
               <>
                 <div className="grid grid-cols-2 gap-4 mt-4 text-center text-sm font-mono">
                   <div>
-                    <span className="text-[#666]">Total</span>
+                    <span className="text-[#555570]">Total</span>
                     <p className="font-semibold">{total.toLocaleString()}</p>
                   </div>
                   <div>
-                    <span className="text-[#666]">Cross-Wt</span>
-                    <p className="font-semibold text-[#FF8A00]">{cross.toFixed(1)}%</p>
+                    <span className="text-[#555570]">Cross-Wt</span>
+                    <p className="font-semibold text-[#00B4FF]">{cross.toFixed(1)}%</p>
                   </div>
                   <div>
-                    <span className="text-[#666]">Left %</span>
+                    <span className="text-[#555570]">Left %</span>
                     <StatusValue value={+left.toFixed(1)} target={raceType === 'figure-8' ? 50 : 55} tolerance={2} unit="%" />
                   </div>
                   <div>
-                    <span className="text-[#666]">Rear %</span>
+                    <span className="text-[#555570]">Rear %</span>
                     <StatusValue value={+rear.toFixed(1)} target={raceType === 'figure-8' ? 50 : 49} tolerance={2} unit="%" />
                   </div>
                 </div>
                 {/* Rules compliance — shown when expanded */}
                 {expandedSection === 'weight' && (
-                  <div className="flex gap-3 mt-4 justify-center text-[10px] text-[#555]">
+                  <div className="flex gap-3 mt-4 justify-center text-[10px] text-[#3A3A4A]">
                     <RuleCheck passed={total >= 3300} label="Min 3,300 lbs" />
                     {raceType === 'oval' && <RuleCheck passed={left >= 54} label="55% Left" />}
                     {raceType === 'oval' && <RuleCheck passed={rear >= 48} label="49% Rear" />}
@@ -824,13 +824,13 @@ export default function SetupCalculator() {
         </div>
         {/* Weight targets — informational */}
         {recs.weight.map(rec => (
-          <div key={rec.parameter} className="bg-[#252525] rounded-md p-3 mt-3">
+          <div key={rec.parameter} className="bg-[#1A1A28] rounded-md p-3 mt-3">
             <div className="flex justify-between items-center">
-              <p className="text-xs text-[#666]">{rec.label}</p>
+              <p className="text-xs text-[#555570]">{rec.label}</p>
               <p className="font-mono font-medium">{rec.value}</p>
             </div>
             {expandedSection === 'weight' && (
-              <p className="text-xs text-[#888] mt-2">{aiData?.weight?.[rec.parameter]?.explanation || rec.explanation}</p>
+              <p className="text-xs text-[#7A7A90] mt-2">{aiData?.weight?.[rec.parameter]?.explanation || rec.explanation}</p>
             )}
           </div>
         ))}
@@ -845,13 +845,13 @@ export default function SetupCalculator() {
         aiExplanation={aiData?.other ? Object.values(aiData.other).map(r => r.explanation).join(' ') : undefined}
       >
         {recs.other.map(rec => (
-          <div key={rec.parameter} className="bg-[#252525] rounded-md p-3 mt-3 first:mt-0">
+          <div key={rec.parameter} className="bg-[#1A1A28] rounded-md p-3 mt-3 first:mt-0">
             <div className="flex justify-between items-center">
-              <p className="text-xs text-[#666]">{rec.label}</p>
+              <p className="text-xs text-[#555570]">{rec.label}</p>
               <p className="font-mono text-sm font-medium">{rec.value}</p>
             </div>
             {expandedSection === 'other' && (
-              <p className="text-xs text-[#888] mt-2">{aiData?.other?.[rec.parameter]?.explanation || rec.explanation}</p>
+              <p className="text-xs text-[#7A7A90] mt-2">{aiData?.other?.[rec.parameter]?.explanation || rec.explanation}</p>
             )}
           </div>
         ))}
@@ -864,13 +864,13 @@ function SetupSection({ title, unit, expanded, onToggle, children, aiExplanation
   title: string; unit: string; expanded: boolean; onToggle: () => void; children: React.ReactNode; aiExplanation?: string
 }) {
   return (
-    <div className="bg-[#1A1A1A] border border-[#333] rounded-lg overflow-hidden">
+    <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg overflow-hidden">
       <button onClick={onToggle} className="w-full flex items-center justify-between p-4 min-h-[48px]">
         <div className="flex items-center gap-2">
           <h2 className="text-sm font-bold uppercase tracking-wider">{title}</h2>
-          {unit && <span className="text-[10px] text-[#666]">({unit})</span>}
+          {unit && <span className="text-[10px] text-[#555570]">({unit})</span>}
         </div>
-        <svg className={`w-4 h-4 text-[#666] transition-transform ${expanded ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+        <svg className={`w-4 h-4 text-[#555570] transition-transform ${expanded ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
@@ -882,7 +882,7 @@ function SetupSection({ title, unit, expanded, onToggle, children, aiExplanation
               <svg className="w-3 h-3 text-[#7C3AED]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z" /></svg>
               <span className="text-[10px] font-bold text-[#7C3AED] uppercase">AI Insight</span>
             </div>
-            <p className="text-xs text-[#AAA] leading-relaxed">{aiExplanation}</p>
+            <p className="text-xs text-[#9A9AB0] leading-relaxed">{aiExplanation}</p>
           </div>
         )}
       </div>
@@ -897,13 +897,13 @@ function SetupValueCard({ label, value, unit, rangeLow, rangeHigh, step = 1, for
   const display = formatValue ? formatValue(value) : String(value)
 
   return (
-    <div className={`bg-[#252525] rounded-md p-3 ${isLocked ? 'ring-1 ring-[#FF8A00]/40' : ''}`}>
+    <div className={`bg-[#1A1A28] rounded-md p-3 ${isLocked ? 'ring-1 ring-[#00B4FF]/40' : ''}`}>
       <div className="flex items-center justify-between">
-        <p className="text-[10px] text-[#666] uppercase">{label}</p>
+        <p className="text-[10px] text-[#555570] uppercase">{label}</p>
         {onToggleLock && (
           <button
             onClick={onToggleLock}
-            className={`p-1 rounded transition-colors ${isLocked ? 'text-[#FF8A00]' : 'text-[#444] hover:text-[#666]'}`}
+            className={`p-1 rounded transition-colors ${isLocked ? 'text-[#00B4FF]' : 'text-[#444] hover:text-[#555570]'}`}
             title={isLocked ? 'Locked — AI will keep this value' : 'Unlocked — AI can change this'}
           >
             {isLocked ? (
@@ -915,13 +915,13 @@ function SetupValueCard({ label, value, unit, rangeLow, rangeHigh, step = 1, for
         )}</div>
       <div className="flex items-baseline gap-1 mt-1">
         <span className="font-mono text-xl font-medium">{display}</span>
-        <span className="text-xs text-[#666]">{unit}</span>
+        <span className="text-xs text-[#555570]">{unit}</span>
       </div>
       {/* Range bar */}
-      <div className="mt-2 h-1.5 bg-[#333] rounded-full overflow-hidden">
-        <div className="h-full bg-[#FF8A00] rounded-full transition-all" style={{ width: `${pct}%` }} />
+      <div className="mt-2 h-1.5 bg-[#2A2A3A] rounded-full overflow-hidden">
+        <div className="h-full bg-[#00B4FF] rounded-full transition-all" style={{ width: `${pct}%` }} />
       </div>
-      <div className="flex justify-between text-[9px] text-[#555] mt-1">
+      <div className="flex justify-between text-[9px] text-[#3A3A4A] mt-1">
         <span>{rangeLow}</span>
         <span>{rangeHigh}</span>
       </div>
@@ -933,7 +933,7 @@ function SetupValueCard({ label, value, unit, rangeLow, rangeHigh, step = 1, for
           className={`flex-1 py-1.5 rounded text-sm font-mono transition-colors min-h-[36px] ${
             isLocked || value <= rangeLow
               ? 'bg-[#2A2A2A] text-[#444] cursor-not-allowed'
-              : 'bg-[#333] hover:bg-[#444]'
+              : 'bg-[#2A2A3A] hover:bg-[#444]'
           }`}
         >
           -
@@ -944,32 +944,32 @@ function SetupValueCard({ label, value, unit, rangeLow, rangeHigh, step = 1, for
           className={`flex-1 py-1.5 rounded text-sm font-mono transition-colors min-h-[36px] ${
             isLocked || value >= rangeHigh
               ? 'bg-[#2A2A2A] text-[#444] cursor-not-allowed'
-              : 'bg-[#333] hover:bg-[#444]'
+              : 'bg-[#2A2A3A] hover:bg-[#444]'
           }`}
         >
           +
         </button>
       </div>
-      {expanded && <p className="text-xs text-[#888] mt-2">{explanation}</p>}
+      {expanded && <p className="text-xs text-[#7A7A90] mt-2">{explanation}</p>}
     </div>
   )
 }
 
 function CornerWeightStepper({ label, value, onAdjust }: { label: string; value: number; onAdjust: (v: number) => void }) {
   return (
-    <div className="bg-[#333] rounded-md p-3 text-center">
+    <div className="bg-[#2A2A3A] rounded-md p-3 text-center">
       <p className="font-mono text-lg font-semibold">{value}</p>
-      <p className="text-[10px] text-[#666] uppercase">{label}</p>
+      <p className="text-[10px] text-[#555570] uppercase">{label}</p>
       <div className="flex gap-1 mt-2">
         <button
           onClick={() => onAdjust(Math.max(0, value - 5))}
-          className="flex-1 py-1 bg-[#252525] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[32px]"
+          className="flex-1 py-1 bg-[#1A1A28] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[32px]"
         >
           -5
         </button>
         <button
           onClick={() => onAdjust(value + 5)}
-          className="flex-1 py-1 bg-[#252525] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[32px]"
+          className="flex-1 py-1 bg-[#1A1A28] rounded text-xs font-mono hover:bg-[#444] transition-colors min-h-[32px]"
         >
           +5
         </button>
@@ -980,7 +980,7 @@ function CornerWeightStepper({ label, value, onAdjust }: { label: string; value:
 
 function StatusValue({ value, target, tolerance, unit }: { value: number; target: number; tolerance: number; unit: string }) {
   const diff = Math.abs(value - target)
-  const color = diff <= tolerance * 0.5 ? '#00E676' : diff <= tolerance ? '#FF8A00' : '#FF1744'
+  const color = diff <= tolerance * 0.5 ? '#00E676' : diff <= tolerance ? '#00B4FF' : '#FF1744'
   return <p className="font-semibold" style={{ color }}>{value}{unit}</p>
 }
 
@@ -995,12 +995,12 @@ function RuleCheck({ passed, label }: { passed: boolean; label: string }) {
 function WeatherStat({ label, value, sub, unit }: { label: string; value: string; sub: string; unit?: string }) {
   return (
     <div className="text-center">
-      <p className="text-[10px] text-[#666] uppercase">{label}</p>
+      <p className="text-[10px] text-[#555570] uppercase">{label}</p>
       <p className="font-mono text-lg font-medium mt-0.5">
         {value}
-        {unit && <span className="text-[10px] text-[#666] ml-0.5">{unit}</span>}
+        {unit && <span className="text-[10px] text-[#555570] ml-0.5">{unit}</span>}
       </p>
-      <p className="text-[10px] text-[#555] mt-0.5">{sub}</p>
+      <p className="text-[10px] text-[#3A3A4A] mt-0.5">{sub}</p>
     </div>
   )
 }

@@ -4,8 +4,8 @@
   "description": "Every tenth matters. Setup calculator, diagnostic troubleshooter, session logger, and rulebook for short track racing.",
   "start_url": "/dashboard",
   "display": "standalone",
-  "background_color": "#0D0D0D",
-  "theme_color": "#0D0D0D",
+  "background_color": "#0A0A0F",
+  "theme_color": "#0A0A0F",
   "orientation": "portrait-primary",
   "icons": [
     {

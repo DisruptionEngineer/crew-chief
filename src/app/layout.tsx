@@ -7,6 +7,13 @@ export const metadata: Metadata = {
   title: 'Tenths — Find Your Tenths',
   description: 'Every tenth matters. Setup calculator, diagnostic troubleshooter, session logger, and rulebook for short track racing.',
   manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
@@ -15,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#0D0D0D',
+  themeColor: '#0A0A0F',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,

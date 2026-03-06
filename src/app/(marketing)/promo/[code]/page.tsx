@@ -45,12 +45,12 @@ export default async function PromoPage({ params }: Props) {
             </svg>
           </div>
           <h1 className="text-2xl font-bold mb-2">{error}</h1>
-          <p className="text-[#888] mb-6">
+          <p className="text-[#7A7A90] mb-6">
             This promo link is no longer valid. Check for typos or contact us for help.
           </p>
           <a
             href="/"
-            className="inline-flex items-center justify-center bg-[#FF8A00] text-[#0D0D0D] font-bold px-6 py-3 rounded-md hover:bg-[#FFA640] transition-colors"
+            className="inline-flex items-center justify-center bg-[#00B4FF] text-[#0A0A0F] font-bold px-6 py-3 rounded-md hover:bg-[#33C4FF] transition-colors"
           >
             Go to Tenths
           </a>

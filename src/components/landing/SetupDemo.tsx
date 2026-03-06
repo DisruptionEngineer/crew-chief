@@ -15,17 +15,17 @@ export function SetupDemo() {
   return (
     <div className="relative">
       {/* Interactive Demo */}
-      <div className="bg-[#1A1A1A] border border-[#333] rounded-xl p-5 md:p-8">
+      <div className="bg-[#14141F] border border-[#2A2A3A] rounded-xl p-5 md:p-8">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <p className="text-[10px] font-semibold text-[#FF8A00] uppercase tracking-widest mb-1">Live Demo</p>
+            <p className="text-[10px] font-semibold text-[#00B4FF] uppercase tracking-widest mb-1">Live Demo</p>
             <h3 className="text-lg md:text-xl font-bold">Setup Calculator</h3>
           </div>
-          <span className="text-xs text-[#666] font-mono">1975 Monte Carlo</span>
+          <span className="text-xs text-[#555570] font-mono">1975 Monte Carlo</span>
         </div>
 
         {/* Condition Picker */}
-        <p className="text-[10px] text-[#888] uppercase tracking-wider mb-2 font-semibold">Track Condition</p>
+        <p className="text-[10px] text-[#7A7A90] uppercase tracking-wider mb-2 font-semibold">Track Condition</p>
         <div className="grid grid-cols-5 gap-1.5 mb-6">
           {conditions.map((c) => (
             <button
@@ -33,8 +33,8 @@ export function SetupDemo() {
               onClick={() => setCondition(c)}
               className={`py-2.5 rounded-md text-xs font-semibold uppercase transition-all ${
                 condition === c
-                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
-                  : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
+                  ? 'bg-[#00B4FF] text-[#0A0A0F]'
+                  : 'bg-[#1A1A28] text-[#7A7A90] hover:text-[#D4D4E0] border border-[#2A2A3A]'
               }`}
             >
               {c}
@@ -46,7 +46,7 @@ export function SetupDemo() {
 
         {/* Spring Rates */}
         <div className="mb-5">
-          <h4 className="text-xs font-bold text-[#888] uppercase tracking-wider mb-3">Springs (lbs/in)</h4>
+          <h4 className="text-xs font-bold text-[#7A7A90] uppercase tracking-wider mb-3">Springs (lbs/in)</h4>
           <div className="grid grid-cols-2 gap-3">
             {recs.springs.map((s) => (
               <DemoValue
@@ -64,7 +64,7 @@ export function SetupDemo() {
 
         {/* Alignment Preview */}
         <div className="mb-5">
-          <h4 className="text-xs font-bold text-[#888] uppercase tracking-wider mb-3">Alignment</h4>
+          <h4 className="text-xs font-bold text-[#7A7A90] uppercase tracking-wider mb-3">Alignment</h4>
           <div className="grid grid-cols-2 gap-3">
             <MiniStat label="Camber LF" value={`${recs.alignment[0].value}°`} />
             <MiniStat label="Camber RF" value={`${recs.alignment[1].value}°`} />
@@ -75,11 +75,11 @@ export function SetupDemo() {
 
         {/* Tire Pressures */}
         <div>
-          <h4 className="text-xs font-bold text-[#888] uppercase tracking-wider mb-3">Tire Pressure (psi)</h4>
+          <h4 className="text-xs font-bold text-[#7A7A90] uppercase tracking-wider mb-3">Tire Pressure (psi)</h4>
           <div className="grid grid-cols-4 gap-2">
             {recs.tirePressures.map((tp) => (
-              <div key={tp.parameter} className="text-center bg-[#252525] rounded-md py-2">
-                <p className="text-[10px] text-[#666] uppercase">{tp.parameter.replace('pressure', '')}</p>
+              <div key={tp.parameter} className="text-center bg-[#1A1A28] rounded-md py-2">
+                <p className="text-[10px] text-[#555570] uppercase">{tp.parameter.replace('pressure', '')}</p>
                 <p className="font-mono font-semibold text-lg">{tp.value}</p>
               </div>
             ))}
@@ -89,11 +89,11 @@ export function SetupDemo() {
 
       {/* Frosted CTA Overlay */}
       <div className="absolute inset-0 flex items-end justify-center rounded-xl overflow-hidden pointer-events-none">
-        <div className="w-full bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/80 to-transparent pt-32 pb-8 px-6 flex flex-col items-center pointer-events-auto">
-          <p className="text-sm text-[#888] mb-3 text-center">Sign up to unlock the full calculator with all parameters</p>
+        <div className="w-full bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/80 to-transparent pt-32 pb-8 px-6 flex flex-col items-center pointer-events-auto">
+          <p className="text-sm text-[#7A7A90] mb-3 text-center">Sign up to unlock the full calculator with all parameters</p>
           <Link
             href="/sign-up"
-            className="bg-[#FF8A00] text-[#0D0D0D] font-semibold px-8 py-3 rounded-md hover:bg-[#FFA640] transition-colors text-sm"
+            className="bg-[#00B4FF] text-[#0A0A0F] font-semibold px-8 py-3 rounded-md hover:bg-[#33C4FF] transition-colors text-sm"
           >
             Get Started Free
           </Link>
@@ -113,18 +113,18 @@ function DemoValue({ displayLabel, value, unit, low, high }: {
 }) {
   const pct = Math.min(100, Math.max(0, ((value - low) / (high - low)) * 100))
   return (
-    <div className="bg-[#0D0D0D] border border-[#333]/50 rounded-lg p-3">
-      <p className="text-[10px] text-[#666] uppercase mb-1">{displayLabel}</p>
+    <div className="bg-[#0A0A0F] border border-[#2A2A3A]/50 rounded-lg p-3">
+      <p className="text-[10px] text-[#555570] uppercase mb-1">{displayLabel}</p>
       <div className="flex items-baseline gap-1.5">
-        <span className="font-mono font-semibold text-xl text-[#F5F5F5]">{value}</span>
-        <span className="text-[10px] text-[#666]">{unit}</span>
+        <span className="font-mono font-semibold text-xl text-[#D4D4E0]">{value}</span>
+        <span className="text-[10px] text-[#555570]">{unit}</span>
       </div>
-      <div className="mt-2 h-1 bg-[#333] rounded-full overflow-hidden">
-        <div className="h-full bg-[#FF8A00] rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+      <div className="mt-2 h-1 bg-[#2A2A3A] rounded-full overflow-hidden">
+        <div className="h-full bg-[#00B4FF] rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
       </div>
       <div className="flex justify-between mt-1">
-        <span className="text-[9px] text-[#555]">{low}</span>
-        <span className="text-[9px] text-[#555]">{high}</span>
+        <span className="text-[9px] text-[#3A3A4A]">{low}</span>
+        <span className="text-[9px] text-[#3A3A4A]">{high}</span>
       </div>
     </div>
   )
@@ -132,9 +132,9 @@ function DemoValue({ displayLabel, value, unit, low, high }: {
 
 function MiniStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-[#0D0D0D] border border-[#333]/50 rounded-lg p-3 flex justify-between items-center">
-      <span className="text-[10px] text-[#666] uppercase">{label}</span>
-      <span className="font-mono font-semibold text-[#F5F5F5]">{value}</span>
+    <div className="bg-[#0A0A0F] border border-[#2A2A3A]/50 rounded-lg p-3 flex justify-between items-center">
+      <span className="text-[10px] text-[#555570] uppercase">{label}</span>
+      <span className="font-mono font-semibold text-[#D4D4E0]">{value}</span>
     </div>
   )
 }

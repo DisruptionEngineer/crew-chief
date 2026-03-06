@@ -17,22 +17,22 @@ export function StepDriver({ displayName, experienceLevel, onChange }: StepDrive
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-1">Welcome to Tenths</h2>
-        <p className="text-sm text-[#888]">Let&apos;s set up your driver profile.</p>
+        <p className="text-sm text-[#7A7A90]">Let&apos;s set up your driver profile.</p>
       </div>
 
       <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Your Name</label>
+        <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">Your Name</label>
         <input
           type="text"
           value={displayName}
           onChange={(e) => onChange('displayName', e.target.value)}
           placeholder="e.g. Fast Eddie"
-          className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00] focus:border-transparent"
+          className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-4 py-3 text-[#D4D4E0] placeholder:text-[#3A3A4A] focus:outline-none focus:ring-2 focus:ring-[#00B4FF] focus:border-transparent"
         />
       </div>
 
       <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-3">Experience Level</label>
+        <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-3">Experience Level</label>
         <div className="space-y-2">
           {levels.map((lvl) => (
             <button
@@ -40,12 +40,12 @@ export function StepDriver({ displayName, experienceLevel, onChange }: StepDrive
               onClick={() => onChange('experienceLevel', lvl.value)}
               className={`w-full text-left p-4 rounded-lg border transition-all ${
                 experienceLevel === lvl.value
-                  ? 'bg-[#FF8A00]/10 border-[#FF8A00] text-[#F5F5F5]'
-                  : 'bg-[#1A1A1A] border-[#333] text-[#888] hover:border-[#555]'
+                  ? 'bg-[#00B4FF]/10 border-[#00B4FF] text-[#D4D4E0]'
+                  : 'bg-[#14141F] border-[#2A2A3A] text-[#7A7A90] hover:border-[#3A3A4A]'
               }`}
             >
               <span className="font-semibold text-sm">{lvl.label}</span>
-              <p className="text-xs text-[#666] mt-0.5">{lvl.desc}</p>
+              <p className="text-xs text-[#555570] mt-0.5">{lvl.desc}</p>
             </button>
           ))}
         </div>

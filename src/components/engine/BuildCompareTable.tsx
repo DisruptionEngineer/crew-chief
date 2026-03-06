@@ -86,35 +86,35 @@ export function BuildCompareTable({ buildA, buildB }: BuildCompareTableProps) {
   ]
 
   return (
-    <div className="bg-[#1A1A1A] border border-[#333] rounded-lg overflow-hidden">
+    <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg overflow-hidden">
       {/* Header */}
-      <div className="grid grid-cols-3 gap-0 border-b border-[#333]">
+      <div className="grid grid-cols-3 gap-0 border-b border-[#2A2A3A]">
         <div className="p-3" />
-        <div className="p-3 text-center border-l border-[#333]">
-          <p className="text-xs font-semibold text-[#FF8A00] truncate">{buildA.name}</p>
+        <div className="p-3 text-center border-l border-[#2A2A3A]">
+          <p className="text-xs font-semibold text-[#00B4FF] truncate">{buildA.name}</p>
         </div>
-        <div className="p-3 text-center border-l border-[#333]">
-          <p className="text-xs font-semibold text-[#888] truncate">{buildB.name}</p>
+        <div className="p-3 text-center border-l border-[#2A2A3A]">
+          <p className="text-xs font-semibold text-[#7A7A90] truncate">{buildB.name}</p>
         </div>
       </div>
 
       {/* Rows */}
       {rows.map((row, i) => (
-        <div key={row.label} className={`grid grid-cols-3 gap-0 ${i < rows.length - 1 ? 'border-b border-[#333]/50' : ''}`}>
+        <div key={row.label} className={`grid grid-cols-3 gap-0 ${i < rows.length - 1 ? 'border-b border-[#2A2A3A]/50' : ''}`}>
           <div className="p-3 flex items-center">
-            <span className="text-xs text-[#888]">{row.label}</span>
+            <span className="text-xs text-[#7A7A90]">{row.label}</span>
           </div>
-          <div className={`p-3 text-center border-l border-[#333]/50 ${row.winner === 'a' ? 'bg-[#FF8A00]/5' : ''}`}>
+          <div className={`p-3 text-center border-l border-[#2A2A3A]/50 ${row.winner === 'a' ? 'bg-[#00B4FF]/5' : ''}`}>
             <span
-              className={`font-mono text-sm ${row.winner === 'a' ? 'text-[#FF8A00] font-semibold' : 'text-[#F5F5F5]'}`}
+              className={`font-mono text-sm ${row.winner === 'a' ? 'text-[#00B4FF] font-semibold' : 'text-[#D4D4E0]'}`}
               style={row.aColor ? { color: row.aColor } : undefined}
             >
               {row.a}
             </span>
           </div>
-          <div className={`p-3 text-center border-l border-[#333]/50 ${row.winner === 'b' ? 'bg-[#FF8A00]/5' : ''}`}>
+          <div className={`p-3 text-center border-l border-[#2A2A3A]/50 ${row.winner === 'b' ? 'bg-[#00B4FF]/5' : ''}`}>
             <span
-              className={`font-mono text-sm ${row.winner === 'b' ? 'text-[#FF8A00] font-semibold' : 'text-[#F5F5F5]'}`}
+              className={`font-mono text-sm ${row.winner === 'b' ? 'text-[#00B4FF] font-semibold' : 'text-[#D4D4E0]'}`}
               style={row.bColor ? { color: row.bColor } : undefined}
             >
               {row.b}

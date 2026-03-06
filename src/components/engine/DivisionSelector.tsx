@@ -11,7 +11,7 @@ interface DivisionSelectorProps {
 export function DivisionSelector({ divisions, selectedId, onChange }: DivisionSelectorProps) {
   if (divisions.length === 0) {
     return (
-      <p className="text-xs text-[#666] italic">No divisions support this engine family.</p>
+      <p className="text-xs text-[#555570] italic">No divisions support this engine family.</p>
     )
   }
 
@@ -26,8 +26,8 @@ export function DivisionSelector({ divisions, selectedId, onChange }: DivisionSe
             onClick={() => onChange(div.id)}
             className={`px-3 py-2 rounded-md text-xs font-semibold transition-all min-h-[40px] ${
               isSelected
-                ? 'bg-[#FF8A00] text-[#0D0D0D]'
-                : 'bg-[#252525] text-[#888] border border-[#333] hover:border-[#555] hover:text-[#F5F5F5]'
+                ? 'bg-[#00B4FF] text-[#0A0A0F]'
+                : 'bg-[#1A1A28] text-[#7A7A90] border border-[#2A2A3A] hover:border-[#3A3A4A] hover:text-[#D4D4E0]'
             }`}
           >
             {div.name}

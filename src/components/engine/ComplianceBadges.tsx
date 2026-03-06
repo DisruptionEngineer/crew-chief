@@ -38,32 +38,32 @@ export function ComplianceBadges({ compliance }: ComplianceBadgesProps) {
             </span>
           )}
           {compliance.warnings.length > 0 && (
-            <span className="text-[10px] font-semibold text-[#FF8A00] bg-[#FF8A00]/10 px-2 py-0.5 rounded">
+            <span className="text-[10px] font-semibold text-[#00B4FF] bg-[#00B4FF]/10 px-2 py-0.5 rounded">
               {compliance.warnings.length} warning{compliance.warnings.length !== 1 ? 's' : ''}
             </span>
           )}
         </div>
-        <svg className={`w-4 h-4 text-[#666] transition-transform ${expanded ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+        <svg className={`w-4 h-4 text-[#555570] transition-transform ${expanded ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
 
       {expanded && (
-        <div className="mt-3 space-y-2 border-t border-[#333]/50 pt-3">
+        <div className="mt-3 space-y-2 border-t border-[#2A2A3A]/50 pt-3">
           {compliance.violations.map((v, i) => (
             <div key={i} className="flex items-start gap-2 text-xs">
               <span className="text-[#FF1744] font-mono font-semibold flex-shrink-0">Rule {v.rule}</span>
-              <span className="text-[#F5F5F5]">{v.description}</span>
+              <span className="text-[#D4D4E0]">{v.description}</span>
             </div>
           ))}
           {compliance.warnings.map((w, i) => (
             <div key={`w-${i}`} className="flex items-start gap-2 text-xs">
-              <span className="text-[#FF8A00] flex-shrink-0">⚠</span>
-              <span className="text-[#888]">{w}</span>
+              <span className="text-[#00B4FF] flex-shrink-0">⚠</span>
+              <span className="text-[#7A7A90]">{w}</span>
             </div>
           ))}
           {compliance.violations.length === 0 && compliance.warnings.length === 0 && (
-            <p className="text-xs text-[#888]">All engine rules pass. This build is legal for your division.</p>
+            <p className="text-xs text-[#7A7A90]">All engine rules pass. This build is legal for your division.</p>
           )}
         </div>
       )}

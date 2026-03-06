@@ -15,17 +15,17 @@ export function LandingNav() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-[#0D0D0D]/90 backdrop-blur-md border-b border-[#333]/50' : 'bg-transparent'
+        scrolled ? 'bg-[#0A0A0F]/90 backdrop-blur-md border-b border-[#2A2A3A]/50' : 'bg-transparent'
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#FF8A00] flex items-center justify-center">
-              <span className="text-[#0D0D0D] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
+            <div className="w-9 h-9 rounded-lg bg-[#00B4FF] flex items-center justify-center">
+              <span className="text-[#0A0A0F] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
             </div>
-            <span className="text-sm font-bold text-[#F5F5F5] tracking-wider uppercase hidden sm:block" style={{ fontFamily: 'var(--font-heading)' }}>
+            <span className="text-sm font-bold text-[#D4D4E0] tracking-wider uppercase hidden sm:block" style={{ fontFamily: 'var(--font-heading)' }}>
               Tenths
             </span>
           </div>
@@ -34,25 +34,25 @@ export function LandingNav() {
           <div className="flex items-center gap-2 sm:gap-4">
             <a
               href="#features"
-              className="hidden sm:block text-sm text-[#888] hover:text-[#F5F5F5] transition-colors"
+              className="hidden sm:block text-sm text-[#7A7A90] hover:text-[#D4D4E0] transition-colors"
             >
               Features
             </a>
             <a
               href="#pricing"
-              className="hidden sm:block text-sm text-[#888] hover:text-[#F5F5F5] transition-colors"
+              className="hidden sm:block text-sm text-[#7A7A90] hover:text-[#D4D4E0] transition-colors"
             >
               Pricing
             </a>
             <Link
               href="/sign-in"
-              className="text-sm text-[#888] hover:text-[#F5F5F5] transition-colors px-3 py-2"
+              className="text-sm text-[#7A7A90] hover:text-[#D4D4E0] transition-colors px-3 py-2"
             >
               Sign In
             </Link>
             <Link
               href="/sign-up"
-              className="text-sm font-semibold bg-[#FF8A00] text-[#0D0D0D] px-4 py-2 rounded-md hover:bg-[#FFA640] transition-colors"
+              className="text-sm font-semibold bg-[#00B4FF] text-[#0A0A0F] px-4 py-2 rounded-md hover:bg-[#33C4FF] transition-colors"
             >
               Get Started Free
             </Link>

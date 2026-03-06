@@ -9,22 +9,22 @@ export function OnboardingProgress({ currentStep }: { currentStep: number }) {
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                 i < currentStep
-                  ? 'bg-[#FF8A00] text-[#0D0D0D]'
+                  ? 'bg-[#00B4FF] text-[#0A0A0F]'
                   : i === currentStep
-                  ? 'bg-[#FF8A00]/20 text-[#FF8A00] border-2 border-[#FF8A00]'
-                  : 'bg-[#252525] text-[#666] border border-[#333]'
+                  ? 'bg-[#00B4FF]/20 text-[#00B4FF] border-2 border-[#00B4FF]'
+                  : 'bg-[#1A1A28] text-[#555570] border border-[#2A2A3A]'
               }`}
             >
               {i < currentStep ? '✓' : i + 1}
             </div>
             <span className={`text-[10px] font-medium uppercase tracking-wider ${
-              i <= currentStep ? 'text-[#F5F5F5]' : 'text-[#666]'
+              i <= currentStep ? 'text-[#D4D4E0]' : 'text-[#555570]'
             }`}>
               {label}
             </span>
           </div>
           {i < steps.length - 1 && (
-            <div className={`w-8 h-0.5 mb-4 ${i < currentStep ? 'bg-[#FF8A00]' : 'bg-[#333]'}`} />
+            <div className={`w-8 h-0.5 mb-4 ${i < currentStep ? 'bg-[#00B4FF]' : 'bg-[#2A2A3A]'}`} />
           )}
         </div>
       ))}

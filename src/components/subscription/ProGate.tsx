@@ -17,7 +17,7 @@ export function ProGate({ children, variant = 'full-page', feature }: ProGatePro
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="w-8 h-8 rounded-lg bg-[#FF8A00] animate-pulse" />
+        <div className="w-8 h-8 rounded-lg bg-[#00B4FF] animate-pulse" />
       </div>
     )
   }
@@ -31,7 +31,7 @@ export function ProGate({ children, variant = 'full-page', feature }: ProGatePro
         <div className="pointer-events-none select-none blur-sm opacity-50">
           <BlurPlaceholder />
         </div>
-        <div className="absolute inset-0 flex items-center justify-center bg-[#0D0D0D]/60 backdrop-blur-[2px] rounded-lg">
+        <div className="absolute inset-0 flex items-center justify-center bg-[#0A0A0F]/60 backdrop-blur-[2px] rounded-lg">
           <PaywallCard feature={feature} />
         </div>
       </div>
@@ -49,11 +49,11 @@ export function ProGate({ children, variant = 'full-page', feature }: ProGatePro
 function BlurPlaceholder() {
   return (
     <div className="space-y-4 p-4">
-      <div className="h-8 bg-[#252525] rounded w-48" />
-      <div className="h-4 bg-[#1A1A1A] rounded w-64" />
+      <div className="h-8 bg-[#1A1A28] rounded w-48" />
+      <div className="h-4 bg-[#14141F] rounded w-64" />
       <div className="space-y-3 mt-6">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4 h-20" />
+          <div key={i} className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4 h-20" />
         ))}
       </div>
     </div>
@@ -79,26 +79,26 @@ function PaywallCard({ feature }: { feature?: string }) {
   }
 
   return (
-    <div className="w-full max-w-sm bg-[#1A1A1A] border border-[#333] rounded-xl p-6 text-center shadow-2xl">
+    <div className="w-full max-w-sm bg-[#14141F] border border-[#2A2A3A] rounded-xl p-6 text-center shadow-2xl">
       {/* Pro badge */}
-      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#FF8A00]/10 border border-[#FF8A00]/30 rounded-full mb-4">
-        <svg className="w-4 h-4 text-[#FF8A00]" viewBox="0 0 24 24" fill="currentColor">
+      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#00B4FF]/10 border border-[#00B4FF]/30 rounded-full mb-4">
+        <svg className="w-4 h-4 text-[#00B4FF]" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
         </svg>
-        <span className="text-[#FF8A00] text-xs font-bold uppercase tracking-wider">Pro Feature</span>
+        <span className="text-[#00B4FF] text-xs font-bold uppercase tracking-wider">Pro Feature</span>
       </div>
 
-      <h3 className="text-lg font-bold text-[#F5F5F5] mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
+      <h3 className="text-lg font-bold text-[#D4D4E0] mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
         Unlock {feature || 'This Feature'}
       </h3>
-      <p className="text-sm text-[#888] mb-6">
+      <p className="text-sm text-[#7A7A90] mb-6">
         Get full access to all Tenths Pro tools including engine simulation, session logging, and multi-car support.
       </p>
 
       {/* Price */}
       <div className="mb-5">
-        <span className="text-3xl font-bold text-[#F5F5F5]">{STRIPE_CONFIG.displayPrice}</span>
-        <span className="text-sm text-[#666]">/month</span>
+        <span className="text-3xl font-bold text-[#D4D4E0]">{STRIPE_CONFIG.displayPrice}</span>
+        <span className="text-sm text-[#555570]">/month</span>
       </div>
 
       {/* Feature list */}
@@ -109,8 +109,8 @@ function PaywallCard({ feature }: { feature?: string }) {
           'Multi-Car Profiles',
           'Priority Support',
         ].map((f) => (
-          <li key={f} className="flex items-center gap-2 text-sm text-[#AAA]">
-            <svg className="w-4 h-4 text-[#FF8A00] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+          <li key={f} className="flex items-center gap-2 text-sm text-[#9A9AB0]">
+            <svg className="w-4 h-4 text-[#00B4FF] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
               <polyline points="20 6 9 17 4 12" />
             </svg>
             {f}
@@ -121,7 +121,7 @@ function PaywallCard({ feature }: { feature?: string }) {
       <button
         onClick={handleUpgrade}
         disabled={loading}
-        className="w-full py-3 px-4 bg-[#FF8A00] hover:bg-[#FF8A00]/90 text-[#0D0D0D] font-bold text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-3 px-4 bg-[#00B4FF] hover:bg-[#00B4FF]/90 text-[#0A0A0F] font-bold text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         style={{ fontFamily: 'var(--font-heading)' }}
       >
         {loading ? 'Redirecting...' : 'Upgrade to Pro'}

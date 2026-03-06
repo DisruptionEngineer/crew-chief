@@ -76,14 +76,14 @@ export function StepTrack({ trackName, trackSurface, trackLength, trackBanking, 
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-1">Home Track</h2>
-        <p className="text-sm text-[#888]">Search our database or enter manually.</p>
+        <p className="text-sm text-[#7A7A90]">Search our database or enter manually.</p>
       </div>
 
       {showSearch ? (
         <>
           {/* Search box */}
           <div>
-            <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">
+            <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">
               Search Tracks ({dbTracks.length} in database)
             </label>
             <input
@@ -91,7 +91,7 @@ export function StepTrack({ trackName, trackSurface, trackLength, trackBanking, 
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by track name, city, or state..."
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
+              className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-4 py-3 text-[#D4D4E0] placeholder:text-[#3A3A4A] focus:outline-none focus:ring-2 focus:ring-[#00B4FF]"
               autoFocus
             />
           </div>
@@ -102,11 +102,11 @@ export function StepTrack({ trackName, trackSurface, trackLength, trackBanking, 
               <button
                 key={track.id}
                 onClick={() => selectTrack(track)}
-                className="w-full p-3 rounded-lg border bg-[#1A1A1A] border-[#333] text-left transition-all hover:border-[#FF8A00] hover:bg-[#FF8A00]/5"
+                className="w-full p-3 rounded-lg border bg-[#14141F] border-[#2A2A3A] text-left transition-all hover:border-[#00B4FF] hover:bg-[#00B4FF]/5"
               >
-                <span className="font-semibold text-[#F5F5F5]">{track.name}</span>
-                <span className="text-xs text-[#666] ml-2">{track.location}</span>
-                <div className="flex gap-3 mt-1 text-[10px] text-[#555]">
+                <span className="font-semibold text-[#D4D4E0]">{track.name}</span>
+                <span className="text-xs text-[#555570] ml-2">{track.location}</span>
+                <div className="flex gap-3 mt-1 text-[10px] text-[#3A3A4A]">
                   <span>{track.length} mi</span>
                   <span>{track.surface}</span>
                   <span>{track.banking}&deg; banking</span>
@@ -114,14 +114,14 @@ export function StepTrack({ trackName, trackSurface, trackLength, trackBanking, 
               </button>
             ))}
             {filtered.length === 0 && search.length >= 2 && (
-              <p className="text-sm text-[#666] py-4 text-center">No matches found</p>
+              <p className="text-sm text-[#555570] py-4 text-center">No matches found</p>
             )}
           </div>
 
           {/* Manual entry option */}
           <button
             onClick={useCustom}
-            className="w-full py-2 text-sm text-[#888] hover:text-[#FF8A00] transition-colors"
+            className="w-full py-2 text-sm text-[#7A7A90] hover:text-[#00B4FF] transition-colors"
           >
             My track isn&apos;t listed — enter manually
           </button>
@@ -130,12 +130,12 @@ export function StepTrack({ trackName, trackSurface, trackLength, trackBanking, 
         <>
           {/* Selected track or manual entry */}
           {selectedDbTrackId && (
-            <div className="p-3 rounded-lg border border-[#FF8A00]/30 bg-[#FF8A00]/5">
+            <div className="p-3 rounded-lg border border-[#00B4FF]/30 bg-[#00B4FF]/5">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-[#F5F5F5]">{trackName}</span>
+                <span className="font-semibold text-[#D4D4E0]">{trackName}</span>
                 <button
                   onClick={() => { setShowSearch(true); setSelectedDbTrackId(null) }}
-                  className="text-xs text-[#888] hover:text-[#FF8A00]"
+                  className="text-xs text-[#7A7A90] hover:text-[#00B4FF]"
                 >
                   Change
                 </button>
@@ -145,10 +145,10 @@ export function StepTrack({ trackName, trackSurface, trackLength, trackBanking, 
 
           {!selectedDbTrackId && (
             <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-semibold text-[#888] uppercase tracking-wider">Manual Entry</label>
+              <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider">Manual Entry</label>
               <button
                 onClick={() => setShowSearch(true)}
-                className="text-xs text-[#888] hover:text-[#FF8A00]"
+                className="text-xs text-[#7A7A90] hover:text-[#00B4FF]"
               >
                 Search database instead
               </button>
@@ -156,18 +156,18 @@ export function StepTrack({ trackName, trackSurface, trackLength, trackBanking, 
           )}
 
           <div>
-            <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Track Name</label>
+            <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">Track Name</label>
             <input
               type="text"
               value={trackName}
               onChange={(e) => onChange('trackName', e.target.value)}
               placeholder="e.g. Eldora Speedway"
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
+              className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-4 py-3 text-[#D4D4E0] placeholder:text-[#3A3A4A] focus:outline-none focus:ring-2 focus:ring-[#00B4FF]"
             />
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-3">Surface Type</label>
+            <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-3">Surface Type</label>
             <div className="grid grid-cols-4 gap-2">
               {surfaces.map((s) => (
                 <button
@@ -175,8 +175,8 @@ export function StepTrack({ trackName, trackSurface, trackLength, trackBanking, 
                   onClick={() => onChange('trackSurface', s.value)}
                   className={`py-3 rounded-md text-xs font-semibold uppercase transition-all ${
                     trackSurface === s.value
-                      ? 'bg-[#FF8A00] text-[#0D0D0D]'
-                      : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
+                      ? 'bg-[#00B4FF] text-[#0A0A0F]'
+                      : 'bg-[#1A1A28] text-[#7A7A90] hover:text-[#D4D4E0] border border-[#2A2A3A]'
                   }`}
                 >
                   {s.label}
@@ -187,23 +187,23 @@ export function StepTrack({ trackName, trackSurface, trackLength, trackBanking, 
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Length</label>
+              <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">Length</label>
               <input
                 type="text"
                 value={trackLength}
                 onChange={(e) => onChange('trackLength', e.target.value)}
                 placeholder="e.g. 0.375"
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
+                className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-4 py-3 text-[#D4D4E0] placeholder:text-[#3A3A4A] focus:outline-none focus:ring-2 focus:ring-[#00B4FF]"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">Banking (degrees)</label>
+              <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">Banking (degrees)</label>
               <input
                 type="number"
                 value={trackBanking}
                 onChange={(e) => onChange('trackBanking', e.target.value)}
                 placeholder="e.g. 5"
-                className="w-full bg-[#252525] border border-[#333] rounded-md px-4 py-3 text-[#F5F5F5] placeholder:text-[#555] focus:outline-none focus:ring-2 focus:ring-[#FF8A00]"
+                className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-4 py-3 text-[#D4D4E0] placeholder:text-[#3A3A4A] focus:outline-none focus:ring-2 focus:ring-[#00B4FF]"
               />
             </div>
           </div>

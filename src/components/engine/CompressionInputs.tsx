@@ -30,7 +30,7 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
 
   // CR limits from division rules
   const maxCR = divisionRules.maxCompression
-  const crColor = cr > maxCR ? '#FF1744' : cr > maxCR - 0.3 ? '#FF8A00' : '#00E676'
+  const crColor = cr > maxCR ? '#FF1744' : cr > maxCR - 0.3 ? '#00B4FF' : '#00E676'
 
   // Build bore steps from engine family defaults + overbore options
   const stockBore = engineFamily.defaultBore
@@ -45,8 +45,8 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
     <div className="space-y-4">
       {/* Live CR + Displacement display */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="bg-[#252525] rounded-md p-3 text-center">
-          <p className="text-[10px] text-[#666] uppercase">Compression Ratio</p>
+        <div className="bg-[#1A1A28] rounded-md p-3 text-center">
+          <p className="text-[10px] text-[#555570] uppercase">Compression Ratio</p>
           <p className="font-mono text-2xl font-bold mt-1" style={{ color: crColor }}>
             {cr.toFixed(2)}:1
           </p>
@@ -54,18 +54,18 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
             <p className="text-[10px] text-[#FF1744] mt-1">EXCEEDS {maxCR}:1 LIMIT</p>
           )}
         </div>
-        <div className="bg-[#252525] rounded-md p-3 text-center">
-          <p className="text-[10px] text-[#666] uppercase">Displacement</p>
+        <div className="bg-[#1A1A28] rounded-md p-3 text-center">
+          <p className="text-[10px] text-[#555570] uppercase">Displacement</p>
           <p className="font-mono text-2xl font-bold mt-1">
             {displacement.toFixed(1)}
           </p>
-          <p className="text-[10px] text-[#666]">cubic inches</p>
+          <p className="text-[10px] text-[#555570]">cubic inches</p>
         </div>
       </div>
 
       {/* Bore selector */}
       <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">
+        <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">
           Bore Size
         </label>
         <div className="flex gap-1.5 flex-wrap">
@@ -75,33 +75,33 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
               onClick={() => onChange({ bore })}
               className={`px-3 py-2 rounded-md text-sm font-mono transition-colors min-h-[40px] ${
                 Math.round(config.bore * 1000) / 1000 === bore
-                  ? 'bg-[#FF8A00] text-[#0D0D0D] font-semibold'
-                  : 'bg-[#252525] text-[#888] hover:text-[#F5F5F5] border border-[#333]'
+                  ? 'bg-[#00B4FF] text-[#0A0A0F] font-semibold'
+                  : 'bg-[#1A1A28] text-[#7A7A90] hover:text-[#D4D4E0] border border-[#2A2A3A]'
               }`}
             >
               {bore.toFixed(3)}&quot;
             </button>
           ))}
         </div>
-        <p className="text-[10px] text-[#666] mt-1">
+        <p className="text-[10px] text-[#555570] mt-1">
           Stock: {stockBore.toFixed(3)}&quot; &mdash; Max legal: {maxBore.toFixed(3)}&quot;
         </p>
       </div>
 
       {/* Stroke — locked */}
       <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">
+        <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">
           Stroke
         </label>
-        <div className="bg-[#252525] border border-[#333] rounded-md px-3 py-2.5 flex items-center justify-between">
+        <div className="bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2.5 flex items-center justify-between">
           <span className="font-mono text-sm">{config.stroke}&quot; (stock &mdash; locked)</span>
-          <span className="text-[10px] text-[#666]">No strokers allowed</span>
+          <span className="text-[10px] text-[#555570]">No strokers allowed</span>
         </div>
       </div>
 
       {/* Piston dish volume */}
       <div>
-        <label className="text-xs font-semibold text-[#888] uppercase tracking-wider block mb-2">
+        <label className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider block mb-2">
           Piston Dish Volume
         </label>
         <div className="flex items-center gap-3">
@@ -113,7 +113,7 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
           </button>
           <div className="flex-1 text-center">
             <p className="font-mono text-lg font-semibold">{config.pistonDish} cc</p>
-            <p className="text-[10px] text-[#666]">
+            <p className="text-[10px] text-[#555570]">
               {config.pistonDish > 0 ? 'Dished (lowers CR)' : config.pistonDish < 0 ? 'Domed (raises CR)' : 'Flat-top'}
             </p>
           </div>
@@ -129,7 +129,7 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
       {/* Advanced toggle */}
       <button
         onClick={() => setShowAdvanced(!showAdvanced)}
-        className="text-xs text-[#666] hover:text-[#888] transition-colors flex items-center gap-1"
+        className="text-xs text-[#555570] hover:text-[#7A7A90] transition-colors flex items-center gap-1"
       >
         <svg className={`w-3 h-3 transition-transform ${showAdvanced ? 'rotate-90' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
           <polyline points="9 18 15 12 9 6" />
@@ -138,9 +138,9 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
       </button>
 
       {showAdvanced && (
-        <div className="grid grid-cols-2 gap-3 pl-4 border-l-2 border-[#333]">
+        <div className="grid grid-cols-2 gap-3 pl-4 border-l-2 border-[#2A2A3A]">
           <div>
-            <label className="text-[10px] text-[#666] uppercase block mb-1">Gasket Thickness</label>
+            <label className="text-[10px] text-[#555570] uppercase block mb-1">Gasket Thickness</label>
             <input
               type="number"
               value={config.headGasketThickness}
@@ -148,12 +148,12 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
               step={0.005}
               min={0.015}
               max={0.060}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
+              className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#00B4FF]"
             />
-            <p className="text-[9px] text-[#555] mt-0.5">Standard: .039&quot;</p>
+            <p className="text-[9px] text-[#3A3A4A] mt-0.5">Standard: .039&quot;</p>
           </div>
           <div>
-            <label className="text-[10px] text-[#666] uppercase block mb-1">Gasket Bore</label>
+            <label className="text-[10px] text-[#555570] uppercase block mb-1">Gasket Bore</label>
             <input
               type="number"
               value={config.headGasketBore}
@@ -161,9 +161,9 @@ export function CompressionInputs({ config, engineFamily, divisionRules, onChang
               step={0.010}
               min={3.000}
               max={4.500}
-              className="w-full bg-[#252525] border border-[#333] rounded-md px-3 py-2 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#FF8A00]"
+              className="w-full bg-[#1A1A28] border border-[#2A2A3A] rounded-md px-3 py-2 font-mono text-sm focus:outline-none focus:ring-1 focus:ring-[#00B4FF]"
             />
-            <p className="text-[9px] text-[#555] mt-0.5">Typically bore + .100&quot;</p>
+            <p className="text-[9px] text-[#3A3A4A] mt-0.5">Typically bore + .100&quot;</p>
           </div>
         </div>
       )}

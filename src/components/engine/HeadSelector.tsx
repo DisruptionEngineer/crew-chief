@@ -28,28 +28,28 @@ export function HeadSelector({ heads, selectedId, onChange }: HeadSelectorProps)
               onClick={() => onChange(head.id)}
               className={`text-left p-3 rounded-lg border transition-all duration-200 min-h-[48px] ${
                 isSelected
-                  ? 'bg-[#FF8A00]/8 border-[#FF8A00] glow-yellow'
-                  : 'bg-[#252525] border-[#333] hover:border-[#555] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)]'
+                  ? 'bg-[#00B4FF]/8 border-[#00B4FF] glow-yellow'
+                  : 'bg-[#1A1A28] border-[#2A2A3A] hover:border-[#3A3A4A] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)]'
               }`}
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className={`text-sm font-semibold ${isSelected ? 'text-[#FF8A00]' : 'text-[#F5F5F5]'}`}>
+                    <span className={`text-sm font-semibold ${isSelected ? 'text-[#00B4FF]' : 'text-[#D4D4E0]'}`}>
                       {head.name}
                     </span>
                     {head.isVortec && (
-                      <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 bg-[#448AFF]/20 text-[#448AFF] rounded">
+                      <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 bg-[#00B4FF]/20 text-[#00B4FF] rounded">
                         Vortec
                       </span>
                     )}
                     {head.isBowtiePart && (
-                      <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 bg-[#FF1744]/20 text-[#FF9100] rounded">
+                      <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 bg-[#FF1744]/20 text-[#FF6B00] rounded">
                         Bowtie
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-3 mt-1.5 text-[11px] text-[#888]">
+                  <div className="flex items-center gap-3 mt-1.5 text-[11px] text-[#7A7A90]">
                     <span>{head.chamberVolume}cc chamber</span>
                     <span>{head.intakeValve}/{head.exhaustValve} valves</span>
                   </div>
@@ -58,13 +58,13 @@ export function HeadSelector({ heads, selectedId, onChange }: HeadSelectorProps)
                   <p className="font-mono text-lg font-semibold leading-tight">
                     {peakFlow}
                   </p>
-                  <p className="text-[9px] text-[#666] uppercase">CFM</p>
+                  <p className="text-[9px] text-[#555570] uppercase">CFM</p>
                 </div>
               </div>
               {/* Mini flow bar */}
-              <div className="mt-2 h-1 bg-[#333] rounded-full overflow-hidden">
+              <div className="mt-2 h-1 bg-[#2A2A3A] rounded-full overflow-hidden">
                 <div
-                  className={`h-full rounded-full transition-all ${isSelected ? 'bg-[#FF8A00]' : 'bg-[#666]'}`}
+                  className={`h-full rounded-full transition-all ${isSelected ? 'bg-[#00B4FF]' : 'bg-[#555570]'}`}
                   style={{ width: `${(peakFlow / maxFlow) * 100}%` }}
                 />
               </div>

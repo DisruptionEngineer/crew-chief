@@ -6,12 +6,12 @@ interface FeatureCardProps {
 
 export function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
-    <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6 hover:border-[#FF8A00]/30 transition-colors group">
-      <div className="w-12 h-12 rounded-lg bg-[#FF8A00]/10 flex items-center justify-center mb-4 text-[#FF8A00] group-hover:bg-[#FF8A00]/20 transition-colors">
+    <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-6 hover:border-[#00B4FF]/30 transition-colors group">
+      <div className="w-12 h-12 rounded-lg bg-[#00B4FF]/10 flex items-center justify-center mb-4 text-[#00B4FF] group-hover:bg-[#00B4FF]/20 transition-colors">
         {icon}
       </div>
       <h3 className="text-lg font-semibold mb-2">{title}</h3>
-      <p className="text-sm text-[#888] leading-relaxed">{description}</p>
+      <p className="text-sm text-[#7A7A90] leading-relaxed">{description}</p>
     </div>
   )
 }

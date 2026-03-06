@@ -50,15 +50,15 @@ export function PromoLandingClient({ code, trialDays, description }: Props) {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2">
-            <div className="w-10 h-10 rounded-lg bg-[#FF8A00] flex items-center justify-center">
-              <span className="text-[#0D0D0D] font-bold text-lg" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
+            <div className="w-10 h-10 rounded-lg bg-[#00B4FF] flex items-center justify-center">
+              <span className="text-[#0A0A0F] font-bold text-lg" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
             </div>
             <span className="text-xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>Tenths</span>
           </Link>
         </div>
 
         {/* Promo Card */}
-        <div className="bg-[#1A1A1A] border border-[#333] rounded-xl p-8 text-center shadow-2xl">
+        <div className="bg-[#14141F] border border-[#2A2A3A] rounded-xl p-8 text-center shadow-2xl">
           {/* Trial badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#00E676]/10 border border-[#00E676]/30 rounded-full mb-6">
             <svg className="w-4 h-4 text-[#00E676]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -75,11 +75,11 @@ export function PromoLandingClient({ code, trialDays, description }: Props) {
           </h1>
 
           {description && (
-            <p className="text-sm text-[#888] mb-4">{description}</p>
+            <p className="text-sm text-[#7A7A90] mb-4">{description}</p>
           )}
 
-          <p className="text-[#AAA] mb-6 text-sm leading-relaxed">
-            Get <strong className="text-[#F5F5F5]">{trialDays} days of full Pro access</strong> — then {STRIPE_CONFIG.displayPrice}/month.
+          <p className="text-[#9A9AB0] mb-6 text-sm leading-relaxed">
+            Get <strong className="text-[#D4D4E0]">{trialDays} days of full Pro access</strong> — then {STRIPE_CONFIG.displayPrice}/month.
             Cancel anytime before your trial ends and you won&apos;t be charged.
           </p>
 
@@ -104,14 +104,14 @@ export function PromoLandingClient({ code, trialDays, description }: Props) {
           {/* CTA — depends on auth state */}
           {authLoading ? (
             <div className="py-3 flex justify-center">
-              <div className="w-6 h-6 rounded-full border-2 border-[#FF8A00] border-t-transparent animate-spin" />
+              <div className="w-6 h-6 rounded-full border-2 border-[#00B4FF] border-t-transparent animate-spin" />
             </div>
           ) : user ? (
             <>
               <button
                 onClick={handleStartTrial}
                 disabled={checkoutLoading}
-                className="w-full py-3.5 px-4 bg-[#FF8A00] hover:bg-[#FFA640] text-[#0D0D0D] font-bold text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-3.5 px-4 bg-[#00B4FF] hover:bg-[#33C4FF] text-[#0A0A0F] font-bold text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
                 {checkoutLoading ? (
@@ -131,7 +131,7 @@ export function PromoLandingClient({ code, trialDays, description }: Props) {
                 <p className="text-sm text-[#FF1744] mt-3">{error}</p>
               )}
 
-              <p className="text-[10px] text-[#555] mt-3">
+              <p className="text-[10px] text-[#3A3A4A] mt-3">
                 You&apos;ll enter payment info on the next screen. No charge until your trial ends.
               </p>
             </>
@@ -139,15 +139,15 @@ export function PromoLandingClient({ code, trialDays, description }: Props) {
             <>
               <Link
                 href={`/sign-up?redirect=/promo/${code}`}
-                className="block w-full py-3.5 px-4 bg-[#FF8A00] hover:bg-[#FFA640] text-[#0D0D0D] font-bold text-sm rounded-lg transition-colors text-center"
+                className="block w-full py-3.5 px-4 bg-[#00B4FF] hover:bg-[#33C4FF] text-[#0A0A0F] font-bold text-sm rounded-lg transition-colors text-center"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
                 Create Account to Start Trial
               </Link>
 
-              <p className="text-sm text-[#666] mt-4">
+              <p className="text-sm text-[#555570] mt-4">
                 Already have an account?{' '}
-                <Link href={`/sign-in?redirect=/promo/${code}`} className="text-[#FF8A00] hover:underline">
+                <Link href={`/sign-in?redirect=/promo/${code}`} className="text-[#00B4FF] hover:underline">
                   Sign in
                 </Link>
               </p>
@@ -157,7 +157,7 @@ export function PromoLandingClient({ code, trialDays, description }: Props) {
 
         {/* Promo code display */}
         <p className="text-center text-[10px] text-[#444] mt-4">
-          Promo code: <span className="font-mono text-[#666]">{code}</span>
+          Promo code: <span className="font-mono text-[#555570]">{code}</span>
         </p>
       </div>
     </div>

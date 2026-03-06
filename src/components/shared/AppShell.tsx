@@ -14,10 +14,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-[#FF8A00] flex items-center justify-center animate-pulse">
-            <span className="text-[#0D0D0D] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>CC</span>
+          <div className="w-10 h-10 rounded-lg bg-[#00B4FF] flex items-center justify-center animate-pulse">
+            <span className="text-[#0A0A0F] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>CC</span>
           </div>
-          <span className="text-xs text-[#666]">Loading...</span>
+          <span className="text-xs text-[#555570]">Loading...</span>
         </div>
       </div>
     )
