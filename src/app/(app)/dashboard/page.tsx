@@ -67,7 +67,7 @@ export default function Dashboard() {
       {/* Car Info */}
       <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4 animate-fade-up stagger-3">
         <div className="flex items-center gap-2 mb-3">
-          <div className="w-2 h-2 rounded-full bg-[#00B4FF] shadow-[0_0_6px_rgba(255,138,0,0.4)]" />
+          <div className="w-2 h-2 rounded-full bg-[#00B4FF] shadow-[0_0_6px_rgba(0,180,255,0.4)]" />
           <h3 className="text-xs font-semibold text-[#7A7A90] uppercase tracking-wider">Active Car</h3>
         </div>
         <h2 className="text-xl font-bold">{currentCar.year} {currentCar.make} {currentCar.model}</h2>

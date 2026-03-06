@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { TenthsLogo, TenthsWordmark } from '@/components/shared/TenthsLogo'
 
 export function LandingNav() {
   const [scrolled, setScrolled] = useState(false)
@@ -22,12 +23,8 @@ export function LandingNav() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#00B4FF] flex items-center justify-center">
-              <span className="text-[#0A0A0F] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
-            </div>
-            <span className="text-sm font-bold text-[#D4D4E0] tracking-wider uppercase hidden sm:block" style={{ fontFamily: 'var(--font-heading)' }}>
-              Tenths
-            </span>
+            <TenthsLogo size={36} />
+            <span className="hidden sm:block"><TenthsWordmark className="text-sm" /></span>
           </div>
 
           {/* Right side */}

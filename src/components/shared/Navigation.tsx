@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useCar } from '@/hooks/useCar'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscriptionContext } from '@/components/subscription/SubscriptionProvider'
+import { TenthsLogo, TenthsWordmark } from '@/components/shared/TenthsLogo'
 
 const navItems = [
   { href: '/dashboard', label: 'Home', icon: HomeIcon, isPro: false },
@@ -63,13 +64,9 @@ export function Navigation() {
       <aside className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 flex-col w-20 lg:w-60 bg-[#14141F] border-r border-[#2A2A3A]">
         {/* Logo */}
         <div className="flex items-center gap-3 px-4 py-5 border-b border-[#2A2A3A]">
-          <div className="w-10 h-10 rounded-lg bg-[#00B4FF] flex items-center justify-center shadow-[0_0_16px_rgba(255,138,0,0.15)]">
-            <span className="text-[#0A0A0F] font-bold text-lg" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
-          </div>
+          <TenthsLogo size={40} />
           <div className="hidden lg:block">
-            <h1 className="text-sm font-bold text-[#D4D4E0] tracking-wider uppercase" style={{ fontFamily: 'var(--font-heading)' }}>
-              Tenths
-            </h1>
+            <TenthsWordmark className="text-sm" />
             <p className="text-[10px] text-[#3A3A4A] uppercase tracking-widest">Find Your Tenths</p>
           </div>
         </div>
@@ -210,12 +207,8 @@ function MobileHeader() {
       <div className="flex items-center justify-between px-4 py-3 bg-[#0A0A0F]/95 backdrop-blur-md">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-[#00B4FF] flex items-center justify-center shadow-[0_0_12px_rgba(255,138,0,0.15)]">
-            <span className="text-[#0A0A0F] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
-          </div>
-          <span className="text-sm font-bold text-[#D4D4E0] tracking-wider uppercase" style={{ fontFamily: 'var(--font-heading)' }}>
-            Tenths
-          </span>
+          <TenthsLogo size={32} />
+          <TenthsWordmark className="text-sm" />
         </div>
 
         {/* User avatar button */}

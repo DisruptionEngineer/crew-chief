@@ -166,7 +166,7 @@ export default function RulesPage() {
             onClick={() => handleDivisionChange(div.id)}
             className={`flex-shrink-0 px-3.5 py-2.5 rounded-md text-xs font-semibold transition-all duration-200 min-h-[44px] whitespace-nowrap ${
               activeDivision.id === div.id
-                ? 'bg-[#00B4FF] text-[#0A0A0F] shadow-[0_0_16px_rgba(255,138,0,0.2)]'
+                ? 'bg-[#00B4FF] text-[#0A0A0F] shadow-[0_0_16px_rgba(0,180,255,0.2)]'
                 : 'bg-[#1A1A28] text-[#555570] border border-[#2A2A3A] hover:border-[#3A3A4A] hover:text-[#D4D4E0]'
             }`}
           >
@@ -286,7 +286,7 @@ export default function RulesPage() {
 
             return (
               <div key={cat} className={`bg-[#14141F] border rounded-lg overflow-hidden transition-all duration-200 ${
-                isExpanded ? 'border-[#00B4FF]/25 shadow-[0_0_16px_rgba(255,138,0,0.03)]' : 'border-[#2A2A3A]'
+                isExpanded ? 'border-[#00B4FF]/25 shadow-[0_0_16px_rgba(0,180,255,0.03)]' : 'border-[#2A2A3A]'
               }`}>
                 <button
                   onClick={() => setExpandedCategory(isExpanded ? null : cat)}

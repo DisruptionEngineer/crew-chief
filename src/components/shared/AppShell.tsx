@@ -5,6 +5,7 @@ import { CarProvider } from '@/hooks/useCar'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { SubscriptionProvider } from '@/components/subscription/SubscriptionProvider'
 import { useOnboardingGuard } from '@/hooks/useOnboardingGuard'
+import { TenthsLogo } from '@/components/shared/TenthsLogo'
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { isReady } = useOnboardingGuard()
@@ -14,8 +15,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-[#00B4FF] flex items-center justify-center animate-pulse">
-            <span className="text-[#0A0A0F] font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>CC</span>
+          <div className="animate-pulse">
+            <TenthsLogo size={40} />
           </div>
           <span className="text-xs text-[#555570]">Loading...</span>
         </div>

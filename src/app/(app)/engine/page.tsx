@@ -320,7 +320,7 @@ export default function EngineBuildPage() {
         className={`w-full py-3 rounded-lg font-bold text-sm transition-all duration-300 min-h-[48px] active:scale-[0.98] ${
           saveSuccess
             ? 'bg-[#00E676] text-[#0A0A0F] shadow-[0_0_20px_rgba(0,230,118,0.2)]'
-            : 'bg-[#00B4FF] text-[#0A0A0F] hover:bg-[#33C4FF] shadow-[0_0_20px_rgba(255,138,0,0.15)] hover:shadow-[0_0_30px_rgba(255,138,0,0.25)]'
+            : 'bg-[#00B4FF] text-[#0A0A0F] hover:bg-[#33C4FF] shadow-[0_0_20px_rgba(0,180,255,0.15)] hover:shadow-[0_0_30px_rgba(0,180,255,0.25)]'
         }`}
       >
         {saveSuccess ? '\u2713 Build Saved!' : 'Save Build'}
@@ -351,7 +351,7 @@ function EngineSection({ title, subtitle, expanded, onToggle, children }: {
 }) {
   return (
     <div className={`bg-[#14141F] border rounded-lg overflow-hidden transition-all duration-200 ${
-      expanded ? 'border-[#00B4FF]/30 shadow-[0_0_20px_rgba(255,138,0,0.04)]' : 'border-[#2A2A3A]'
+      expanded ? 'border-[#00B4FF]/30 shadow-[0_0_20px_rgba(0,180,255,0.04)]' : 'border-[#2A2A3A]'
     }`}>
       <button onClick={onToggle} className="section-header">
         <div className="flex items-center gap-2.5">

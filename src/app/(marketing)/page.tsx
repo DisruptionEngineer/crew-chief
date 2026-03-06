@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { SetupDemo } from '@/components/landing/SetupDemo'
+import { TenthsLogo } from '@/components/shared/TenthsLogo'
 import { ToolShowcase } from '@/components/landing/ToolShowcase'
 
 export default function LandingPage() {
@@ -211,9 +212,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-4 md:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#00B4FF] flex items-center justify-center">
-                <span className="text-[#0A0A0F] font-bold text-xs" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
-              </div>
+              <TenthsLogo size={32} />
               <span className="text-sm text-[#555570]">Tenths — Every tenth matters</span>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-[#555570]">

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/useAuth'
 import { STRIPE_CONFIG } from '@/lib/stripe/config'
+import { TenthsLogo, TenthsWordmark } from '@/components/shared/TenthsLogo'
 
 interface Props {
   code: string
@@ -50,10 +51,8 @@ export function PromoLandingClient({ code, trialDays, description }: Props) {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2">
-            <div className="w-10 h-10 rounded-lg bg-[#00B4FF] flex items-center justify-center">
-              <span className="text-[#0A0A0F] font-bold text-lg" style={{ fontFamily: 'var(--font-heading)' }}>T</span>
-            </div>
-            <span className="text-xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>Tenths</span>
+            <TenthsLogo size={40} />
+            <TenthsWordmark className="text-xl" />
           </Link>
         </div>
 
