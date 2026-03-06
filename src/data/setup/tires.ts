@@ -136,6 +136,11 @@ export function getTireCompound(id: string): TireCompound | undefined {
   return tireCompounds.find(t => t.id === id)
 }
 
+/** Find a compound by its human-readable label (case-insensitive) */
+export function getTireCompoundByLabel(label: string): TireCompound | undefined {
+  return tireCompounds.find(t => t.label.toLowerCase() === label.toLowerCase())
+}
+
 /** Default tire for a given surface */
 export function getDefaultTireForSurface(surface: 'dirt' | 'asphalt' | 'mixed' | 'concrete'): TireCompound {
   if (surface === 'asphalt' || surface === 'concrete' || surface === 'mixed') {

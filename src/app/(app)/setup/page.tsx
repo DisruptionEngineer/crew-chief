@@ -228,6 +228,7 @@ export default function SetupCalculator() {
             year: currentCar.year,
             make: currentCar.make,
             model: currentCar.model,
+            class: currentCar.class,
             weight: currentCar.weight,
             wheelbase: currentCar.wheelbase,
             frontSuspension: currentCar.frontSuspension,
