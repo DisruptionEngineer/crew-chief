@@ -201,7 +201,7 @@ Respond with JSON in this exact format:
 
   try {
     const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-5-20250929',
+      model: 'claude-sonnet-4-5-20250514',
       max_tokens: 2048,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userPrompt }],
@@ -220,8 +220,13 @@ Respond with JSON in this exact format:
 
     const recommendations = JSON.parse(jsonMatch[0])
     return NextResponse.json(recommendations)
-  } catch (err) {
-    console.error('AI setup recommendation error:', err)
-    return NextResponse.json({ error: 'AI recommendation failed' }, { status: 500 })
+  } catch (err: unknown) {
+    const errMsg = err instanceof Error ? err.message : String(err)
+    const errName = err instanceof Error ? err.constructor.name : 'Unknown'
+    console.error('AI setup recommendation error:', errName, errMsg)
+    return NextResponse.json(
+      { error: 'AI recommendation failed', detail: `${errName}: ${errMsg}` },
+      { status: 500 }
+    )
   }
 }
