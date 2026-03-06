@@ -223,7 +223,15 @@ Respond with JSON in this exact format:
   } catch (err: unknown) {
     const errMsg = err instanceof Error ? err.message : String(err)
     const errName = err instanceof Error ? err.constructor.name : 'Unknown'
-    console.error('AI setup recommendation error:', errName, errMsg)
+    // Log detailed error info for debugging
+    console.error('AI setup recommendation error:', JSON.stringify({
+      name: errName,
+      message: errMsg,
+      status: (err as { status?: number })?.status,
+      statusText: (err as { statusText?: string })?.statusText,
+      error: (err as { error?: unknown })?.error,
+      stack: err instanceof Error ? err.stack?.split('\n').slice(0, 3).join(' | ') : undefined,
+    }))
     return NextResponse.json(
       { error: 'AI recommendation failed', detail: `${errName}: ${errMsg}` },
       { status: 500 }
