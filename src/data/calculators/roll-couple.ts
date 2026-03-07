@@ -1,4 +1,4 @@
-import type { VehicleParams, TargetSpringRates } from '@/lib/types'
+import type { VehicleParams, TargetSpringRates } from '@/lib/types/vehicle-dynamics'
 
 // ============================================================
 // Roll Couple Distribution

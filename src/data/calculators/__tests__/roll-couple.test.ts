@@ -5,7 +5,7 @@ import {
   calcRollAngle,
   calcTargetSpringRates,
 } from '../roll-couple'
-import type { VehicleParams } from '@/lib/types'
+import type { VehicleParams } from '@/lib/types/vehicle-dynamics'
 
 const vehicle: VehicleParams = {
   totalWeight: 3300,

@@ -1,4 +1,5 @@
-import type { Car, SuspensionType, VehicleParams } from '@/lib/types'
+import type { Car, SuspensionType } from '@/lib/types'
+import type { VehicleParams } from '@/lib/types/vehicle-dynamics'
 
 // ============================================================
 // Vehicle Defaults

@@ -1,4 +1,4 @@
-import type { VehicleParams, DynamicCornerWeights } from '@/lib/types'
+import type { VehicleParams, DynamicCornerWeights } from '@/lib/types/vehicle-dynamics'
 
 // ============================================================
 // Load Transfer Calculator

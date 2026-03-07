@@ -4,7 +4,7 @@ import {
   calcLongitudinalLoadTransfer,
   calcCornerWeightsAtSpeed,
 } from '../load-transfer'
-import type { VehicleParams } from '@/lib/types'
+import type { VehicleParams } from '@/lib/types/vehicle-dynamics'
 
 const vehicle: VehicleParams = {
   totalWeight: 3300,

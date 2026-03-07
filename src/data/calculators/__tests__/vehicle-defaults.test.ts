@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { buildVehicleParams } from '../vehicle-defaults'
-import type { Car } from '@/lib/types'
+import type { Car } from '@/lib/types/car'
 
 const mockMonteCarlo: Car = {
   id: 'monte-carlo-75',
