@@ -87,3 +87,20 @@ export type {
   DiagnosticResult,
   Adjustment,
 } from './troubleshoot'
+
+// Vehicle Dynamics
+export type {
+  TrackGeometry,
+  VehicleParams,
+  TireModelParams,
+  TireGripResult,
+  DynamicCornerWeights,
+  StaticCornerWeights,
+  RollCoupleResult,
+  TargetSpringRates,
+  CorneringResult,
+  BalancePoint,
+  TractionResult,
+  PhysicsInsight,
+  VehicleDynamicsResult,
+} from './vehicle-dynamics'
