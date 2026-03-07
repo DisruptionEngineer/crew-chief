@@ -4,7 +4,11 @@ import { createClient } from '@supabase/supabase-js'
 import { getSetupRecommendations } from '@/data/setup/recommendations'
 import { getTireCompoundByLabel, getEffectivePressureRange } from '@/data/setup/tires'
 import { getDivisionById } from '@/data/divisions/registry'
-import type { Car, TrackCondition, RaceType, RaceClass } from '@/lib/types'
+import type { Car, TrackCondition, RaceType, RaceClass, TrackSurface } from '@/lib/types'
+import type { TrackGeometry } from '@/lib/types/vehicle-dynamics'
+import { analyzeVehicleDynamics } from '@/data/calculators/vehicle-dynamics'
+import { buildVehicleParams } from '@/data/calculators/vehicle-defaults'
+import { buildTireModelParams } from '@/data/calculators/tire-model'
 
 export const maxDuration = 60
 
@@ -230,6 +234,58 @@ export async function POST(request: NextRequest) {
   const carForRecs = { ...body.car, class: body.car.class || 'ironman-f8' } as unknown as Car
   const detRecs = getSetupRecommendations(carForRecs, condition, raceType, tireCompound, trackSurface)
 
+  // Run physics analysis for AI context
+  let physicsContext = ''
+  try {
+    const vehicleParams = buildVehicleParams(carForRecs, {
+      frontSpringRate: detRecs.springs[0]?.value as number ?? 900,
+      rearSpringRate: detRecs.springs[2]?.value as number ?? 200,
+    })
+
+    const tireModelParams = tireCompound
+      ? buildTireModelParams(tireCompound, (trackSurface ?? 'mixed') as TrackSurface, {
+          pressureLF: detRecs.tirePressures[0]?.value as number ?? 14,
+          pressureRF: detRecs.tirePressures[1]?.value as number ?? 14,
+          pressureLR: detRecs.tirePressures[2]?.value as number ?? 13,
+          pressureRR: detRecs.tirePressures[3]?.value as number ?? 13,
+          diameter: 27,
+        })
+      : undefined
+
+    if (tireModelParams) {
+      const trackLengthMiles = body.track?.length ? parseFloat(body.track.length) : 0.2
+      const trackLengthFt = trackLengthMiles * 5280
+      const cornerArcLength = trackLengthFt * 0.4 / 2
+      const cornerRadius = cornerArcLength / (Math.PI / 2)
+      const trackGeo: TrackGeometry = {
+        cornerRadius,
+        banking: body.track?.banking ?? 5,
+        straightLength: trackLengthFt * 0.3,
+        surface: (trackSurface ?? 'mixed') as TrackSurface,
+      }
+
+      const dynamics = analyzeVehicleDynamics(
+        vehicleParams, tireModelParams, trackGeo, condition, raceType,
+      )
+
+      physicsContext = `
+**Vehicle Dynamics Analysis (calculated):**
+- Roll distribution: ${(dynamics.rollDistributionFront * 100).toFixed(1)}% front
+- Roll angle at 0.75g: ${dynamics.rollAngleDeg.toFixed(1)}°
+- Max corner speed: ${dynamics.maxCornerSpeedMph.toFixed(1)} mph
+- Lateral g at limit: ${dynamics.lateralG.toFixed(2)}g
+- Limiting axle: ${dynamics.limitingAxle}
+- Understeer gradient: ${dynamics.understeerGradient > 0 ? 'push' : 'loose'} (${dynamics.understeerGradient.toFixed(4)})
+${dynamics.traction ? `- Traction margin on exit: ${dynamics.traction.tractionMargin.toFixed(0)} lbs (${dynamics.traction.tractionLimited ? 'TRACTION LIMITED' : 'within grip'})
+- Max usable torque: ${dynamics.traction.maxUsableTorque} ft-lbs` : ''}
+
+**Physics insights:**
+${dynamics.physicsInsights.map(i => `- [${i.severity.toUpperCase()}] ${i.finding} → ${i.suggestion}`).join('\n')}`
+    }
+  } catch {
+    // Physics analysis is supplementary — don't fail the request
+  }
+
   // Build reference ranges string — educational context, not hard constraints
   const refRanges = [
     ...detRecs.springs,
@@ -314,7 +370,7 @@ ${body.tireCompound ? `**Tire:** ${body.tireCompound}` : ''}${tireContext}${wetC
 ${refRanges ? `
 **Reference ranges from our data (typical operating windows for this car/tire/surface combo):**
 ${refRanges}
-Use these as a guide — your expertise may lead you slightly outside these windows with good reason, but they represent the normal operating envelope.` : ''}
+Use these as a guide — your expertise may lead you slightly outside these windows with good reason, but they represent the normal operating envelope.` : ''}${physicsContext}
 ${body.weather ? `
 **Current Weather at Track:**
 - Temperature: ${body.weather.temp}°F
