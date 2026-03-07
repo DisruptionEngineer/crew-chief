@@ -12,8 +12,8 @@ export default function LandingPage() {
       <LandingNav />
 
       {/* ===== HERO ===== */}
-      <section className="relative min-h-screen flex items-start pt-16">
-        <div className="max-w-6xl mx-auto px-4 md:px-8 w-full pt-8 md:pt-12 pb-16 md:pb-24">
+      <section className="relative pt-20 md:pt-24">
+        <div className="max-w-6xl mx-auto px-4 md:px-8 w-full pb-12 md:pb-16">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left: Copy */}
             <div>
@@ -23,7 +23,7 @@ export default function LandingPage() {
               </div>
 
               <h1 className="hero-reveal hero-d1 text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-6">
-                Every Tenth{' '}
+                Every <span className="text-[#FF6B00]">Tenth</span>{' '}
                 <br className="hidden sm:block" />
                 <span className="text-[#00B4FF]">Matters.</span>
               </h1>
@@ -65,7 +65,8 @@ export default function LandingPage() {
                 {/* Accent arcs */}
                 <svg className="hero-glow-in hero-d5 absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 200 200">
                   <circle cx="100" cy="100" r="90" fill="none" stroke="#00B4FF" strokeWidth="3" strokeDasharray="200 365" opacity="0.6" />
-                  <circle cx="100" cy="100" r="80" fill="none" stroke="#00B4FF" strokeWidth="1.5" strokeDasharray="120 383" opacity="0.3" />
+                  <circle cx="100" cy="100" r="80" fill="none" stroke="#FF6B00" strokeWidth="1.5" strokeDasharray="80 423" opacity="0.5" />
+                  <circle cx="100" cy="100" r="70" fill="none" stroke="#00B4FF" strokeWidth="1" strokeDasharray="120 320" opacity="0.2" />
                 </svg>
                 {/* Corner stats */}
                 <div className="hero-stat hero-d8 absolute top-4 right-4 text-right">
@@ -83,10 +84,10 @@ export default function LandingPage() {
       </section>
 
       {/* ===== INTERACTIVE DEMO ===== */}
-      <section id="demo" className="py-16 md:py-24">
+      <section id="demo" className="py-12 md:py-20">
         <div className="max-w-3xl mx-auto px-4 md:px-8">
           <div className="text-center mb-10">
-            <p className="text-[10px] font-semibold text-[#00B4FF] uppercase tracking-widest mb-2">Try It Now</p>
+            <p className="text-[10px] font-semibold text-[#FF6B00] uppercase tracking-widest mb-2">Try It Now</p>
             <h2 className="text-3xl md:text-4xl font-bold mb-3">See Your Setup Before You Sign Up</h2>
             <p className="text-[#7A7A90] max-w-md mx-auto">
               Click the track conditions below and watch the recommendations change in real-time.
@@ -97,10 +98,10 @@ export default function LandingPage() {
       </section>
 
       {/* ===== TOOL SHOWCASE ===== */}
-      <section id="features" className="py-16 md:py-24 border-t border-[#2A2A3A]/30">
+      <section id="features" className="py-12 md:py-20 border-t border-[#FF6B00]/20">
         <div className="max-w-6xl mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
-            <p className="text-[10px] font-semibold text-[#00B4FF] uppercase tracking-widest mb-2">Beyond the Calculator</p>
+            <p className="text-[10px] font-semibold text-[#FF6B00] uppercase tracking-widest mb-2">Beyond the Calculator</p>
             <h2 className="text-3xl md:text-4xl font-bold mb-3">Your Complete Racing Toolkit</h2>
             <p className="text-[#7A7A90] max-w-md mx-auto">
               Diagnosis, engine builds, session data, corner weights, gear ratios — everything you need to find your tenths.
@@ -112,10 +113,10 @@ export default function LandingPage() {
       </section>
 
       {/* ===== PRICING ===== */}
-      <section id="pricing" className="py-16 md:py-24 border-t border-[#2A2A3A]/30">
+      <section id="pricing" className="py-12 md:py-20 border-t border-[#2A2A3A]/30">
         <div className="max-w-5xl mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
-            <p className="text-[10px] font-semibold text-[#00B4FF] uppercase tracking-widest mb-2">Simple Pricing</p>
+            <p className="text-[10px] font-semibold text-[#FF6B00] uppercase tracking-widest mb-2">Simple Pricing</p>
             <h2 className="text-3xl md:text-4xl font-bold mb-3">Free to Start. Pro When You&apos;re Ready.</h2>
             <p className="text-[#7A7A90] max-w-md mx-auto">
               Everything you need to get faster is free. Upgrade to Pro for advanced tools.
@@ -124,7 +125,7 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {/* Free Plan */}
-            <div className="bg-[#14141F] border border-[#2A2A3A] rounded-xl p-6">
+            <div className="bg-[#14141F] border border-[#2A2A3A] rounded-xl p-6 hover:border-[#FF6B00]/30 transition-colors">
               <div className="mb-4">
                 <h3 className="text-lg font-bold text-[#D4D4E0]">Free</h3>
                 <div className="mt-2">
@@ -184,7 +185,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== BUILT FOR THE GARAGE ===== */}
-      <section className="py-16 md:py-24 border-t border-[#2A2A3A]/30">
+      <section className="py-12 md:py-20 border-t border-[#FF6B00]/20">
         <div className="max-w-4xl mx-auto px-4 md:px-8 text-center">
           <div className="checkered-divider mb-10" />
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for the Garage</h2>
@@ -208,7 +209,7 @@ export default function LandingPage() {
       </section>
 
       {/* ===== FOOTER ===== */}
-      <footer className="border-t border-[#2A2A3A]/30 py-10">
+      <footer className="border-t border-[#FF6B00]/20 py-10">
         <div className="max-w-6xl mx-auto px-4 md:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">

@@ -78,7 +78,7 @@ function TroubleshooterPreview() {
           </div>
           <h3 className="font-semibold text-sm">Troubleshooter</h3>
         </div>
-        <span className="text-[9px] text-[#00E676] font-semibold uppercase tracking-wider">Free</span>
+        <span className="text-[9px] text-[#FF6B00] font-semibold uppercase tracking-wider">Free</span>
       </div>
 
       {/* Symptom */}
@@ -239,8 +239,8 @@ function HandleChip({ label, value, color }: { label: string; value: string; col
 /* ─── Mini Tool Card ─── */
 function MiniToolCard({ icon, title, description }: MiniToolCardProps) {
   return (
-    <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4 hover:border-[#00B4FF]/30 transition-colors group">
-      <div className="w-8 h-8 rounded-lg bg-[#00B4FF]/10 flex items-center justify-center mb-3 text-[#00B4FF] group-hover:bg-[#00B4FF]/20 transition-colors">
+    <div className="bg-[#14141F] border border-[#2A2A3A] rounded-lg p-4 hover:border-[#FF6B00]/30 transition-colors group">
+      <div className="w-8 h-8 rounded-lg bg-[#FF6B00]/10 flex items-center justify-center mb-3 text-[#FF6B00] group-hover:bg-[#FF6B00]/20 transition-colors">
         {icon}
       </div>
       <h4 className="text-sm font-semibold mb-1">{title}</h4>

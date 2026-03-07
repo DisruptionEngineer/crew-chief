@@ -169,6 +169,9 @@
 .glow-blue {
   box-shadow: 0 0 0 1px rgba(0, 180, 255, 0.3), 0 0 20px rgba(0, 180, 255, 0.08);
 }
+.glow-orange {
+  box-shadow: 0 0 0 1px rgba(255, 107, 0, 0.3), 0 0 20px rgba(255, 107, 0, 0.08);
+}
 .glow-primary {
   box-shadow: 0 0 0 1px rgba(0, 180, 255, 0.3), 0 0 24px rgba(0, 180, 255, 0.1);
 }
@@ -429,10 +432,14 @@ input[type="number"]:focus {
     #00B4FF 0px,
     #00B4FF 8px,
     transparent 8px,
-    transparent 16px
+    transparent 12px,
+    #FF6B00 12px,
+    #FF6B00 20px,
+    transparent 20px,
+    transparent 24px
   );
   height: 2px;
-  opacity: 0.2;
+  opacity: 0.25;
   border-radius: 1px;
 }
 
