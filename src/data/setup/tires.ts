@@ -15,6 +15,15 @@ export interface TireCompound {
     dirt: PressureRange
     asphalt: PressureRange
   }
+  /** Base friction coefficient by surface type */
+  gripProfile: {
+    dirt: number
+    asphalt: number
+    concrete: number
+    mixed: number
+  }
+  /** Grip dropoff per lb of additional vertical load */
+  loadSensitivity: number
 }
 
 export const tireCompounds: TireCompound[] = [
@@ -30,6 +39,8 @@ export const tireCompounds: TireCompound[] = [
       dirt: { front: [12, 16], rear: [11, 15] },
       asphalt: { front: [22, 28], rear: [20, 26] },
     },
+    gripProfile: { dirt: 1.10, asphalt: 0.95, concrete: 0.85, mixed: 0.90 },
+    loadSensitivity: 0.00015,
   },
   {
     id: 'hoosier-d55',
@@ -38,6 +49,8 @@ export const tireCompounds: TireCompound[] = [
     label: 'Hoosier D55',
     surface: 'dirt',
     pressureRange: { front: [10, 14], rear: [9, 13] },
+    gripProfile: { dirt: 1.05, asphalt: 0.85, concrete: 0.80, mixed: 0.82 },
+    loadSensitivity: 0.00014,
   },
   {
     id: 'hoosier-d40',
@@ -46,6 +59,8 @@ export const tireCompounds: TireCompound[] = [
     label: 'Hoosier D40',
     surface: 'dirt',
     pressureRange: { front: [11, 15], rear: [10, 14] },
+    gripProfile: { dirt: 1.10, asphalt: 0.82, concrete: 0.77, mixed: 0.80 },
+    loadSensitivity: 0.00016,
   },
   {
     id: 'hoosier-d25',
@@ -54,6 +69,8 @@ export const tireCompounds: TireCompound[] = [
     label: 'Hoosier D25',
     surface: 'dirt',
     pressureRange: { front: [12, 16], rear: [11, 15] },
+    gripProfile: { dirt: 1.15, asphalt: 0.80, concrete: 0.75, mixed: 0.78 },
+    loadSensitivity: 0.00018,
   },
   {
     id: 'hoosier-f45',
@@ -62,6 +79,8 @@ export const tireCompounds: TireCompound[] = [
     label: 'Hoosier F45',
     surface: 'asphalt',
     pressureRange: { front: [22, 28], rear: [20, 26] },
+    gripProfile: { dirt: 0.85, asphalt: 1.05, concrete: 0.95, mixed: 1.00 },
+    loadSensitivity: 0.00013,
   },
   {
     id: 'hoosier-f35',
@@ -70,6 +89,8 @@ export const tireCompounds: TireCompound[] = [
     label: 'Hoosier F35',
     surface: 'asphalt',
     pressureRange: { front: [20, 26], rear: [18, 24] },
+    gripProfile: { dirt: 0.80, asphalt: 1.10, concrete: 1.00, mixed: 1.05 },
+    loadSensitivity: 0.00014,
   },
   // --- American Racer ---
   {
@@ -79,6 +100,8 @@ export const tireCompounds: TireCompound[] = [
     label: 'American Racer 33',
     surface: 'dirt',
     pressureRange: { front: [11, 15], rear: [10, 14] },
+    gripProfile: { dirt: 1.10, asphalt: 0.82, concrete: 0.77, mixed: 0.80 },
+    loadSensitivity: 0.00016,
   },
   {
     id: 'american-racer-44',
@@ -87,6 +110,8 @@ export const tireCompounds: TireCompound[] = [
     label: 'American Racer 44',
     surface: 'dirt',
     pressureRange: { front: [12, 16], rear: [11, 15] },
+    gripProfile: { dirt: 1.15, asphalt: 0.80, concrete: 0.75, mixed: 0.78 },
+    loadSensitivity: 0.00018,
   },
   {
     id: 'american-racer-56',
@@ -95,6 +120,8 @@ export const tireCompounds: TireCompound[] = [
     label: 'American Racer 56',
     surface: 'asphalt',
     pressureRange: { front: [20, 26], rear: [18, 24] },
+    gripProfile: { dirt: 0.80, asphalt: 1.10, concrete: 1.00, mixed: 1.05 },
+    loadSensitivity: 0.00014,
   },
   // --- Towel City ---
   {
@@ -104,6 +131,8 @@ export const tireCompounds: TireCompound[] = [
     label: 'TCT Recap',
     surface: 'dirt',
     pressureRange: { front: [12, 16], rear: [11, 15] },
+    gripProfile: { dirt: 1.00, asphalt: 0.80, concrete: 0.75, mixed: 0.78 },
+    loadSensitivity: 0.00018,
   },
   // --- DOT Street ---
   {
@@ -117,6 +146,8 @@ export const tireCompounds: TireCompound[] = [
       dirt: { front: [26, 32], rear: [24, 30] },
       asphalt: { front: [30, 36], rear: [28, 34] },
     },
+    gripProfile: { dirt: 0.70, asphalt: 0.80, concrete: 0.75, mixed: 0.78 },
+    loadSensitivity: 0.00012,
   },
 ]
 

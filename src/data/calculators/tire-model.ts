@@ -1,4 +1,7 @@
 import type { TrackCondition, TrackSurface } from '@/lib/types'
+import type { TireModelParams } from '@/lib/types/vehicle-dynamics'
+import type { TireCompound } from '@/data/setup/tires'
+import { getEffectivePressureRange } from '@/data/setup/tires'
 
 // ============================================================
 // Tire Grip Model
@@ -83,4 +86,37 @@ export function getEffectiveGrip(
   const pressureMod = getPressureGripModifier(actualPsi, optimalPsi)
   const surfaceMod = getSurfaceGripModifier(surface, condition)
   return mu * pressureMod * surfaceMod
+}
+
+interface TireModelOverrides {
+  pressureLF: number
+  pressureRF: number
+  pressureLR: number
+  pressureRR: number
+  diameter: number
+}
+
+/**
+ * Build TireModelParams from a tire compound and surface.
+ * Bridges the existing tire compound data to the physics engine.
+ */
+export function buildTireModelParams(
+  compound: TireCompound,
+  surface: TrackSurface,
+  overrides: TireModelOverrides,
+): TireModelParams {
+  const effRange = getEffectivePressureRange(compound, surface)
+
+  return {
+    compound: compound.id,
+    baseMu: compound.gripProfile[surface] ?? compound.gripProfile.mixed,
+    loadSensitivity: compound.loadSensitivity,
+    pressureLF: overrides.pressureLF,
+    pressureRF: overrides.pressureRF,
+    pressureLR: overrides.pressureLR,
+    pressureRR: overrides.pressureRR,
+    optimalPressureFront: (effRange.front[0] + effRange.front[1]) / 2,
+    optimalPressureRear: (effRange.rear[0] + effRange.rear[1]) / 2,
+    diameter: overrides.diameter,
+  }
 }
