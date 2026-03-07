@@ -30,6 +30,12 @@ export function LandingNav() {
           {/* Right side */}
           <div className="flex items-center gap-2 sm:gap-4">
             <a
+              href="#gear-ratio"
+              className="hidden sm:block text-sm text-[#7A7A90] hover:text-[#D4D4E0] transition-colors"
+            >
+              Tools
+            </a>
+            <a
               href="#features"
               className="hidden sm:block text-sm text-[#7A7A90] hover:text-[#D4D4E0] transition-colors"
             >

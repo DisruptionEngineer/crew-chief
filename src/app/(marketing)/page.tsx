@@ -3,6 +3,9 @@
 import Link from 'next/link'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { SetupDemo } from '@/components/landing/SetupDemo'
+import { GearRatioDemo } from '@/components/landing/GearRatioDemo'
+import { CornerWeightDemo } from '@/components/landing/CornerWeightDemo'
+import { TroubleshooterDemo } from '@/components/landing/TroubleshooterDemo'
 import { TenthsLogo } from '@/components/shared/TenthsLogo'
 import { ToolShowcase } from '@/components/landing/ToolShowcase'
 
@@ -96,6 +99,15 @@ export default function LandingPage() {
           <SetupDemo />
         </div>
       </section>
+
+      {/* ===== GEAR RATIO CALCULATOR ===== */}
+      <GearRatioDemo />
+
+      {/* ===== CORNER WEIGHT CALCULATOR ===== */}
+      <CornerWeightDemo />
+
+      {/* ===== DIAGNOSTIC TROUBLESHOOTER ===== */}
+      <TroubleshooterDemo />
 
       {/* ===== TOOL SHOWCASE ===== */}
       <section id="features" className="py-12 md:py-20 border-t border-[#FF6B00]/20">

@@ -10,35 +10,13 @@ export function ToolShowcase() {
   return (
     <div className="space-y-4 md:space-y-6">
       {/* Primary tool previews with visual mockups */}
-      <div className="grid md:grid-cols-3 gap-4 md:gap-6">
-        <TroubleshooterPreview />
+      <div className="grid md:grid-cols-2 gap-4 md:gap-6">
         <EngineSimPreview />
         <SessionLogPreview />
       </div>
 
       {/* Additional tools */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-        <MiniToolCard
-          icon={
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="16" />
-              <line x1="8" y1="12" x2="16" y2="12" />
-            </svg>
-          }
-          title="Corner Weight"
-          description="Cross-weight percentage with bolt-turn recommendations"
-        />
-        <MiniToolCard
-          icon={
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="12 2 22 8.5 12 15 2 8.5" />
-              <polyline points="2 15.5 12 22 22 15.5" />
-            </svg>
-          }
-          title="Gear Ratios"
-          description="RPM-at-speed for every gear and tire combo"
-        />
+      <div className="grid grid-cols-2 gap-3 md:gap-4">
         <MiniToolCard
           icon={
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -60,60 +38,6 @@ export function ToolShowcase() {
           description="Backspacing and offset calculator for any wheel"
         />
       </div>
-    </div>
-  )
-}
-
-/* ─── Troubleshooter Preview ─── */
-function TroubleshooterPreview() {
-  return (
-    <div className="bg-[#14141F] border border-[#2A2A3A] rounded-xl p-5 hover:border-[#00B4FF]/30 transition-colors">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-[#00B4FF]/10 flex items-center justify-center text-[#00B4FF]">
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-          </div>
-          <h3 className="font-semibold text-sm">Troubleshooter</h3>
-        </div>
-        <span className="text-[9px] text-[#FF6B00] font-semibold uppercase tracking-wider">Free</span>
-      </div>
-
-      {/* Symptom */}
-      <div className="bg-[#0A0A0F] rounded-lg p-3 border border-[#2A2A3A]/50 mb-3">
-        <p className="text-[9px] text-[#555570] uppercase tracking-wider mb-1">Symptom</p>
-        <p className="text-xs font-medium text-[#D4D4E0]">Tight on entry</p>
-        <p className="text-[10px] text-[#3A3A4A] mt-0.5">Heavy / Tacky conditions</p>
-      </div>
-
-      {/* Prioritized fixes */}
-      <div>
-        <p className="text-[9px] text-[#555570] uppercase tracking-wider mb-2">Prioritized Fixes</p>
-        <div className="space-y-1.5">
-          <FixItem priority={1} text="Lower RF tire pressure" amount="-2 psi" difficulty="Easy" />
-          <FixItem priority={2} text="Reduce cross-weight" amount="-10 lbs" difficulty="Easy" />
-          <FixItem priority={3} text="Add toe-out" amount="+1/16&quot;" difficulty="Med" />
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function FixItem({ priority, text, amount, difficulty }: {
-  priority: number
-  text: string
-  amount: string
-  difficulty: string
-}) {
-  const diffColor = difficulty === 'Easy' ? '#00E676' : '#00B4FF'
-  return (
-    <div className="flex items-center gap-2 bg-[#0A0A0F] rounded-md px-3 py-2 border border-[#2A2A3A]/30">
-      <span className="text-[10px] font-bold text-[#00B4FF] w-3 shrink-0" style={{ fontFamily: 'var(--font-mono)' }}>{priority}</span>
-      <span className="text-[11px] text-[#CCC] flex-1 min-w-0 truncate">{text}</span>
-      <span className="text-[10px] text-[#7A7A90] shrink-0" style={{ fontFamily: 'var(--font-mono)' }}>{amount}</span>
-      <span className="text-[8px] font-semibold uppercase tracking-wider shrink-0" style={{ color: diffColor }}>{difficulty}</span>
     </div>
   )
 }
