@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     .insert({
       user_id: user.id,
       promo_code: promoCode.toUpperCase().trim(),
-      track_name: promo.description?.replace('Race night promo - ', '') || 'Race Night',
+      track_name: promo.description?.replace(/^Race night promo - /, '').replace(/ \d+\/\d+$/, '') || 'Race Night',
       expires_at: promo.expires_at,
     })
 
@@ -74,6 +74,6 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     success: true,
     expires_at: promo.expires_at,
-    track_name: promo.description?.replace('Race night promo - ', '') || 'Race Night',
+    track_name: promo.description?.replace(/^Race night promo - /, '').replace(/ \d+\/\d+$/, '') || 'Race Night',
   })
 }
