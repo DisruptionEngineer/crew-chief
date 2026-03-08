@@ -2,12 +2,14 @@
 
 import { createContext, useContext, type ReactNode } from 'react'
 import { useSubscription } from '@/hooks/useSubscription'
-import type { Subscription, SubscriptionStatus } from '@/lib/types/subscription'
+import type { Subscription, SubscriptionStatus, RacenightGrant } from '@/lib/types/subscription'
 
 interface SubscriptionContextType {
   subscription: Subscription | null
   status: SubscriptionStatus | null
   isPro: boolean
+  racenightGrant: RacenightGrant | null
+  isRacenightAccess: boolean
   loading: boolean
   refresh: () => Promise<void>
 }

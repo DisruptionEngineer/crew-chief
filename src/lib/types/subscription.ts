@@ -23,6 +23,16 @@ export interface Subscription {
   updated_at: string
 }
 
+export interface RacenightGrant {
+  id: string
+  user_id: string
+  promo_code: string
+  track_name: string
+  granted_at: string
+  expires_at: string
+  is_active: boolean
+}
+
 export function isSubscriptionActive(status: SubscriptionStatus | null): boolean {
   return status === 'active' || status === 'trialing'
 }
