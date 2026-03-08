@@ -14,7 +14,7 @@ export default async function PromoPage({ params }: Props) {
   // Look up the promotion
   const { data: promo } = await adminDb
     .from('promotions')
-    .select('code, trial_days, description, expires_at, max_uses, use_count, is_active')
+    .select('code, trial_days, description, expires_at, max_uses, use_count, is_active, racenight')
     .eq('code', upperCode)
     .eq('is_active', true)
     .maybeSingle()
@@ -64,6 +64,7 @@ export default async function PromoPage({ params }: Props) {
       code={promo.code}
       trialDays={promo.trial_days}
       description={promo.description}
+      racenight={promo.racenight || false}
     />
   )
 }
